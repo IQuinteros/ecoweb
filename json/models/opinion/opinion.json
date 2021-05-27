@@ -1,0 +1,10 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "opinion": {
+        "id": 1,
+        "rating": 3,
+        "title": "example opinion title",
+        "content": "example opinion content",
+        "date": "2012-04-23T18:25:43.511Z"
+    }
+}

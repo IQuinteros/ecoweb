@@ -1,0 +1,60 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "result": [
+        {
+            "id": 1,
+            "title": "example article title",
+            "description": "example full description",
+            "price": 20000.0,
+            "past_price": 15000.0,
+            "stock": 2.0,
+            "created_date": "2012-04-23T18:25:43.511Z",
+            "last_update_date": "2012-04-23T18:25:43.511Z",
+            "enabled": true,
+            "favorite": true,
+            "category": 1,
+            "photos": [
+                1,
+                2
+            ],
+            "form": 1,
+            "store": 1,
+            "questions": [
+                1,
+                2,
+                3
+            ],
+            "opinions": [
+                1,
+                2
+            ]
+        },
+        {
+            "id": 2,
+            "title": "example article title",
+            "description": "example full description",
+            "price": 20000.0,
+            "past_price": 15000.0,
+            "stock": 2.0,
+            "created_date": "2012-04-23T18:25:43.511Z",
+            "last_update_date": "2012-04-23T18:25:43.511Z",
+            "enabled": true,
+            "category": 1,
+            "photos": [
+                1,
+                2
+            ],
+            "form": 1,
+            "store": 1,
+            "questions": [
+                1,
+                2,
+                3
+            ],
+            "opinions": [
+                1,
+                2
+            ]
+        }
+    ]
+}

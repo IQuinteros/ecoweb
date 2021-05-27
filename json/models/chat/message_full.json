@@ -1,0 +1,42 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "message": {
+        "id": 2,
+        "message": "Hola, cómo estas?",
+        "date": "2012-04-23T18:25:43.511Z",
+        "owner": "profile",
+        "profile": {
+            "id": 1,
+            "name": "example profile name",
+            "last_name": "example profile last name",
+            "email": "email@example",
+            "contact_number": 12345678,
+            "birthday": "2012-04-23T18:25:43.511Z",
+            "terms_checked": true,
+            "location": "example profile location",
+            "created_date": "2012-04-23T18:25:43.511Z",
+            "last_update_date": "2012-04-23T18:25:43.511Z",
+            "rut": 12345678,
+            "rut_dv": "k"
+        },
+        "store": {
+            "id": 1,
+            "public_name": "example public store",
+            "description": "example description store",
+            "photo_url": "example url",
+            "email": "example@email",
+            "contact_number": 123456789,
+            "location": "example store location",
+            "rut": 1234578,
+            "rut_dv": "5",
+            "enabled": true,
+            "created_date": "2012-04-23T18:25:43.511Z",
+            "last_update_date": "2012-04-23T18:25:43.511Z",
+            "district": {
+                "id": 1,
+                "name": "Concepción"
+            }
+        },
+        "chat": 2
+    }
+}

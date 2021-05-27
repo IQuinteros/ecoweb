@@ -1,0 +1,13 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "question": {
+        "id": 1,
+        "question": "example question?",
+        "date": "2012-04-23T18:25:43.511Z",
+        "answer": {
+            "id": 1,
+            "answer": "example answer",
+            "date": "2012-04-23T18:25:43.511Z"
+        }
+    }
+}

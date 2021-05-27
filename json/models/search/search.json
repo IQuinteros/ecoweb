@@ -1,0 +1,20 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "searches": [
+        {
+            "id": 1,
+            "text": "computador",
+            "search_date": "2012-04-23T18:25:43.511Z"
+        },
+        {
+            "id": 2,
+            "text": "example",
+            "search_date": "2012-04-23T18:25:43.511Z"
+        },
+        {
+            "id": 3,
+            "text": "example search",
+            "search_date": "2012-04-23T18:25:43.511Z"
+        }
+    ]
+}

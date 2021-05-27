@@ -1,0 +1,15 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "categories": [
+        {
+            "id": 1,
+            "title": "Hogar",
+            "created_date": "2012-04-23T18:25:43.511Z"
+        },
+        {
+            "id": 2,
+            "title": "Alimentos",
+            "created_date": "2012-04-23T18:25:43.511Z"
+        }
+    ]
+}
