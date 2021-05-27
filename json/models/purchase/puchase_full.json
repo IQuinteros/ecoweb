@@ -1,0 +1,31 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "purchase": {
+        "id": 1,
+        "total": 23459.0,
+        "created_date": "2012-04-23T18:25:43.511Z",
+        "info": {
+            "id": 1,
+            "names": "example profile name",
+            "location": "example profile location",
+            "contact_number": 12345678,
+            "district": "Concepción"
+        },
+        "articles_purchase": [
+            {
+                "id": 1,
+                "article": 2,
+                "title": "example article title",
+                "unit_price": 230.0,
+                "quantity": 2
+            },
+            {
+                "id": 2,
+                "article": 3,
+                "title": "example article title",
+                "unit_price": 230.0,
+                "quantity": 4
+            }
+        ]
+    }
+}

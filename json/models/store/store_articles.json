@@ -1,0 +1,23 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "store": {
+        "id": 1,
+        "public_name": "example public store",
+        "description": "example description store",
+        "photo_url": "example url",
+        "email": "example@email",
+        "contact_number": 123456789,
+        "location": "example store location",
+        "rut": 1234578,
+        "rut_dv": "5",
+        "enabled": true,
+        "created_date": "2012-04-23T18:25:43.511Z",
+        "last_update_date": "2012-04-23T18:25:43.511Z",
+        "district": {
+            "id": 1,
+            "name": "Concepción"
+        },
+        "articles": [
+        ]
+    }
+}

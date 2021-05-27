@@ -1,0 +1,12 @@
+{
+    "result_date": "2012-04-23T18:25:43.511Z",
+    "message": {
+        "id": 2,
+        "message": "Hola, cómo estas?",
+        "date": "2012-04-23T18:25:43.511Z",
+        "owner": "profile",
+        "profile": 1,
+        "store": 2,
+        "chat": 2
+    }
+}
