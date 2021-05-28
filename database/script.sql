@@ -1,7 +1,7 @@
 CREATE DATABASE ecomercio;
 USE ecomercio;
 CREATE TABLE search (
-    id int NOT null,
+    id int NOT null AUTO_INCREMENT,
     search_text varchar(255) NOT null,
     search_date timestamp not null,
     user_id int,
@@ -9,14 +9,14 @@ CREATE TABLE search (
 );
 
 CREATE TABLE `user` (
-    id int NOT null,
+    id int NOT null AUTO_INCREMENT,
     creation_date timestamp not null,
     profile_id int not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE `profile` (
-    id int NOT null,
+    id int NOT null AUTO_INCREMENT,
     name varchar(100) NOT null,
     last_name varchar(100) not null,
     email varchar(50) not null,
@@ -34,7 +34,7 @@ CREATE TABLE `profile` (
   );
   
 CREATE TABLE history(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     article_id int,
     user_id int,
@@ -42,7 +42,7 @@ CREATE TABLE history(
 );
 
 CREATE TABLE history_detail(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     deleted char(1) not null,
     history_id int not null,
@@ -51,7 +51,7 @@ CREATE TABLE history_detail(
 );
 
 CREATE TABLE opinion (
-    id int not null,
+    id int not null AUTO_INCREMENT,
     rating int not null,
     title varchar(50) not null,
     content varchar(250) not null,
@@ -62,7 +62,7 @@ CREATE TABLE opinion (
 );
 
 CREATE TABLE question(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     question varchar(150) not null,
     creation_date timestamp not null,
     profile_id int,
@@ -72,14 +72,14 @@ CREATE TABLE question(
 );
 
 CREATE TABLE answer(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     answer varchar(255) not null,
     creation_date timestamp not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE favorite(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     profile_id int,
     article_id int,
@@ -87,13 +87,13 @@ CREATE TABLE favorite(
 );
 
 CREATE TABLE district(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     name varchar(30),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE message(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     message varchar(255) not null,
     creation_date timestamp not null,
     profile_id int,
@@ -103,14 +103,14 @@ CREATE TABLE message(
 );
 
 CREATE TABLE chat(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     closed char(1),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE purchase(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     total int not null,
     creation_date timestamp not null,
     profile_id int,
@@ -120,7 +120,7 @@ CREATE TABLE purchase(
 );
 
 CREATE TABLE article(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     title varchar(150) not null,
     description text not null,
     price int not null,
@@ -135,21 +135,21 @@ CREATE TABLE article(
 );
 
 CREATE TABLE photo(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     photo blob not null,
     article_id int not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE category(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     title varchar(50) not null,
     creation_date timestamp,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE info_purchase(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     names varchar(150) not null,
     location varchar(255) not null,
     contact_number int not null,
@@ -159,7 +159,7 @@ CREATE TABLE info_purchase(
 );
 
 CREATE TABLE store(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     public_name varchar(100) not null,
     description text not null,
     email varchar(50) not null,
@@ -176,7 +176,7 @@ CREATE TABLE store(
 );
 
 CREATE TABLE article_form(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     last_update_date timestamp not null,
     article_id int not null,
@@ -190,7 +190,7 @@ CREATE TABLE article_form(
 );
 
 CREATE TABLE article_purchase(
-    id int not null,
+    id int not null AUTO_INCREMENT,
     purchase_id int not null,
     article_id int not null,
     title varchar(50) not null,
