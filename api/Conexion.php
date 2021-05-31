@@ -16,6 +16,7 @@ class Conexiones{
         echo $th->getMessage();
         die();
     }
+    }
     public function conexion_registered(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
 		$username = 'registered';
@@ -31,6 +32,7 @@ class Conexiones{
         echo $th->getMessage();
         die();
     }
+     }
 	public function conexion_shop(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
 		$username = 'shop';
@@ -46,9 +48,6 @@ class Conexiones{
         echo $th->getMessage();
         die();
     }
-
+	}
 }
-
-
-
 ?>
