@@ -17,7 +17,7 @@ class district extends Connection{
          $resultado->bindParam(':name', $name, PDO::PARAM_STR);
          $re=$resultado->execute();
          if (!$re) {
-          die(mysql_error());
+          //die(mysql_error());
         } else{
           return $re;
           $re->close();
