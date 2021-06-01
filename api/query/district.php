@@ -3,7 +3,7 @@ require_once('../api/Connection.php');
 
 class district extends Connection{ 
     public function insert_district($name){
-        $this->conexion_root();
+        $this->connection_root();
 
         $sql = "INSERT INTO `district` (`id`, `name`) VALUES (NULL, :name);";
 
@@ -24,10 +24,10 @@ class district extends Connection{
           $this->pdo->close();
       }
     }
-    public function delete_district($name){
-      $this->conexion_root();
+    public function delete_district($id){
+      $this->connection_root();
 
-      $sql = "DELETE FROM `district` WHERE id=:name;";
+      $sql = "DELETE FROM `district` WHERE id=:id;";
 
       if($this->pdo == null)
       {
@@ -36,7 +36,7 @@ class district extends Connection{
       }
 
       $resultado=$this->pdo->prepare($sql);
-       $resultado->bindParam(':name', $name, PDO::PARAM_INT);
+       $resultado->bindParam(':id', $id, PDO::PARAM_INT);
        $re=$resultado->execute();
        if (!$re) {
         //die(mysql_error());
@@ -47,7 +47,7 @@ class district extends Connection{
     }
   }
     public function update_district($id, $name){
-      $this->conexion_root();
+      $this->connection_root();
 
       $sql = "UPDATE `district` SET name=:name WHERE id=:id;";
 

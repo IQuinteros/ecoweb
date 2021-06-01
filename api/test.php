@@ -13,7 +13,8 @@ $passwords=$_POST{'8'};
 $rut=$_POST{'9'};
 $rut_cd=$_POST{'10'};
 $district_id=$_POST{'11'};
-$res=$d->insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id);
+$id=$_POST{'12'};
+$res=$d->delete_profile($id);
 ?>
 <html>
     <head>

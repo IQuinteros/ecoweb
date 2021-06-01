@@ -1,7 +1,7 @@
 <?php
 class Connection{
 	protected $pdo;
-    public function conexion_user(){
+    public function connection_user(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
 		$username = 'users';
 		$password = 'hola';
@@ -18,7 +18,7 @@ class Connection{
         die();
     	}
 	}
-    public function conexion_registered(){
+    public function connection_registered(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
 		$username = 'registered';
 		$password = 'derroche';
@@ -34,7 +34,7 @@ class Connection{
         die();
     	}
 	}
-	public function conexion_shop(){
+	public function connection_shop(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
 		$username = 'shop';
 		$password = 'EzMoney';
@@ -50,7 +50,7 @@ class Connection{
         die();
     	}
 	}
-	public function conexion_root(){
+	public function connection_root(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
 		$username = 'root';
 		$password = 'root';
