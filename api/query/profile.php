@@ -2,11 +2,11 @@
 require_once('../api/Connection.php');
 class profile extends Connection{
 
-    public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id){
+    public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){
         $this->connection_registered();
-        $sql = "INSERT INTO `profile` (`id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `passwords`, `rut`, `rut_cd`, `creation_date`, `last_update_date`, `district_id`) 
+        $sql = "INSERT INTO `profile` (`id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `passwords`, `rut`, `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id`) 
         VALUES (NULL, :name, :last_name, :email, :contact_number, :birthday, :terms_checked, :location, 
-        :passwords, :rut, :rut_cd, CURRENT_TIME(), CURRENT_TIME(), :district_id);";
+        :passwords, :rut, :rut_cd, CURRENT_TIME(), CURRENT_TIME(), :district_id, :user_id);";
         try{
         $resultado=$this->pdo->prepare($sql);
          $resultado->bindParam(':name', $name, PDO::PARAM_STR);
@@ -20,6 +20,7 @@ class profile extends Connection{
          $resultado->bindParam(':rut', $rut, PDO::PARAM_INT);
          $resultado->bindParam(':rut_cd', $rut_cd, PDO::PARAM_STR);
          $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
+         $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
          $re=$resultado->execute();
           return $re;
           $re->close();
