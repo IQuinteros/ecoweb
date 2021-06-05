@@ -116,7 +116,7 @@ class ProfileController extends Connection{
 
     public function select_profile($id){
       $this->connection_registered();
-      $sql = "SELECT FROM profile"; // Only example sql
+      $sql = "SELECT FROM profile WHERE id = id"; // Only example sql
 
       try{
         $resultado = $this->pdo->prepare($sql);
