@@ -13,7 +13,7 @@ class ProfileModel{
         $new_array = array();
         
         $new_array["name"] = $this->name;
-        $new_array["kjdfsghjkdfsgjkdfg"] = $this->lastName;
+        $new_array["lastName"] = $this->lastName;
         $new_array["number"] = $this->number;
         $new_array["location"] = $this->location;
         $new_array["rut"] = $this->rut;

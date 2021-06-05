@@ -116,24 +116,26 @@ class ProfileController extends Connection{
 
     public function select_profile($id){
       $this->connection_registered();
-      $sql = "SELECT FROM profile WHERE id = id"; // Only example sql
+      $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
+      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`;";
 
       try{
-        $resultado = $this->pdo->prepare($sql);
-        
-        // Only an example after get the row result
+        $resultado=$this->pdo->query($sql);
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
 
         // NEW PROFILE MODEL OBJECT
         $profile = new ProfileModel();
 
         // SET PARAMS
-        $profile->name = $resultado["name"];
-        $profile->lastName = $resultado["lastName"];
-        $profile->number = $resultado["number"];
-        $profile->location = $resultado["location"];
-        $profile->rut = $resultado["rut"];
+        $profile->name = $data["name"];
+        $profile->lastName = $data["last_name"];
+        $profile->number = $data["contact_number"];
+        $profile->location = $data["location"];
+        $profile->rut = $data["rut"];
 
         // RETURN PROFILE OBJECT
+        $data->close();
+        $this->pdo->close();
         return $profile;
 
       }catch(PDOException $e){
@@ -141,7 +143,6 @@ class ProfileController extends Connection{
         
         return null;
       }
-
     }
 }
 
