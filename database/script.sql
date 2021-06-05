@@ -197,6 +197,12 @@ CREATE TABLE article_purchase(
     unit_price int not null,
     quantity int not null,
     photo_url varchar(255),
+    recycled_mats varchar(20) not null,
+    recycled_matsdetail text,
+    reuse_tips text,
+    recycled_prod varchar(20) not null,
+    recycled_prod_detail text,
+    store_id int,
     PRIMARY KEY(id),
     UNIQUE KEY(purchase_id),
     UNIQUE KEY(article_id)
@@ -298,7 +304,9 @@ ALTER TABLE article_purchase
     ADD CONSTRAINT article_purchase_purchase_FK
     FOREIGN KEY(purchase_id) REFERENCES purchase(id),
     ADD CONSTRAINT article_purchase_article_FK
-    FOREIGN KEY(article_id) REFERENCES article(id)
+    FOREIGN KEY(article_id) REFERENCES article(id),
+    ADD CONSTRAINT article_purchase_store_FK
+    FOREIGN KEY(store_id) REFERENCES store(id)
 ;
 
 ALTER TABLE `user` ADD COLUMN lastConnectionDate datetime not null;
