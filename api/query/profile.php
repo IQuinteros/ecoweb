@@ -113,6 +113,24 @@ class profile extends Connection{
           die();
         }
     }
+    public function select_profile(){
+      $this->connection_registered();
+      $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
+      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`;";
+      try{
+        $resultado=$this->pdo->query($sql);
+         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+          return $data;
+          $data->close();
+          $this->pdo->close();
+      
+        }catch(PDOException $e){
+          echo $e->getMessage();
+          return $e;
+          die();
+        }
+    }
 }
 
 ?>

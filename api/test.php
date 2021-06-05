@@ -1,7 +1,7 @@
 <?php
-require_once('query/search.php');
+require_once('query/profile.php');
 
-$d= new search();
+$d= new profile();
 $search_text=$_POST['name'];
 $last_name=$_POST{'2'};
 $email=$_POST{'3'};
@@ -15,7 +15,7 @@ $rut_cd=$_POST{'10'};
 $district_id=$_POST{'11'};
 $id=$_POST{'12'};
 $user_id=$_POST{'13'};
-$res=$d->insert_search_registered($search_text, $user_id);
+$res=$d->select_profile();
 ?>
 <html>
     <head>
@@ -23,6 +23,7 @@ $res=$d->insert_search_registered($search_text, $user_id);
     </head>
     <body>
     <?php if($res){echo "Su cuenta ha sido modificada";
+    echo $res;
     }else{echo "error ";}?>,
     </body>
 </html>
