@@ -1,5 +1,5 @@
 <?php
-require_once("controllers/profile.php");
+require_once("controllers/profile_control.php");
 
 $d = new ProfileController();
 $res=$d->select_profile();
