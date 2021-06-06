@@ -1,6 +1,7 @@
 <?php
-require_once('../connection.php');
-require_once('../models/profile_model.php');
+require_once __DIR__. '/../connection.php';
+require_once __DIR__. '/../models/profile_model.php';
+
 class ProfileController extends Connection{
 
     public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){
@@ -128,15 +129,14 @@ class ProfileController extends Connection{
         $profile = new ProfileModel();
 
         // SET PARAMS
-        $profile->name = $data["name"];
-        $profile->lastName = $data["last_name"];
-        $profile->number = $data["contact_number"];
-        $profile->location = $data["location"];
-        $profile->rut = $data["rut"];
+        $profile->name = $data[0]["name"];
+        $profile->lastName = $data[0]["last_name"];
+        $profile->number = $data[0]["contact_number"];
+        $profile->location = $data[0]["location"];
+        $profile->rut = $data[0]["rut"];
 
         // RETURN PROFILE OBJECT
-        $data->close();
-        $this->pdo->close();
+        $this->pdo = null;
         
         return $profile;
 
