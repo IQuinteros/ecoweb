@@ -1,5 +1,6 @@
 <?php
 require_once('../api/Connection.php');
+require_once('../models/profile_model.php');
 class ProfileController extends Connection{
 
     public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){
@@ -114,7 +115,7 @@ class ProfileController extends Connection{
         }
     }
 
-    public function select_profile($id){
+    public function select_profile(){
       $this->connection_registered();
       $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
       `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`;";
@@ -136,6 +137,7 @@ class ProfileController extends Connection{
         // RETURN PROFILE OBJECT
         $data->close();
         $this->pdo->close();
+        
         return $profile;
 
       }catch(PDOException $e){
