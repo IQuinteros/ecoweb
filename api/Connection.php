@@ -2,7 +2,7 @@
 class Connection{
 	protected $pdo;
     public function connection_user(){
-		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
+		$dsn = 'mysql:host=localhost;port=3306;dbname=id16988549_ecomercio';
 		$username = 'users';
 		$password = 'hola';
 		$options = array(
@@ -19,7 +19,7 @@ class Connection{
     	}
 	}
     public function connection_registered(){
-		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
+		$dsn = 'mysql:host=localhost;port=3306;dbname=id16988549_ecomercio';
 		$username = 'registered';
 		$password = 'derroche';
 		$options = array(
@@ -35,7 +35,7 @@ class Connection{
     	}
 	}
 	public function connection_shop(){
-		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
+		$dsn = 'mysql:host=localhost;port=3306;dbname=id16988549_ecomercio';
 		$username = 'shop';
 		$password = 'EzMoney';
 		$options = array(
@@ -51,7 +51,7 @@ class Connection{
     	}
 	}
 	public function connection_root(){
-		$dsn = 'mysql:host=localhost;port=3306;dbname=ecomercio';
+		$dsn = 'mysql:host=localhost;port=3306;dbname=id16988549_ecomercio';
 		$username = 'root';
 		$password = 'root';
 		$options = array(

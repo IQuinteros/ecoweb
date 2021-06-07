@@ -1,5 +1,5 @@
-CREATE DATABASE ecomercio;
-USE ecomercio;
+CREATE DATABASE id16988549_ecomercio;
+USE id16988549_ecomercio;
 CREATE TABLE search (
     id int NOT null AUTO_INCREMENT,
     search_text varchar(255) NOT null,
