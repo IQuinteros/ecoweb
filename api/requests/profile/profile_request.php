@@ -1,7 +1,8 @@
 <?php
 require_once('../../query/profile.php');
 $profiles = new profile();
-$profiles->select_profile();?>
+// Assign result to variable
+$result = $profiles->select_profile();?>
 <html>
     <head></head>
     <body>
@@ -10,7 +11,8 @@ $profiles->select_profile();?>
             echo json_encode("Error (Profile no encontrado)");
         }
         else{
-            echo json_encode($profiles);
+            // Return result
+            echo json_encode($result);
             echo "hola";
         }
         ?>

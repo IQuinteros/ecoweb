@@ -118,10 +118,12 @@ class profile extends Connection{
       $this->connection_registered();
       $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
       `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`;";
+
       try{
         $resultado=$this->pdo->query($sql);
-         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_profiles = array();
+
         for($i = 0; $i < count($data); $i++){
           $profiles =new Profiles();
           $profiles->name=$data[$i]["name"];
@@ -139,11 +141,12 @@ class profile extends Connection{
           $profiles->user_id=$data[$i]["user_id"];
           array_push($lista_profiles, $profiles);
         }
-          return $lista_profiles;
-          $data->close();
-          $this->pdo->close();
+        
+        return $lista_profiles;
+        $data->close();
+        $this->pdo->close();
       
-        }catch(PDOException $e){
+        } catch(PDOException $e){
           echo $e->getMessage();
           return $e;
           die();
