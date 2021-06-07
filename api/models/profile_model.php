@@ -5,7 +5,7 @@ class Profiles{
     public string $email;
     public int $contact_number;
     public string $birthday;
-    public boolean $terms_checked;
+    public bool $terms_checked;
     public string $location;
     public int $rut;
     public string $rut_cd;
