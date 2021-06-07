@@ -1,5 +1,6 @@
 <?php
-require_once('../api/Connection.php');
+require_once('../../Connection.php');
+require_once('../../models/profile_model.php');
 class profile extends Connection{
 
     public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){
@@ -120,8 +121,25 @@ class profile extends Connection{
       try{
         $resultado=$this->pdo->query($sql);
          $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-
-          return $data;
+        $lista_profiles = array();
+        for($i = 0; $i < count($data); $i++){
+          $profiles =new Profiles();
+          $profiles->name=$data[$i]["name"];
+          $profiles->last_name=$data[$i]["last_name"];
+          $profiles->email=$data[$i]["email"];
+          $profiles->contact_number=$data[$i]["contact_number"];
+          $profiles->birthday=$data[$i]["birthday"];
+          $profiles->terms_checked=$data[$i]["terms_checked"];
+          $profiles->location=$data[$i]["location"];
+          $profiles->rut=$data[$i]["rut"];
+          $profiles->rut_cd=$data[$i]["rut_cd"];
+          $profiles->creation_date=$data[$i]["creation_date"];
+          $profiles->last_update_date=$data[$i]["last_update_date"];
+          $profiles->district_id=$data[$i]["district_id"];
+          $profiles->user_id=$data[$i]["user_id"];
+          array_push($lista_profiles, $profiles);
+        }
+          return $lista_profiles;
           $data->close();
           $this->pdo->close();
       
