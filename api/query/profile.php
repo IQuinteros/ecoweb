@@ -23,9 +23,9 @@ class profile extends Connection{
          $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
          $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
          $re=$resultado->execute();
+
+         $this->pdo = null;
           return $re;
-          $re->close();
-          $this->pdo->close();
       
         }catch(PDOException $e){
           echo $e->getMessage();
@@ -51,9 +51,8 @@ class profile extends Connection{
          $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
          $resultado->bindParam(':id', $id, PDO::PARAM_INT);
          $re=$resultado->execute();
+          $this->pdo = null;
           return $re;
-          $re->close();
-          $this->pdo->close();
       
         }catch(PDOException $e){
           echo $e->getMessage();
@@ -69,9 +68,9 @@ class profile extends Connection{
          $resultado->bindParam(':passwords', $passwords, PDO::PARAM_STR);
          $resultado->bindParam(':id', $id, PDO::PARAM_INT);
          $re=$resultado->execute();
+
+         $this->pdo = null;
           return $re;
-          $re->close();
-          $this->pdo->close();
       
         }catch(PDOException $e){
           echo $e->getMessage();
@@ -87,9 +86,9 @@ class profile extends Connection{
          $resultado->bindParam(':terms_checked', $terms_checked, PDO::PARAM_INT);
          $resultado->bindParam(':id', $id, PDO::PARAM_INT);
          $re=$resultado->execute();
+
+         $this->pdo = null;
           return $re;
-          $re->close();
-          $this->pdo->close();
       
         }catch(PDOException $e){
           echo $e->getMessage();
@@ -104,9 +103,9 @@ class profile extends Connection{
         $resultado=$this->pdo->prepare($sql);
          $resultado->bindParam(':id', $id, PDO::PARAM_INT);
          $re=$resultado->execute();
+
+         $this->pdo = null;
           return $re;
-          $re->close();
-          $this->pdo->close();
       
         }catch(PDOException $e){
           echo $e->getMessage();
@@ -141,10 +140,10 @@ class profile extends Connection{
           $profiles->user_id=$data[$i]["user_id"];
           array_push($lista_profiles, $profiles);
         }
+
+        $this->pdo = null;
         
         return $lista_profiles;
-        $data->close();
-        $this->pdo->close();
       
         } catch(PDOException $e){
           echo $e->getMessage();
