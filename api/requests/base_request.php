@@ -1,9 +1,9 @@
 <?php
 
-function send_response(bool $success, mixed $result = null, string $message = null){
+function send_response(bool $success, $result = null, string $message = null){
     $temp_array = array();
 
-    $temp_array["succces"] = $success;
+    $temp_array["success"] = $success;
 
     if(!is_null($message)){
         $temp_array["message"] = $message;
