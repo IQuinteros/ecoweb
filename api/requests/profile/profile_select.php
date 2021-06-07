@@ -13,7 +13,6 @@ $result = $profiles->select_profile();?>
         else{
             // Return result
             echo json_encode($result);
-            echo "hola";
         }
         ?>
     </body>
