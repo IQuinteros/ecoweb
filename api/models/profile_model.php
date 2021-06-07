@@ -1,16 +1,16 @@
 <?php
 class Profiles{
-    public $name;
-    public $last_name;
-    public $email;
-    public $contact_number;
-    public $birthday;
-    public $terms_checked;
-    public $location;
-    public $rut;
-    public $rut_cd;
-    public $creation_date;
-    public $last_update_date;
-    public $district_id;
-    public $user_id;
+    public string $name;
+    public string $last_name;
+    public string $email;
+    public int $contact_number;
+    public string $birthday;
+    public boolean $terms_checked;
+    public string $location;
+    public int $rut;
+    public string $rut_cd;
+    public string $creation_date;
+    public string $last_update_date;
+    public int $district_id;
+    public int $user_id;
 }
