@@ -2,7 +2,7 @@
 require_once('../api/Connection.php');
 class search extends Connection{
     public function insert_search_user($search_text, $user_id){
-        $this->connection_user();
+        $this->connection_hosting();
         $sql="INSERT INTO `search` (`id`, `search_text`, `search_date`, `user_id`) 
         VALUES (NULL, :search_text, CURRENT_TIME(), :user_id)";
         try{
@@ -21,7 +21,7 @@ class search extends Connection{
             }
     }
     public function insert_search_registered($search_text, $user_id){
-        $this->connection_registered();
+        $this->connection_hosting();
         $sql="INSERT INTO `search` (`id`, `search_text`, `search_date`, `user_id`) 
         VALUES (NULL, :search_text, CURRENT_TIME(), :user_id)";
         try{

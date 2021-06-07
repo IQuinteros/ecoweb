@@ -3,7 +3,7 @@ require_once('../api/Connection.php');
 
 class district extends Connection{ 
     public function insert_district($name){
-        $this->connection_root();
+        $this->connection_hosting();
 
         $sql = "INSERT INTO `district` (`id`, `name`) VALUES (NULL, :name);";
 
@@ -25,7 +25,7 @@ class district extends Connection{
       }
     }
     public function delete_district($id){
-      $this->connection_root();
+      $this->connection_hosting();
 
       $sql = "DELETE FROM `district` WHERE id=:id;";
 
@@ -47,7 +47,7 @@ class district extends Connection{
     }
   }
     public function update_district($id, $name){
-      $this->connection_root();
+      $this->connection_hosting();
 
       $sql = "UPDATE `district` SET name=:name WHERE id=:id;";
 

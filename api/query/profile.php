@@ -4,7 +4,7 @@ require_once('../../models/profile_model.php');
 class profile extends Connection{
 
     public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){
-        $this->connection_registered();
+        $this->connection_hosting();
         $sql = "INSERT INTO `profile` (`id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `passwords`, `rut`, `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id`) 
         VALUES (NULL, :name, :last_name, :email, :contact_number, :birthday, :terms_checked, :location, 
         :passwords, :rut, :rut_cd, CURRENT_TIME(), CURRENT_TIME(), :district_id, :user_id);";
@@ -35,7 +35,7 @@ class profile extends Connection{
          
     }
     public function update_profile($name, $last_name, $email, $contact_number, $birthday, $location, $district_id, $id){
-      $this->connection_registered();
+      $this->connection_hosting();
       $sql="UPDATE `profile` 
       SET name=:name, last_name=:last_name, email=:email, contact_number=:contact_number, birthday=:birthday, location=:location, 
       last_update_date=CURRENT_TIME(), district_id=:district_id 
@@ -62,7 +62,7 @@ class profile extends Connection{
         }
     }
     public function update_profile_pass($passwords, $id){
-      $this->connection_registered();
+      $this->connection_hosting();
       $sql="UPDATE `profile` SET passwords=:passwords WHERE id=:id";
       try{
         $resultado=$this->pdo->prepare($sql);
@@ -80,7 +80,7 @@ class profile extends Connection{
         }
     }
     public function update_profile_terms($terms_checked, $id){
-      $this->connection_registered();
+      $this->connection_hosting();
       $sql="UPDATE `profile` SET terms_checked=:terms_checked WHERE id=:id";
       try{
         $resultado=$this->pdo->prepare($sql);
@@ -98,7 +98,7 @@ class profile extends Connection{
         }
     }
     public function delete_profile($id){
-      $this->connection_registered();
+      $this->connection_hosting();
       $sql="DELETE FROM `profile` WHERE id=:id;";
       try{
         $resultado=$this->pdo->prepare($sql);
@@ -115,7 +115,7 @@ class profile extends Connection{
         }
     }
     public function select_profile(){
-      $this->connection_registered();
+      $this->connection_hosting();
       $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
       `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`;";
 

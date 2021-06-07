@@ -321,6 +321,10 @@ CREATE USER 'shop'@'localhost' IDENTIFIED BY 'EzMoney';
 
 CREATE USER 'registered'@'localhost' IDENTIFIED BY 'derroche';
 
+CREATE USER 'id16988549_admin'@'localhost' IDENTIFIED BY 'ruJxus-kidky3-puhbox';
+
+GRANT ALL PRIVILEGES ON *.* TO 'id16988549_admin'@'localhost';
+
 GRANT USAGE ON *.* TO 'users'@'localhost';
 GRANT USAGE ON *.* TO 'shop'@'localhost';
 GRANT USAGE ON *.* TO 'registered'@'localhost';
