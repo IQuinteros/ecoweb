@@ -16,7 +16,10 @@ $res=$d->select_profile();
     <?php 
         if(!is_null($res)){
             echo "Su cuenta ha sido modificada";
-            echo json_encode($res->toArray());
+            // $res : Resultado (array de profiles models)
+            
+
+            echo json_encode($res);
         }
         else{
             echo "error ";

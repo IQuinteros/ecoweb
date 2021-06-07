@@ -126,19 +126,27 @@ class ProfileController extends Connection{
         $data=$result->fetchAll(PDO::FETCH_ASSOC);
 
         // NEW PROFILE MODEL OBJECT
-        $profile = new ProfileModel();
+
+
+        $lista_profiles = array();
 
         // SET PARAMS
-        $profile->name = $data[0]["name"];
-        $profile->lastName = $data[0]["last_name"];
-        $profile->number = $data[0]["contact_number"];
-        $profile->location = $data[0]["location"];
-        $profile->rut = $data[0]["rut"];
+        for($i = 0; $i <= count($data); $i++){
+          $profile = new ProfileModel();
+          $profile->name = $data[$i]["name"];
+          $profile->lastName = $data[$i]["last_name"];
+          $profile->number = $data[$i]["contact_number"];
+          $profile->location = $data[$i]["location"];
+          $profile->rut = $data[$i]["rut"];
+          array_push($lista_profiles, $profile);
+        }
+        
+        
 
         // RETURN PROFILE OBJECT
         $this->pdo = null;
         
-        return $profile;
+        return $lista_profiles;
 
       }catch(PDOException $e){
         echo $e->getMessage();

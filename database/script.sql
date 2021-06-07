@@ -89,7 +89,7 @@ CREATE TABLE favorite(
 
 CREATE TABLE district(
     id int not null AUTO_INCREMENT,
-    name varchar(30),
+    name not null varchar(30),
     PRIMARY KEY (id)
 );
 
@@ -211,11 +211,6 @@ CREATE TABLE article_purchase(
 ALTER TABLE search
     ADD CONSTRAINT search_user_FK
     FOREIGN KEY(user_id) REFERENCES `user`(id)
-;
-
-ALTER TABLE `user`
-    ADD CONSTRAINT user_profile_FK
-    FOREIGN KEY(profile_id) REFERENCES `profile`(id)
 ;
 
 ALTER TABLE `profile`
