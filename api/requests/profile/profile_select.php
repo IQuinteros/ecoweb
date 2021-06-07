@@ -1,4 +1,5 @@
 <?php
+require_once('../base_request.php');
 require_once('../../query/profile.php');
 $profiles = new profile();
 // Assign result to variable
@@ -8,11 +9,11 @@ $result = $profiles->select_profile();?>
     <body>
         <?php
         if(is_null($profiles)){
-            echo json_encode("Error (Profile no encontrado)");
+            send_response(false, null, "Profile no encontrado"); 
         }
         else{
             // Return result
-            echo json_encode($result);
+            send_response(true, $result);            
         }
         ?>
     </body>

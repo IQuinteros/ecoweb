@@ -1,10 +1,9 @@
 <?php
+require_once('../base_request.php');
 require_once('../../query/profile.php');
 $id=$_POST["id"];
 $profiles = new profile();
 $result=$profiles->delete_profile($id);
-if($result){
-    echo json_encode(array("success"=>$result));
-}else{
-    echo "ha ocurrido un error con la operacion";
-}
+
+
+send_response($result, null); 

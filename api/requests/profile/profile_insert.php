@@ -1,4 +1,5 @@
 <?php
+require_once('../base_request.php');
 require_once('../../query/profile.php');
 $name=$_POST["name"];
 $last_name=$_POST["last_name"];
@@ -16,8 +17,4 @@ $profiles = new profile();
 $result=$profiles->insert_profile($name, $last_name, $email, $contact_number, $birthday, 
 $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id);
 
-if($result){
-    echo json_encode(array("success"=>$result));
-}else{
-    echo "ha ocurrido un error con la operacion";
-}
+send_response($result, null);   
