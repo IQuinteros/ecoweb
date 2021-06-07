@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: application/json');
+
 function send_response(bool $success, $result = null, string $message = null){
     $temp_array = array();
 
