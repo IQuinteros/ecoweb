@@ -19,9 +19,8 @@ class district extends Connection{
          if (!$re) {
           //die(mysql_error());
         } else{
+          $this->pdo = null;
           return $re;
-          $re->close();
-          $this->pdo->close();
       }
     }
     public function delete_district($id){
@@ -41,9 +40,9 @@ class district extends Connection{
        if (!$re) {
         //die(mysql_error());
       } else{
+        $this->pdo = null;
         return $re;
-        $re->close();
-        $this->pdo->close();
+
     }
   }
     public function update_district($id, $name){
@@ -64,9 +63,8 @@ class district extends Connection{
       if (!$re) {
        //die(mysql_error());
       } else{
+        $this->pdo = null;
         return $re;
-        $re->close();
-        $this->pdo->close();
       }
     }
 }

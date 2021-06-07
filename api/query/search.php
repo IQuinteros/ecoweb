@@ -10,9 +10,9 @@ class search extends Connection{
              $resultado->bindParam(':search_text', $search_text, PDO::PARAM_STR);
              $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
              $re=$resultado->execute();
+             $this->pdo = null;
               return $re;
-              $re->close();
-              $this->pdo->close();
+
           
             }catch(PDOException $e){
               echo $e->getMessage();
@@ -29,9 +29,8 @@ class search extends Connection{
              $resultado->bindParam(':search_text', $search_text, PDO::PARAM_STR);
              $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
              $re=$resultado->execute();
+             $this->pdo = null;
               return $re;
-              $re->close();
-              $this->pdo->close();
           
             }catch(PDOException $e){
               echo $e->getMessage();

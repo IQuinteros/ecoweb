@@ -8,9 +8,8 @@ require_once('../api/Connection.php');
              try{
                 $resultado=$this->pdo->prepare($sql);
                  $re=$resultado->execute();
+                 $this->pdo = null;
                   return $re;
-                  $re->close();
-                  $this->pdo->close();
               
                 }catch(PDOException $e){
                   echo $e->getMessage();
@@ -25,9 +24,8 @@ require_once('../api/Connection.php');
                 $resultado=$this->pdo->prepare($sql);
                  $resultado->bindParam(':id', $id, PDO::PARAM_INT);
                  $re=$resultado->execute();
+                 $this->pdo = null;
                   return $re;
-                  $re->close();
-                  $this->pdo->close();
               
                 }catch(PDOException $e){
                   echo $e->getMessage();
@@ -42,9 +40,9 @@ require_once('../api/Connection.php');
                 $resultado=$this->pdo->prepare($sql);
                  $resultado->bindParam(':id', $id, PDO::PARAM_INT);
                  $re=$resultado->execute();
+                 $this->pdo = null;
                   return $re;
-                  $re->close();
-                  $this->pdo->close();
+
               
                 }catch(PDOException $e){
                   echo $e->getMessage();
