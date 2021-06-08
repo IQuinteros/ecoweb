@@ -112,18 +112,23 @@ class profile extends Connection{
           die();
         }
     }
-    public function select_profile(){
+    public function select_profile($object){
       $this->connection_hosting();
       $sql="SELECT `id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
-      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`;";
+      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`".(is_null($object->id)? ";" : " WHERE id=:id;");
 
       try{
-        $resultado=$this->pdo->query($sql);
+        $resultado=$this->pdo->prepare($sql);
+        if(!is_null($object)){
+          $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+        }
+        $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_profiles = array();
 
         for($i = 0; $i < count($data); $i++){
           $profiles =new Profiles();
+          $profiles->id=$data[$i]["id"];
           $profiles->name=$data[$i]["name"];
           $profiles->last_name=$data[$i]["last_name"];
           $profiles->email=$data[$i]["email"];
