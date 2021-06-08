@@ -115,12 +115,27 @@ class profile extends Connection{
     public function select_profile($object){
       $this->connection_hosting();
       $sql="SELECT `id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
-      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`".(is_null($object->id)? ";" : " WHERE id=:id;");
+      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`";
+
+      $haveWHERE = false;
+
+      // Check for id
+      if(is_null($object) || !isset($object->id)){
+        $sql = $sql." WHERE id=:id";
+      }
+
+      // Check for email
+      if(is_null($object) || !isset($object->email)){
+        $sql = $sql.($haveWHERE? " AND email=:email" : " WHERE email=:email");
+      }
 
       try{
         $resultado=$this->pdo->prepare($sql);
-        if(!is_null($object)){
+        if(isset($object->id)){
           $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+        }
+        if(isset($object->email)){
+          $resultado->bindParam(':email', $object->id, PDO::PARAM_INT);
         }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
