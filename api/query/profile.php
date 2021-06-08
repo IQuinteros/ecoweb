@@ -135,7 +135,7 @@ class profile extends Connection{
           $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
         }
         if(isset($object->email)){
-          $resultado->bindParam(':email', $object->id, PDO::PARAM_INT);
+          $resultado->bindParam(':email', $object->email, PDO::PARAM_STR);
         }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
