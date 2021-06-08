@@ -120,14 +120,19 @@ class profile extends Connection{
       $haveWHERE = false;
 
       // Check for id
-      if(is_null($object) || !isset($object->id)){
+      if(!is_null($object) && isset($object->id)){
         $sql = $sql." WHERE id=:id";
+        $haveWHERE = true;
       }
 
       // Check for email
-      if(is_null($object) || !isset($object->email)){
-        $sql = $sql.($haveWHERE? " AND email=:email" : " WHERE email=:email");
+      if(!is_null($object) && isset($object->email)){
+        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."email=:email";
       }
+
+      $sql = $sql.";";
+
+      // Debugging: echo($sql);
 
       try{
         $resultado=$this->pdo->prepare($sql);
