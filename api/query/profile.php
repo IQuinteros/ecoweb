@@ -61,7 +61,7 @@ class profile extends Connection{
     }
     public function update_profile_pass($passwords, $id){
       $this->connection_hosting();
-      $sql="UPDATE `profile` SET passwords=:passwords WHERE id=:id";
+      $sql="UPDATE `profile` SET passwords=:passwords, last_update_date=CURRENT_TIME() WHERE id=:id";
       try{
         $resultado=$this->pdo->prepare($sql);
          $resultado->bindParam(':passwords', $passwords, PDO::PARAM_STR);
@@ -79,7 +79,7 @@ class profile extends Connection{
     }
     public function update_profile_terms($terms_checked, $id){
       $this->connection_hosting();
-      $sql="UPDATE `profile` SET terms_checked=:terms_checked WHERE id=:id";
+      $sql="UPDATE `profile` SET terms_checked=:terms_checked, last_update_date=CURRENT_TIME() WHERE id=:id";
       try{
         $resultado=$this->pdo->prepare($sql);
          $resultado->bindParam(':terms_checked', $terms_checked, PDO::PARAM_INT);
