@@ -1,5 +1,6 @@
 <?php
 class Profiles{
+    public int $id;
     public string $name;
     public string $last_name;
     public string $email;

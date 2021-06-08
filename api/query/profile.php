@@ -36,8 +36,7 @@ class profile extends Connection{
     }
     public function update_profile($name, $last_name, $email, $contact_number, $birthday, $location, $district_id, $id){
       $this->connection_hosting();
-      $sql="UPDATE `profile` 
-      SET name=:name, last_name=:last_name, email=:email, contact_number=:contact_number, birthday=:birthday, location=:location, 
+      $sql="UPDATE `profile` SET name=:name, last_name=:last_name, email=:email, contact_number=:contact_number, birthday=:birthday, location=:location, 
       last_update_date=CURRENT_TIME(), district_id=:district_id 
       WHERE id=:id;";
       try{
@@ -115,7 +114,7 @@ class profile extends Connection{
     }
     public function select_profile(){
       $this->connection_hosting();
-      $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
+      $sql="SELECT `id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
       `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile`;";
 
       try{
@@ -154,7 +153,7 @@ class profile extends Connection{
 
     public function login(string $email, string $password){
       $this->connection_hosting();
-      $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
+      $sql="SELECT `id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
       `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile` WHERE email = :email AND passwords = :passwords;";
 
       try{
@@ -168,6 +167,7 @@ class profile extends Connection{
 
         for($i = 0; $i < count($data); $i++){
           $profiles =new Profiles();
+          $profiles->id = $data[$i]["id"];
           $profiles->name=$data[$i]["name"];
           $profiles->last_name=$data[$i]["last_name"];
           $profiles->email=$data[$i]["email"];
