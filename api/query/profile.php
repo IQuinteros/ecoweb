@@ -151,6 +151,49 @@ class profile extends Connection{
           die();
         }
     }
+
+    public function login(string $email, string $password){
+      $this->connection_hosting();
+      $sql="SELECT `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
+      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile` WHERE email = :email AND passwords = :passwords;";
+
+      try{
+        $resultado=$this->pdo->prepare($sql);
+        $resultado->bindParam(':passwords', $password, PDO::PARAM_STR);
+        $resultado->bindParam(':email', $email, PDO::PARAM_STR);
+        $resultado->execute();
+
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        $lista_profiles = array();
+
+        for($i = 0; $i < count($data); $i++){
+          $profiles =new Profiles();
+          $profiles->name=$data[$i]["name"];
+          $profiles->last_name=$data[$i]["last_name"];
+          $profiles->email=$data[$i]["email"];
+          $profiles->contact_number=$data[$i]["contact_number"];
+          $profiles->birthday=$data[$i]["birthday"];
+          $profiles->terms_checked=$data[$i]["terms_checked"];
+          $profiles->location=$data[$i]["location"];
+          $profiles->rut=$data[$i]["rut"];
+          $profiles->rut_cd=$data[$i]["rut_cd"];
+          $profiles->creation_date=$data[$i]["creation_date"];
+          $profiles->last_update_date=$data[$i]["last_update_date"];
+          $profiles->district_id=$data[$i]["district_id"];
+          $profiles->user_id=$data[$i]["user_id"];
+          array_push($lista_profiles, $profiles);
+        }
+
+        $this->pdo = null;
+        
+        return $lista_profiles;
+      
+        } catch(PDOException $e){
+          echo $e->getMessage();
+          return $e;
+          die();
+        }
+    }
 }
 
 ?>
