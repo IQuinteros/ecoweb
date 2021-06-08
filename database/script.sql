@@ -225,6 +225,8 @@ ALTER TABLE `profile`
     FOREIGN KEY(user_id) REFERENCES `user`(id)
 ;
 
+ALTER TABLE `profile` ADD UNIQUE(`email`);
+
 ALTER TABLE history
     ADD CONSTRAINT history_article_FK
     FOREIGN KEY(article_id) REFERENCES article(id),
