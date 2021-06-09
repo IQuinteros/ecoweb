@@ -8,11 +8,17 @@
 </head>
 <body>
 <?php
-require_once('Conexion.php');
-$n = new  Conexiones();
-$n->conexion_user();
+ini_set('display_errors', 1);
+error_reporting(~0);
+
+//require_once('api/query/store.php');
+//$storeConnection = new Store();
+
+require_once('api/query/district.php');
+$districtConnection = new district();
+
  ?>
-        <form>
+        <form action="register_store.php">
         <label for="Pname"> public name:</label>
         <input type="text" id="Pname" name="Pname"><br><br>
         <label for="description">description:</label>
@@ -30,11 +36,11 @@ $n->conexion_user();
        <select>
            <option>
                <?php 
-               $query="select * from distric";
-               $result=mysqli_query($n->conexion_user(),$query);
-               while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){                                                 
-                echo "<option value='".$row['id']."'>".$row['Name']."</option>";
-             }
+                $distritos = $districtConnection->select(null);
+
+                foreach($distritos as $value){                                                 
+                    echo "<option value='".$value->id."'>".$value->name."</option>";
+                }
 
                ?>           
            </option>
