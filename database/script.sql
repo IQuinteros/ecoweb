@@ -93,6 +93,9 @@ CREATE TABLE district(
     PRIMARY KEY (id)
 );
 
+
+ALTER TABLE `district` ADD UNIQUE(`name`);
+
 CREATE TABLE message(
     id int not null AUTO_INCREMENT,
     message varchar(255) not null,
