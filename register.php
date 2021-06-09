@@ -14,11 +14,14 @@ error_reporting(~0);
 //require_once('api/query/store.php');
 //$storeConnection = new Store();
 
+require_once('include.php');
+
 require_once('api/query/district.php');
 $districtConnection = new district();
 
  ?>
-        <form action="register_store.php">
+
+        <form id="register_store">
         <label for="Pname"> public name:</label>
         <input type="text" id="Pname" name="Pname"><br><br>
         <label for="description">description:</label>
@@ -47,7 +50,8 @@ $districtConnection = new district();
 
 
        </select>
-        <input type="submit" value="Submit">
+        <button onclick="sendData(register_store)">Registrarse</button>
       </form>
+
 
 </html>
