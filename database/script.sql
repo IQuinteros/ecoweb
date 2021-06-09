@@ -1,17 +1,17 @@
-CREATE DATABASE ecomercio;
-USE ecomercio;
+CREATE DATABASE id16988549_ecomercio;
+USE id16988549_ecomercio;
 CREATE TABLE search (
     id int NOT null AUTO_INCREMENT,
     search_text varchar(255) NOT null,
     search_date timestamp not null,
-    user_id int,
+    user_id int not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE `user` (
     id int NOT null AUTO_INCREMENT,
     creation_date timestamp not null,
-    profile_id int not null,
+    lastConnectionDate date not null,
     PRIMARY KEY (id)
 );
 
@@ -21,15 +21,16 @@ CREATE TABLE `profile` (
     last_name varchar(100) not null,
     email varchar(50) not null,
     contact_number integer not null,
-    birthday timestamp not null,
-    terms_checked char(1) not null,
+    birthday date not null,
+    terms_checked bit not null,
     location varchar(200) not null,
     passwords varchar(255) not null,
     rut int not null,
     rut_cd char not null,
     creation_date timestamp not null,
     last_update_date timestamp not null,
-    district_id integer,
+    district_id int,
+    user_id int not null,
     PRIMARY KEY (id)
   );
   
@@ -44,7 +45,7 @@ CREATE TABLE history(
 CREATE TABLE history_detail(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    deleted char(1) not null,
+    deleted bit not null,
     history_id int not null,
     PRIMARY KEY (id),
     UNIQUE KEY(history_id)
@@ -65,9 +66,8 @@ CREATE TABLE question(
     id int not null AUTO_INCREMENT,
     question varchar(150) not null,
     creation_date timestamp not null,
-    profile_id int,
-    article_id int,
-    answer_id int not null,
+    profile_id int not null,
+    article_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -75,14 +75,15 @@ CREATE TABLE answer(
     id int not null AUTO_INCREMENT,
     answer varchar(255) not null,
     creation_date timestamp not null,
+    question_id int not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE favorite(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    profile_id int,
-    article_id int,
+    profile_id int not null,
+    article_id int not null,
     PRIMARY KEY(id)
 );
 
@@ -91,6 +92,9 @@ CREATE TABLE district(
     name varchar(30),
     PRIMARY KEY (id)
 );
+
+
+ALTER TABLE `district` ADD UNIQUE(`name`);
 
 CREATE TABLE message(
     id int not null AUTO_INCREMENT,
@@ -105,7 +109,8 @@ CREATE TABLE message(
 CREATE TABLE chat(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    closed char(1),
+    closed bit not null,
+    last_seen_date datetime not null,
     PRIMARY KEY (id)
 );
 
@@ -127,10 +132,10 @@ CREATE TABLE article(
     stock int not null,
     creation_date timestamp not null,
     lat_update_date timestamp not null,
-    enabled char(1) not null,
+    enabled bit not null,
     article_form_id int not null,
-    category_id int,
-    store_id int,
+    category_id int not null,
+    store_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -153,7 +158,6 @@ CREATE TABLE info_purchase(
     names varchar(150) not null,
     location varchar(255) not null,
     contact_number int not null,
-    purchase_id int not null,
     district varchar(30) not null,
     PRIMARY KEY (id)
 );
@@ -168,7 +172,7 @@ CREATE TABLE store(
     passwords varchar(255) not null,
     rut int not null,
     rut_cd char not null,
-    enabled char(1) not null,
+    enabled bit not null,
     creation_date timestamp not null,
     last_update_date timestamp not null,
     district_id int,
@@ -179,7 +183,6 @@ CREATE TABLE article_form(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     last_update_date timestamp not null,
-    article_id int not null,
     recycled_mats varchar(10) not null,
     recycled_mats_detail varchar(255),
     general_detail text,
@@ -196,6 +199,13 @@ CREATE TABLE article_purchase(
     title varchar(50) not null,
     unit_price int not null,
     quantity int not null,
+    photo_url varchar(255),
+    recycled_mats varchar(20) not null,
+    recycled_matsdetail text,
+    reuse_tips text,
+    recycled_prod varchar(20) not null,
+    recycled_prod_detail text,
+    store_id int,
     PRIMARY KEY(id),
     UNIQUE KEY(purchase_id),
     UNIQUE KEY(article_id)
@@ -213,8 +223,12 @@ ALTER TABLE `user`
 
 ALTER TABLE `profile`
     ADD CONSTRAINT profile_district_FK
-    FOREIGN KEY(district_id) REFERENCES district(id)
+    FOREIGN KEY(district_id) REFERENCES district(id),
+    ADD CONSTRAINT profile_user_FK
+    FOREIGN KEY(user_id) REFERENCES `user`(id)
 ;
+
+ALTER TABLE `profile` ADD UNIQUE(`email`);
 
 ALTER TABLE history
     ADD CONSTRAINT history_article_FK
@@ -240,8 +254,11 @@ ALTER TABLE question
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT question_article_FK
     FOREIGN KEY(article_id) REFERENCES article(id),
-    ADD CONSTRAINT question_answer_FK
-    FOREIGN KEY(answer_id) REFERENCES answer(id)
+;
+
+ALTER TABLE answer
+    ADD CONSTRAINT answer_question_FK
+    FOREIGN KEY(question_id) REFERENCES `question`(id),
 ;
 
 ALTER TABLE favorite
@@ -283,26 +300,18 @@ ALTER TABLE photo
     FOREIGN KEY(article_id) REFERENCES article(id)
 ;
 
-ALTER TABLE info_purchase
-    ADD CONSTRAINT info_purchase_purchase_FK
-    FOREIGN KEY(purchase_id) REFERENCES purchase(id)
-;
-
 ALTER TABLE store
     ADD CONSTRAINT store_district_FK
     FOREIGN KEY(district_id) REFERENCES district(id)
-;
-
-ALTER TABLE article_form
-    ADD CONSTRAINT article_form_article_FK
-    FOREIGN KEY(article_id) REFERENCES article(id)
 ;
 
 ALTER TABLE article_purchase
     ADD CONSTRAINT article_purchase_purchase_FK
     FOREIGN KEY(purchase_id) REFERENCES purchase(id),
     ADD CONSTRAINT article_purchase_article_FK
-    FOREIGN KEY(article_id) REFERENCES article(id)
+    FOREIGN KEY(article_id) REFERENCES article(id),
+    ADD CONSTRAINT article_purchase_store_FK
+    FOREIGN KEY(store_id) REFERENCES store(id)
 ;
 
 ALTER TABLE `user` ADD COLUMN lastConnectionDate datetime not null;
@@ -316,6 +325,10 @@ CREATE USER 'users'@'localhost' IDENTIFIED BY 'hola';
 CREATE USER 'shop'@'localhost' IDENTIFIED BY 'EzMoney';
 
 CREATE USER 'registered'@'localhost' IDENTIFIED BY 'derroche';
+
+CREATE USER 'id16988549_admin'@'localhost' IDENTIFIED BY 'ruJxus-kidky3-puhbox';
+
+GRANT ALL PRIVILEGES ON *.* TO 'id16988549_admin'@'localhost';
 
 GRANT USAGE ON *.* TO 'users'@'localhost';
 GRANT USAGE ON *.* TO 'shop'@'localhost';
@@ -358,7 +371,7 @@ GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `article_form` TO 'shop'@'localhos
 GRANT SELECT ON TABLE `category` TO 'shop'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `store` TO 'shop'@'localhost';
 
-GRANT SELECT, UPDATE, DELETE ON TABLE `user` TO 'registered'@'localhost';
+GRANT SELECT, UPDATE ON TABLE `user` TO 'registered'@'localhost';
 GRANT INSERT ON TABLE `search` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `profile` TO 'registered'@'localhost';
 GRANT SELECT, INSERT ON TABLE `history` TO 'registered'@'localhost';
