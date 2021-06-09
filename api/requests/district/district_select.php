@@ -1,17 +1,16 @@
 <?php
 require_once('../base_request.php');
-require_once('../../query/profile.php');
-$profiles = new profile();
+require_once('../../query/district.php');
+$districts = new district();
 // Assign result to variable
-$result = $profiles->select_profile($data);
+$result = $districts->select($data);
+
 
 if(is_null($result)){
-    send_response(false, null, "Profile no encontrado"); 
+    send_response(false, null, "District no encontrado"); 
 }
 else{
     // Return result
     send_response(true, $result);            
 }
-
-
 
