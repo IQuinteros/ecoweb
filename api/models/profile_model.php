@@ -12,6 +12,6 @@ class Profiles{
     public string $rut_cd;
     public string $creation_date;
     public string $last_update_date;
-    public int $district_id;
+    public ?int $district_id;
     public int $user_id;
 }

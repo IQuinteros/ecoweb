@@ -7,7 +7,7 @@ class profile extends Connection{
         $this->connection_hosting();
         $sql = "INSERT INTO `profile` (`id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `passwords`, `rut`, `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id`) 
         VALUES (NULL, :name, :last_name, :email, :contact_number, :birthday, :terms_checked, :location, 
-        :passwords, :rut, :rut_cd, CURRENT_TIME(), CURRENT_TIME(), :district_id, :user_id);";
+        PASSWORD(:passwords), :rut, :rut_cd, CURRENT_TIME(), CURRENT_TIME(), :district_id, :user_id);";
         try{
         $resultado=$this->pdo->prepare($sql);
          $resultado->bindParam(':name', $name, PDO::PARAM_STR);
@@ -47,7 +47,12 @@ class profile extends Connection{
          $resultado->bindParam(':contact_number', $contact_number, PDO::PARAM_INT);
          $resultado->bindParam(':birthday', $birthday, PDO::PARAM_STR);
          $resultado->bindParam(':location', $location, PDO::PARAM_STR);
-         $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
+         if(isset($district_id)){
+          $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
+         }
+         else{
+          $resultado->bindValue(':district_id', null, PDO::PARAM_NULL);
+         }
          $resultado->bindParam(':id', $id, PDO::PARAM_INT);
          $re=$resultado->execute();
           $this->pdo = null;
@@ -61,7 +66,7 @@ class profile extends Connection{
     }
     public function update_profile_pass($passwords, $id){
       $this->connection_hosting();
-      $sql="UPDATE `profile` SET passwords=:passwords, last_update_date=CURRENT_TIME() WHERE id=:id";
+      $sql="UPDATE `profile` SET passwords=PASSWORD(:passwords), last_update_date=CURRENT_TIME() WHERE id=:id";
       try{
         $resultado=$this->pdo->prepare($sql);
          $resultado->bindParam(':passwords', $passwords, PDO::PARAM_STR);
@@ -179,7 +184,7 @@ class profile extends Connection{
     public function login(string $email, string $password){
       $this->connection_hosting();
       $sql="SELECT `id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `rut`, 
-      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile` WHERE email = :email AND passwords = :passwords;";
+      `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id` FROM `profile` WHERE email = :email AND passwords = PASSWORD(:passwords);";
 
       try{
         $resultado=$this->pdo->prepare($sql);
