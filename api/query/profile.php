@@ -7,27 +7,28 @@ class Profile extends Connection{
     public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){
       $userController = new User();
       if($user_id == 0){
+        // If user_id is equal 0, so then profile needs a new user
         $user_id = $userController->insert_user(null);
       }
       else{
-        $result = $userController->select_user(json_decode(json_encode(array('id' => $user_id))), FALSE);
+        /// NEW FIX
+        // Check if exists profile with that user id
+        $profileWithThatUser = $this->select_profile(json_decode(json_encode(array('user_id' => $user_id))), FALSE);
 
-        if(isset($result)){
-          if(count($result) > 0){
-            $user_id = $userController->insert_user(null);
-          }
-          else{
-            // Check if exists profile with that user id
-            $profileWithThatUser = $this->select_profile(json_decode(json_encode(array('user_id' => $user_id))), FALSE);
+        if(isset($profileWithThatUser) && count($profileWithThatUser) <= 0){
+          // If there isn't a profile with that user_id, so the new profile can have this user_id
 
-            if(isset($profileWithThatUser)){
-              if(count($profileWithThatUser) <= 0){
-                $user_id = $userController->insert_user($user_id);
-              }
-            }
+          // First, check if that user exists
+          $userWithThatId = $userController->select_user(json_decode(json_encode(array('id' => $user_id))), FALSE);
+
+          if(isset($userWithThatId) && count($userWithThatId) <= 0){
+            // If there isn't a user with that id, so create in database
+            $user_id = $userController->insert_user($user_id);
           }
+          // Else? Not needs else, because user exists
         }
         else{
+          // New profile needs new user_id
           $user_id = $userController->insert_user(null);
         }
       }
@@ -35,7 +36,7 @@ class Profile extends Connection{
       if(gettype($user_id) == "array"){
         $user_id = $user_id[0];
       }
-      // TODO: Check this. System works but not should
+      
       if(gettype($user_id) != "integer" && gettype($user_id) != "string"){
         return null;
       }
@@ -67,7 +68,7 @@ class Profile extends Connection{
 
         $re = $this->pdo->lastInsertId();
         $this->pdo = null;      
-        return array($re);   
+        return array($re, $user_id);   
 
     
       }catch(PDOException $e){
