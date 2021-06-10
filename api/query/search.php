@@ -1,6 +1,6 @@
 <?php
 require_once('../api/Connection.php');
-class search extends Connection{
+class Search extends Connection{
     public function insert_search_user($search_text, $user_id){
         $this->connection_hosting();
         $sql="INSERT INTO `search` (`id`, `search_text`, `search_date`, `user_id`) 
@@ -37,6 +37,12 @@ class search extends Connection{
               return $e;
               die();
             }
+    }
+    public function select_search(){
+      $this->connection_hosting();
+      $sql="SELECT * FROM `search` WHERE `search_date` BETWEEN DATE_ADD(CURRENT_TIME(), INTERVAL - 7 DAY) AND CURRENT_TIME();";
+
+
     }
 }
 ?>

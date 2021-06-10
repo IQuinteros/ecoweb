@@ -3,7 +3,7 @@
 require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/../models/district_model.php');
 
-class district extends Connection{ 
+class District extends Connection{ 
     public function insert_district($name){
         $this->connection_hosting();
 
@@ -82,7 +82,7 @@ class district extends Connection{
       $haveWHERE = true;
     }
 
-    // Check for email
+    // Check for name
     if(!is_null($object) && isset($object->name)){
       $sql = $sql.($haveWHERE? " AND " : " WHERE ")."name=:name";
     }

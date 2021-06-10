@@ -6,7 +6,7 @@ if(is_null($data->email) || is_null($data->password)){
     send_response(false, null, 'Falta proporcionar email y/o password');
 }
 
-$profiles = new profile();
+$profiles = new Profile();
 
 // Assign result to variable
 $result = $profiles->login($data->email, $data->password);
