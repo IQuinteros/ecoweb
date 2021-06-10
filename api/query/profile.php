@@ -1,37 +1,74 @@
 <?php
 require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/../models/profile_model.php');
+require_once __DIR__.('/user.php');
 class Profile extends Connection{
 
     public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){
-        $this->connection_hosting();
-        $sql = "INSERT INTO `profile` (`id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `passwords`, `rut`, `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id`) 
-        VALUES (NULL, :name, :last_name, :email, :contact_number, :birthday, :terms_checked, :location, 
-        PASSWORD(:passwords), :rut, :rut_cd, CURRENT_TIME(), CURRENT_TIME(), :district_id, :user_id);";
-        try{
-        $resultado=$this->pdo->prepare($sql);
-         $resultado->bindParam(':name', $name, PDO::PARAM_STR);
-         $resultado->bindParam(':last_name', $last_name, PDO::PARAM_STR);
-         $resultado->bindParam(':email', $email, PDO::PARAM_STR);
-         $resultado->bindParam(':contact_number', $contact_number, PDO::PARAM_INT);
-         $resultado->bindParam(':birthday', $birthday, PDO::PARAM_STR);
-         $resultado->bindParam(':terms_checked', $terms_checked, PDO::PARAM_INT);
-         $resultado->bindParam(':location', $location, PDO::PARAM_STR);
-         $resultado->bindParam(':passwords', $passwords, PDO::PARAM_STR);
-         $resultado->bindParam(':rut', $rut, PDO::PARAM_INT);
-         $resultado->bindParam(':rut_cd', $rut_cd, PDO::PARAM_STR);
-         $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
-         $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-         $re=$resultado->execute();
+      $userController = new User();
+      if($user_id == 0){
+        $user_id = $userController->insert_user(null);
+      }
+      else{
+        $result = $userController->select_user(json_decode(json_encode(array('id' => $user_id))), FALSE);
 
-         $this->pdo = null;
-          return $re;
-      
-        }catch(PDOException $e){
-          echo $e->getMessage();
-          return $e;
-          die();
+        if(isset($result)){
+          if(count($result) > 0){
+            $user_id = $userController->insert_user(null);
+          }
+          else{
+            // Check if exists profile with that user id
+            $profileWithThatUser = $this->select_profile(json_decode(json_encode(array('user_id' => $user_id))), FALSE);
+
+            if(isset($profileWithThatUser)){
+              if(count($profileWithThatUser) <= 0){
+                $user_id = $userController->insert_user($user_id);
+              }
+            }
+          }
         }
+        else{
+          $user_id = $userController->insert_user(null);
+        }
+      }
+
+      if(gettype($user_id) == "array"){
+        $user_id = $user_id[0];
+      }
+      if(gettype($user_id) == "integer"){
+        return null;
+      }
+
+      $this->connection_hosting();
+      $sql = "INSERT INTO `profile` (`id`, `name`, `last_name`, `email`, `contact_number`, `birthday`, `terms_checked`, `location`, `passwords`, `rut`, `rut_cd`, `creation_date`, `last_update_date`, `district_id`, `user_id`) 
+      VALUES (NULL, :name, :last_name, :email, :contact_number, :birthday, :terms_checked, :location, 
+      PASSWORD(:passwords), :rut, :rut_cd, CURRENT_TIME(), CURRENT_TIME(), :district_id, :user_id);";
+      try{
+      $resultado=$this->pdo->prepare($sql);
+        $resultado->bindParam(':name', $name, PDO::PARAM_STR);
+        $resultado->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+        $resultado->bindParam(':email', $email, PDO::PARAM_STR);
+        $resultado->bindParam(':contact_number', $contact_number, PDO::PARAM_INT);
+        $resultado->bindParam(':birthday', $birthday, PDO::PARAM_STR);
+        $resultado->bindParam(':terms_checked', $terms_checked, PDO::PARAM_INT);
+        $resultado->bindParam(':location', $location, PDO::PARAM_STR);
+        $resultado->bindParam(':passwords', $passwords, PDO::PARAM_STR);
+        $resultado->bindParam(':rut', $rut, PDO::PARAM_INT);
+        $resultado->bindParam(':rut_cd', $rut_cd, PDO::PARAM_STR);
+        $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
+        $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $re=$resultado->execute();
+
+        $re = $this->pdo->lastInsertId();
+        $this->pdo = null;      
+        return array($re);   
+
+    
+      }catch(PDOException $e){
+        echo $e->getMessage();
+        return $e;
+        die();
+      }
          
     }
     public function update_profile($name, $last_name, $email, $contact_number, $birthday, $location, $district_id, $id){
@@ -132,7 +169,19 @@ class Profile extends Connection{
 
       // Check for email
       if(!is_null($object) && isset($object->email)){
-        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."email=:email";
+        if($haveWHERE){
+          $sql = $sql." AND ";
+        }
+        else{
+          $sql = $sql." WHERE ";
+          $haveWHERE = true;
+        }
+        $sql = $sql."email=:email";
+      }
+
+      // Check for user id
+      if(!is_null($object) && isset($object->user_id)){
+        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."user_id=:user_id";
       }
 
       $sql = $sql.";";
@@ -146,6 +195,9 @@ class Profile extends Connection{
         }
         if(isset($object->email)){
           $resultado->bindParam(':email', $object->email, PDO::PARAM_STR);
+        }
+        if(isset($object->user_id)){
+          $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_STR);
         }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);

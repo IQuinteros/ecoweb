@@ -5,7 +5,7 @@ require_once('../../query/user.php');
 $users = new User();
 $result=$users->select_user($data);
 
-if($result != null){
+if(isset($result)){
     send_response(true, $result);  
 } 
 else{

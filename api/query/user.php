@@ -2,12 +2,20 @@
 require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/../models/user_model.php');
 class User extends Connection{
-    public function insert_user(){
+    public function insert_user($user_id){
+        $idValue = 'NULL';
+        if(isset($user_id)){
+          $idValue = ':id';
+        }
+
         $this->connection_hosting();
         $sql="INSERT INTO `user` (`id`, `creation_date`, `lastConnectionDate`)
-          VALUES (NULL, CURRENT_TIME(), CURRENT_TIME()); ";
+          VALUES ($idValue, CURRENT_TIME(), CURRENT_TIME()); ";
           try{
             $resultado=$this->pdo->prepare($sql);
+            if(isset($user_id)){
+              $resultado->bindParam(':id', $user_id, PDO::PARAM_INT);
+            }
               $resultado->execute();
               $re = $this->pdo->lastInsertId();
               $this->pdo = null;      
