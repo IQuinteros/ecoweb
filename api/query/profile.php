@@ -1,6 +1,6 @@
 <?php
-require_once('../../Connection.php');
-require_once('../../models/profile_model.php');
+require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/../models/profile_model.php');
 class Profile extends Connection{
 
     public function insert_profile($name, $last_name, $email, $contact_number, $birthday, $terms_checked, $location, $passwords, $rut, $rut_cd, $district_id, $user_id){

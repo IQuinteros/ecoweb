@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
-require_once('../../models/district_model.php');
+require_once __DIR__.('/../models/district_model.php');
 
 class District extends Connection{ 
     public function insert_district($name){

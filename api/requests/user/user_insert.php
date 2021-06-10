@@ -5,4 +5,4 @@ require_once('../../query/user.php');
 $users = new User();
 $result=$users->insert_user();
 
-send_response($result, null);   
+send_response(true, $result);   

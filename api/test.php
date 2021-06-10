@@ -15,7 +15,7 @@ $rut_cd=$_POST{'10'};
 $district_id=$_POST{'11'};
 $id=$_POST{'12'};
 $user_id=$_POST{'13'};
-$res=$d->select_profile();
+$res=$d->select_profile($data);
 ?>
 <html>
     <head>

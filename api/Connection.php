@@ -1,5 +1,5 @@
 <?php
-class Connection{
+abstract class Connection{
 	protected $pdo;
     public function connection_user(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=id16988549_ecomercio';
