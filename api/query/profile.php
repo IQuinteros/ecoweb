@@ -20,7 +20,12 @@ class Profile extends Connection{
          $resultado->bindParam(':passwords', $passwords, PDO::PARAM_STR);
          $resultado->bindParam(':rut', $rut, PDO::PARAM_INT);
          $resultado->bindParam(':rut_cd', $rut_cd, PDO::PARAM_STR);
-         $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
+         if(isset($district_id)){
+          $resultado->bindParam(':district_id', $district_id, PDO::PARAM_INT);
+         }
+         else{
+          $resultado->bindValue(':district_id', null, PDO::PARAM_NULL);
+         }
          $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
          $re=$resultado->execute();
 
