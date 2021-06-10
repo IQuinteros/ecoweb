@@ -35,7 +35,8 @@ class Profile extends Connection{
       if(gettype($user_id) == "array"){
         $user_id = $user_id[0];
       }
-      if(gettype($user_id) == "integer"){
+      // TODO: Check this. System works but not should
+      if(gettype($user_id) != "integer" && gettype($user_id) != "string"){
         return null;
       }
 
