@@ -1,6 +1,6 @@
 <?php
-require_once('../api/Connection.php');
-require_once('../../models/search_model.php');
+require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/../models/search_model.php');
 class Search extends Connection{
     public function insert_search_user($search_text, $user_id){
         $this->connection_hosting();
