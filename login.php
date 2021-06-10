@@ -1,3 +1,11 @@
+<?php 
+ if(isset($_POST['submit'])){
+     $nombre =$_POST['PNoC'];
+     $coreo =$_POST['PNoC'];
+     $passwords=$_POST['passwords'];
+ }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,12 +25,21 @@ error_reporting(~0);
 require_once('include.php');
 
  ?>
-<form id="login_store">
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" id="login_store">
         <label for="Pname"> Nombre o Correo</label>
         <input type="text" id="PNoC" name="PNoC"><br><br>
         <label for="passwords">contraseña </label>
         <input type="text" id="passwords" name="passwords"><br><br>
-        <button onclick="sendData(login_store)">login</button>
+        <button onclick="sendData(login_store)" value="login" name="submit"
+        <?php 
+      //  $store = $storeConnection->select(null);    
+   //     foreach($store as $value){     
+      //          }if( $value->public_name ==$nombre || $value->email == $nombre && $value->passwords == $passwords)
+      //  {
+      //      window.open('home.php')
+       // }
+        //?>
+       >login</button>
       </form>
 </body>
 </html>
