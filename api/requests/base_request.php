@@ -23,30 +23,13 @@ function send_response(bool $success, $result = null, string $message = null){
     return;
 }
 
-function array_to_object($array) {
-    $obj = new stdClass;
-    foreach($array as $k => $v) {
-        if(strlen($k)) {
-            if(is_array($v)) {
-                $obj->{$k} = array_to_object($v); //RECURSION
-            } else {
-                $obj->{$k} = $v;
-            }
-        }
-    }
-    return $obj;
-} 
-
 // Takes raw data from the request
 $json = file_get_contents('php://input');
 
 // Converts it into a PHP object
 $data = json_decode($json);
 
-echo($data);
-
 if(count($_POST) > 0){
-    $data = array_to_object($_POST);
+    $data = json_decode(json_encode($_POST), FALSE);
 }
 
-echo($data);
