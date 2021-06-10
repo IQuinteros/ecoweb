@@ -11,7 +11,7 @@ class User extends Connection{
               $resultado->execute();
               $re = $this->pdo->lastInsertId();
               $this->pdo = null;      
-              return $re;    
+              return array($re);    
             }catch(PDOException $e){
               echo $e->getMessage();
               return $e;
