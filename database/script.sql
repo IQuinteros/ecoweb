@@ -100,9 +100,8 @@ CREATE TABLE message(
     id int not null AUTO_INCREMENT,
     message varchar(255) not null,
     creation_date timestamp not null,
-    profile_id int,
-    store_id int,
     chat_id int,
+    owner varchar(15),
     PRIMARY KEY (id)
 );
 
@@ -111,6 +110,8 @@ CREATE TABLE chat(
     creation_date timestamp not null,
     closed bit not null,
     last_seen_date datetime not null,
+    profile_id int,
+    store_id int,
     PRIMARY KEY (id)
 );
 
@@ -201,10 +202,11 @@ CREATE TABLE article_purchase(
     quantity int not null,
     photo_url varchar(255),
     recycled_mats varchar(20) not null,
-    recycled_matsdetail text,
+    recycled_mats_detail text,
     reuse_tips text,
     recycled_prod varchar(20) not null,
     recycled_prod_detail text,
+    general_detail text,
     store_id int,
     PRIMARY KEY(id),
     UNIQUE KEY(purchase_id),
@@ -269,12 +271,15 @@ ALTER TABLE favorite
 ;
 
 ALTER TABLE message
-    ADD CONSTRAINT message_profile_FK
-    FOREIGN KEY(profile_id) REFERENCES `profile`(id),
-    ADD CONSTRAINT message_store_FK
-    FOREIGN KEY(store_id) REFERENCES store(id),
     ADD CONSTRAINT message_chat_FK
     FOREIGN KEY(chat_id) REFERENCES chat(id)
+;
+
+ALTER TABLE chat
+    ADD CONSTRAINT chat_profile_FK
+    FOREIGN KEY(profile_id) REFERENCES `profile`(id),
+    ADD CONSTRAINT chat_store_FK
+    FOREIGN KEY(store_id) REFERENCES store(id),
 ;
 
 ALTER TABLE purchase

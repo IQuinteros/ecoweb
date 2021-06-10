@@ -1,7 +1,7 @@
 <?php
 require_once('../base_request.php');
 require_once('../../query/profile.php');
-$profiles = new profile();
+$profiles = new Profile();
 // Assign result to variable
 $result = $profiles->select_profile($data);
 
