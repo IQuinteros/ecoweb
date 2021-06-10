@@ -140,8 +140,8 @@ class Store extends Connection{
         $resultado=$this->pdo->prepare($sql);
         
         $resultado->bindParam(':id', $id, PDO::PARAM_INT);
-        $resultado->bindParam('%'.':public_name'.'%', $public_name, PDO::PARAM_STR);
-        $resultado->bindParam('%'.':email'.'%', $email, PDO::PARAM_STR);
+        $resultado->bindParam(':public_name', '%'.$public_name.'%', PDO::PARAM_STR);
+        $resultado->bindParam(':email', '%'.$email.'%', PDO::PARAM_STR);
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_tiendas = array();
