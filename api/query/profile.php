@@ -28,9 +28,9 @@ class Profile extends Connection{
          }
          $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
          $re=$resultado->execute();
-
+         $re = $this->pdo->lastInsertId();
          $this->pdo = null;
-          return $re;
+         return array($re);
       
         }catch(PDOException $e){
           echo $e->getMessage();
