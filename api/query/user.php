@@ -78,7 +78,7 @@ class User extends Connection{
     }
     public function select_user($object){
       $this->connection_hosting();
-      $sql="SELECT * FROM `user`";
+      $sql="SELECT user.*, (SELECT COUNT(id) FROM profile where profile.user_id = user.id) as have_profile FROM user";
 
       $haveWHERE = false;
 
@@ -103,6 +103,7 @@ class User extends Connection{
         $users->id=$data[$i]["id"];
         $users->creation_date=$data[$i]["creation_date"];
         $users->last_update_date=$data[$i]["lastConnectionDate"];
+        $users->have_profile = $data[$i]["have_profile"] != 0;
         array_push($lista_users, $users);
       }
 
