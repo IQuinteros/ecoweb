@@ -21,7 +21,7 @@ $districtConnection = new district();
 
  ?>
 
-        <form id="register_store">
+        <form action="api/requests/example.php" method="POST">
         <label for="Pname"> public name:</label>
         <input type="text" id="Pname" name="Pname"><br><br>
         <label for="description">description:</label>
@@ -50,7 +50,7 @@ $districtConnection = new district();
 
 
        </select>
-        <button onclick="sendData(register_store)">Registrarse</button>
+        <input type="submit" value="submit"/>
       </form>
 
 
