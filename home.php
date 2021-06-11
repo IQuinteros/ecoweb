@@ -9,7 +9,7 @@
 <body>
     
 </body>
-<ul></ul>
+<ul>
 <li><a href="home.php">home</a></li>
 <li><a href="pedidos.php">pedidos</a><li>
 <li><a href="Chats.php">Chats</a><li>
