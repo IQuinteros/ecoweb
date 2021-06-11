@@ -1,8 +1,13 @@
 <?php 
  if(isset($_POST['submit'])){
      $nombre =$_POST['PNoC'];
-     $coreo =$_POST['PNoC'];
+     $correo =$_POST['PNoC'];
      $passwords=$_POST['passwords'];
+
+
+     require_once __DIR__.('/api/query/store.php');
+     $storeConnection = new Store();
+     //$logged = $storeConnection->login($correo, $passwords);
  }
 ?>
 
@@ -19,8 +24,7 @@
 ini_set('display_errors', 1);
 error_reporting(~0);
 
-//require_once('api/query/store.php');
-//$storeConnection = new Store();
+
 
 require_once('include.php');
 
@@ -31,7 +35,8 @@ require_once('include.php');
         <label for="passwords">contraseña </label>
         <input type="text" id="passwords" name="passwords"><br><br>
         <button onclick="sendData(login_store)" value="login" name="submit"
-        <?php 
+        <?php         
+        
       //  $store = $storeConnection->search($nombre,$passwords);    
    //         if(isset($store)){
       //      window.open('home.php')
