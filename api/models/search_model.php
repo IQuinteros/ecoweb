@@ -1,7 +1,7 @@
 <?php
 class Search_model{
     public int $id;
-    public string $text;
-    public string $date;
+    public string $search_text;
+    public string $search_date;
     public int $user_id;
 }

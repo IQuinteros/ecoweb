@@ -45,20 +45,25 @@ class Search extends Connection{
       $this->connection_hosting();
       $sql="SELECT * FROM `search` WHERE `search_date` BETWEEN DATE_ADD(CURRENT_TIME(), INTERVAL - 7 DAY) AND CURRENT_TIME()";
 
-      $haveWHERE = false;
 
-        // Check for id
-        if(!is_null($object) && isset($object->id)){
-          $sql = $sql." WHERE id=:id";
-          $haveWHERE = true;
-        }
-        $sql = $sql.";";
+      // Check for id
+      if(!is_null($object) && isset($object->id)){
+        $sql = $sql." AND id=:id";
+      }
+      // Check for user_id
+      if(!is_null($object) && isset($object->user_id)){
+        $sql = $sql." AND user_id=:user_id";
+      }
+      $sql = $sql.";";
         
 
       try{
           $resultado=$this->pdo->prepare($sql);
           if(isset($object->id)){
             $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+          }
+          if(isset($object->user_id)){
+            $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_INT);
           }
           $re=$resultado->execute();
           $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -67,13 +72,13 @@ class Search extends Connection{
           for($i = 0; $i < count($data); $i++){
             $search =new Search_model();
             $search->id=$data[$i]["id"];
-            $search->name=$data[$i]["search_text"];
-            $search->last_name=$data[$i]["search_date"];
-            $search->email=$data[$i]["user_id"];
+            $search->search_text=$data[$i]["search_text"];
+            $search->search_date=$data[$i]["search_date"];
+            $search->user_id=$data[$i]["user_id"];
             array_push($lista_busqueda, $search);
           }
           $this->pdo = null;
-          return $re;
+          return $lista_busqueda;
       
         }catch(PDOException $e){
           echo $e->getMessage();

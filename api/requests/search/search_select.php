@@ -5,4 +5,4 @@ require_once('../../query/search.php');
 $search = new Search();
 $result=$search->select_search($data);
 
-send_response($result, null);   
+send_response(isset($result), $result);   
