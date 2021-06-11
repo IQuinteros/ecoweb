@@ -193,7 +193,7 @@ class Store extends Connection{
 
         $this->pdo = null;
         
-        return $lista_tiendas;
+        return $lista_login;
 
       }catch(PDOException $e){
         echo $e->getMessage();
