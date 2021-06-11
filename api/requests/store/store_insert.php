@@ -5,4 +5,4 @@ require_once('../../query/store.php');
 $store = new Store();
 $result=$store->insert_store($data);
 
-send_response($result, null);   
+send_response(isset($result), $result); 
