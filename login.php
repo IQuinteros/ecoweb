@@ -32,10 +32,8 @@ require_once('include.php');
         <input type="text" id="passwords" name="passwords"><br><br>
         <button onclick="sendData(login_store)" value="login" name="submit"
         <?php 
-      //  $store = $storeConnection->select(null);    
-   //     foreach($store as $value){     
-      //          }if( $value->public_name ==$nombre || $value->email == $nombre && $value->passwords == $passwords)
-      //  {
+      //  $store = $storeConnection->search($nombre,$passwords);    
+   //         if(isset($store)){
       //      window.open('home.php')
        // }
         //?>
