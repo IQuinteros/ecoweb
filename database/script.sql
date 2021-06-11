@@ -132,7 +132,7 @@ CREATE TABLE article(
     price int not null,
     stock int not null,
     creation_date timestamp not null,
-    lat_update_date timestamp not null,
+    last_update_date timestamp not null,
     enabled bit not null,
     article_form_id int not null,
     category_id int not null,

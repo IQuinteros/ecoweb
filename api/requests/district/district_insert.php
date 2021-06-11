@@ -6,4 +6,4 @@ $d = new District();
 $result=$d->insert_district($data->name);
 
 
-send_response($result, null); 
+send_response(isset($result), $result); 

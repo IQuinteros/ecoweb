@@ -1,5 +1,6 @@
 <?php
-require_once('../api/Connection.php');
+require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/../models/search_model.php');
 class Search extends Connection{
     public function insert_search_user($search_text, $user_id){
         $this->connection_hosting();
@@ -10,8 +11,9 @@ class Search extends Connection{
              $resultado->bindParam(':search_text', $search_text, PDO::PARAM_STR);
              $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
              $re=$resultado->execute();
+             $re = $this->pdo->lastInsertId();
              $this->pdo = null;
-              return $re;
+             return array($re);
 
           
             }catch(PDOException $e){
@@ -29,8 +31,9 @@ class Search extends Connection{
              $resultado->bindParam(':search_text', $search_text, PDO::PARAM_STR);
              $resultado->bindParam(':user_id', $user_id, PDO::PARAM_INT);
              $re=$resultado->execute();
+             $re = $this->pdo->lastInsertId();
              $this->pdo = null;
-              return $re;
+             return array($re);
           
             }catch(PDOException $e){
               echo $e->getMessage();
@@ -38,11 +41,66 @@ class Search extends Connection{
               die();
             }
     }
-    public function select_search(){
+    public function select_search($object){
       $this->connection_hosting();
-      $sql="SELECT * FROM `search` WHERE `search_date` BETWEEN DATE_ADD(CURRENT_TIME(), INTERVAL - 7 DAY) AND CURRENT_TIME();";
+      $sql="SELECT * FROM `search` WHERE `search_date` BETWEEN DATE_ADD(CURRENT_TIME(), INTERVAL - 7 DAY) AND CURRENT_TIME()";
 
 
+      // Check for id
+      if(!is_null($object) && isset($object->id)){
+        $sql = $sql." AND id=:id";
+      }
+      // Check for user_id
+      if(!is_null($object) && isset($object->user_id)){
+        $sql = $sql." AND user_id=:user_id";
+      }
+      $sql = $sql.";";
+        
+
+      try{
+          $resultado=$this->pdo->prepare($sql);
+          if(isset($object->id)){
+            $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+          }
+          if(isset($object->user_id)){
+            $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_INT);
+          }
+          $re=$resultado->execute();
+          $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+          $lista_busqueda= array();
+
+          for($i = 0; $i < count($data); $i++){
+            $search =new Search_model();
+            $search->id=$data[$i]["id"];
+            $search->search_text=$data[$i]["search_text"];
+            $search->search_date=$data[$i]["search_date"];
+            $search->user_id=$data[$i]["user_id"];
+            array_push($lista_busqueda, $search);
+          }
+          $this->pdo = null;
+          return $lista_busqueda;
+      
+        }catch(PDOException $e){
+          echo $e->getMessage();
+          return $e;
+          die();
+        }
     }
+    public function delete_search($id){
+      $this->connection_hosting();
+      $sql="DELETE FROM `search` WHERE `id`=:id";
+      try{
+          $resultado=$this->pdo->prepare($sql);
+           $resultado->bindParam(':id', $id, PDO::PARAM_INT);
+           $re=$resultado->execute();
+           $this->pdo = null;
+            return $re;
+        
+          }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+          }
+  }
 }
 ?>

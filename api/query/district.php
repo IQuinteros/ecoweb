@@ -21,8 +21,9 @@ class District extends Connection{
          if (!$re) {
           //die(mysql_error());
         } else{
+          $re = $this->pdo->lastInsertId();
           $this->pdo = null;
-          return $re;
+          return array($re);
       }
     }
     public function delete_district($id){
