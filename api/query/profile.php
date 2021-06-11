@@ -176,19 +176,14 @@ class Profile extends Connection{
 
       // Check for email
       if(!is_null($object) && isset($object->email)){
-        if($haveWHERE){
-          $sql = $sql." AND ";
-        }
-        else{
-          $sql = $sql." WHERE ";
-          $haveWHERE = true;
-        }
-        $sql = $sql."email=:email";
+        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."email=:email";
+        $haveWHERE = true;
       }
 
       // Check for user id
       if(!is_null($object) && isset($object->user_id)){
         $sql = $sql.($haveWHERE? " AND " : " WHERE ")."user_id=:user_id";
+        $haveWHERE = true;
       }
 
       $sql = $sql.";";
