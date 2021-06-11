@@ -9,6 +9,14 @@
 <body>
     
 </body>
-<a>inicio</a>
-<li>inico</li>
+<ul></ul>
+<li><a href="home.php">home</a></li>
+<li><a href="pedidos.php">pedidos</a><li>
+<li><a href="Chats.php">Chats</a><li>
+<li><a href="preguntas.php">preguntas</a><li>
+<li><a href="valoraciones.php">valoraciones</a><li>
+<li><a href="inventario.php">inventario</a><li>
+<li><a href="reportes.php">reportes</a><li>
+<li><a href="perfil.php">perfil</a><li>
+</ul>
 </html>

@@ -37,7 +37,6 @@ require_once('include.php');
         <button onclick="sendData(login_store)" value="login" name="submit"
         <?php         
         
-      //  $store = $storeConnection->search($nombre,$passwords);    
    //         if(isset($store)){
       //      window.open('home.php')
        // }
