@@ -176,7 +176,7 @@ class Store extends Connection{
     }
     public function login($email, $pass){
       $this->connection_hosting();
-      $sql="SELECT `email`, `passwords` FROM `store` WHERE `email`=:email AND `passwords`=:password";
+      $sql="SELECT `email`, `passwords` FROM `store` WHERE `email`=:email AND `passwords`=PASSWORD(:password)";
       try{
         $resultado=$this->pdo->prepare($sql);
         $resultado->bindParam(':email', $email, PDO::PARAM_STR);
