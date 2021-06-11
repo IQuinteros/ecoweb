@@ -55,7 +55,18 @@ class Article extends Connection{
     }
     public function select_article(){
         $this->connection_hosting();
-        $sql="";
+        $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
+        article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
+        article.`category_id`, article.`store_id`, article.`past_price`, category.`title`, article_form.`creation_date`, 
+        article_form.`last_update_date` AS form_last_update_date, article_form.`recycled_mats`, 
+        article_form.`recycled_mats_detail`, article_form.`general_detail`, article_form.`reuse_tips`, 
+        article_form.`recycled_prod`, article_form.`recycled_prod_detail`, store.`public_name`, store.`location`, 
+        store.`enabled`, store.`photo_url`,
+        (SELECT district.`name` FROM store INNER JOIN district ON district_id  = district.`id`) AS district_name 
+        FROM `article` 
+        INNER JOIN category ON category_id= category.`id` 
+        INNER JOIN article_form ON article_form_id = article_form.`id` 
+        INNER JOIN store ON store_id = store.`id`";
     }
     public function update_article($object){
         $this->connection_hosting();
