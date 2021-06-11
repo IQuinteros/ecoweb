@@ -3,6 +3,6 @@ require_once('../base_request.php');
 require_once('../../query/article.php');
 
 $article = new Article();
-$result=$article->insert_article($data);
+$result=$article->update_article($data);
 
-send_response(isset($result), $result); 
+send_response($result, null);   

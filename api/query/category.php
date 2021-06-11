@@ -12,12 +12,18 @@ class Category extends Connection{
           $sql = $sql." WHERE id=:id";
           $haveWHERE = true;
         }
+        if(!is_null($title)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title=:title";
+        }
         $sql = $sql.";";
 
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($id)){
               $resultado->bindParam(':id', $id, PDO::PARAM_INT);
+            }
+            if(isset($title)){
+              $resultado->bindParam(':title', $title, PDO::PARAM_STR);
             }
             
             $resultado->execute();

@@ -57,8 +57,29 @@ class Article extends Connection{
         $this->connection_hosting();
         $sql="";
     }
-    public function update_article(){
+    public function update_article($object){
         $this->connection_hosting();
-        $sql="";
+        $sql="UPDATE `article` 
+        SET `title`=:title,`description`=:description,`price`=:price,`stock`=:stock,`last_update_date`=CURRENT_TIME,
+        `enabled`=:enabled,`category_id`=:category_id,`past_price`=:past_price WHERE `id`=:id";
+        try{
+          $resultado=$this->pdo->prepare($sql);
+           $resultado->bindParam(':title', $object->title, PDO::PARAM_STR);
+           $resultado->bindParam(':description', $object->description, PDO::PARAM_STR);
+           $resultado->bindParam(':price', $object->price, PDO::PARAM_INT);
+           $resultado->bindParam(':stock', $object->stock, PDO::PARAM_INT);
+           $resultado->bindParam(':enabled', $object->enabled, PDO::PARAM_INT);
+           $resultado->bindParam(':category_id', $object->category_id, PDO::PARAM_INT);
+           $resultado->bindParam(':past_price', $object->past_price, PDO::PARAM_INT);
+           $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+           $re=$resultado->execute();
+            $this->pdo = null;
+            return $re;
+        
+          }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+          }
     }
 }
