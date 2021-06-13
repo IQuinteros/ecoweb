@@ -1,6 +1,6 @@
 <?php
-require_once('../../Connection.php');
-require_once('../../models/store_model.php');
+require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/../models/store_model.php');
 class Store extends Connection{
     public function insert_store($object){
         $this->connection_hosting();
