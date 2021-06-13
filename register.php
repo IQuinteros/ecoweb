@@ -38,7 +38,7 @@ $districtConnection = new district();
         <input type="text" id="rut" name="rut">
         <label for="rut_cd">rut cd:</label>
         <input type="text" id="rut_cd" name="rut_cd"><br><br>   
-       <select>
+       <select id="district" name="district">
            <option>
                <?php 
                 $distritos = $districtConnection->select(null);

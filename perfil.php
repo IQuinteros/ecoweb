@@ -3,13 +3,12 @@
      $email =$_POST['email'];
      $contact_number=$_POST['contact_number'];
       $location=$_POST['location'];
-     $district_id=$_POST['value->id'];
+     $district=$_POST['district'];
+ //    $update_profile=$profileConnection->update_profile($email,$contact_number,$location,$district);
 
 
 require_once('api/query/profile.php');
 $profileConnection = new profile();
-require_once('api/query/user.php');
-$userConnection = new user();
 require_once('include.php');
 require_once('api/query/district.php');
 $districtConnection = new district();
@@ -51,7 +50,7 @@ error_reporting(~0);
         <input type="text" id="contact_number" name="contact_number"><br><br>
         <label for="location">direccion:</label>
         <input type="text" id="location" name="location"><br><br>
-        <select>
+        <select id="district" name="district">
            <option>
                <?php 
                 $distritos = $districtConnection->select(null);
@@ -68,7 +67,7 @@ error_reporting(~0);
       //
        // }
         ?>
-       >registar</button>
+       >guardar cambios</button>
       </form>
 </body>
 </html>
