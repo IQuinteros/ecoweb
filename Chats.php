@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <body>
+<?php
+ini_set('display_errors', 1);
+error_reporting(~0);
+require_once('api/query/store.php');
+$storeConnection = new Store();
+//require_once('api/query/message.php');
+//$messageConnection = new message();
+?>
 <ul>
 <li><a href="home.php">home</a></li>
 <li><a href="pedidos.php">pedidos</a><li>
@@ -17,5 +25,14 @@
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
+<table>
+     <?php 
+    //  $article = $articleConnection->select_message(null);
+      //isset($store)
+     // foreach($message as $value){                                            
+      //     echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
+    // }
+     ?>
+  </table>
 </body>
 </html>

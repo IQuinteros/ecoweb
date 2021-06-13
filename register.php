@@ -11,8 +11,8 @@
 ini_set('display_errors', 1);
 error_reporting(~0);
 
-//require_once('api/query/store.php');
-//$storeConnection = new Store();
+require_once('api/query/store.php');
+$storeConnection = new Store();
 
 require_once('include.php');
 
@@ -28,7 +28,9 @@ $districtConnection = new district();
         <input type="text" id="description" name="description"><br><br>
         <label for="email">email:</label>
         <input type="text" id="email" name="email"><br><br>
-        <label for="location">email:</label>
+        <label for="contact_number">telefono:</label>
+        <input type="text" id="contact_number" name="contact_number"><br><br>
+        <label for="location">direccion:</label>
         <input type="text" id="location" name="location"><br><br>
         <label for="passwords">passwords:</label>
         <input type="text" id="passwords" name="passwords"><br><br>
@@ -40,17 +42,13 @@ $districtConnection = new district();
            <option>
                <?php 
                 $distritos = $districtConnection->select(null);
-
                 foreach($distritos as $value){                                                 
                     echo "<option value='".$value->id."'>".$value->name."</option>";
                 }
-
                ?>           
            </option>
-
-
        </select>
-        <input type="submit" value="submit"/>
+        <input type="submit" value="registar"/>
       </form>
 
 
