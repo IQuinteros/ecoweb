@@ -24,6 +24,12 @@ ini_set('display_errors', 1);
 error_reporting(~0);
 require_once('include.php');
 
+session_start();
+// Hiciste el login 
+$store;
+
+$_SESSION["id"] = $store->id;
+
  ?>
 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" id="login_store">
         <label for="Pname"> Nombre o Correo</label>

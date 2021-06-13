@@ -30,11 +30,15 @@ require_once('include.php');
 </ul> 
   <table>
      <?php 
+      $id = $_SESSION["id"];
+      
+      $storeConnection->select_store($id, null, null);
+
       $article = $articleConnection->select_article(null);
       //isset($store)
       foreach($article as $value){                                            
            echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
-     }
+      }
      ?>
   </table>
 </body>
