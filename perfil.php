@@ -1,3 +1,19 @@
+<?php 
+ if(isset($_POST['submit'])){
+     $email =$_POST['email'];
+     $contact_number=$_POST['contact_number'];
+      $location=$_POST['location'];
+     $district=$_POST['district'];
+ //    $update_profile=$profileConnection->update_profile($email,$contact_number,$location,$district);
+
+
+require_once('api/query/profile.php');
+$profileConnection = new profile();
+require_once('include.php');
+require_once('api/query/district.php');
+$districtConnection = new district();
+ }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,13 +27,7 @@
 ini_set('display_errors', 1);
 error_reporting(~0);
 
-require_once('api/query/profile.php');
-$profileConnection = new profile();
-require_once('api/query/user.php');
-$userConnection = new user();
-require_once('include.php');
-require_once('api/query/district.php');
-$districtConnection = new district();
+
 
  ?>
 <ul>
@@ -30,38 +40,34 @@ $districtConnection = new district();
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul>
-<form action="api/requests/example.php" method="POST">
-        <label for="name">  nombre:</label>
-        <input type="text" id="name" name="name"><br><br>
-        <label for="last_name">apellido:</label>
-        <input type="text" id="last_name" name="last_name"><br><br>
+ <form action="api/requests/example.php" method="POST">
+       
+       
+       
         <label for="email">email:</label>
         <input type="text" id="email" name="email"><br><br>
         <label for="contact_number">telefono:</label>
         <input type="text" id="contact_number" name="contact_number"><br><br>
-        <label for="birthday">cumpleaños:</label>
-        <input type="text" id="birthday" name="birthday"><br><br>
         <label for="location">direccion:</label>
         <input type="text" id="location" name="location"><br><br>
-        <label for="passwords">passwords:</label>
-        <input type="text" id="passwords" name="passwords"><br><br>
-        <label for="rut">rut:</label>
-        <input type="text" id="rut" name="rut">
-        <label for="rut_cd">rut cd:</label>
-        <input type="text" id="rut_cd" name="rut_cd"><br><br>
-        <select>
+        <select id="district" name="district">
            <option>
                <?php 
                 $distritos = $districtConnection->select(null);
                 foreach($distritos as $value){                                                 
                     echo "<option value='".$value->id."'>".$value->name."</option>";
                 }
-
-                
                ?>           
            </option>
        </select>
-        <input type="submit" value="nuevo peril"/>
+       <button onclick="sendData(update_profile)" value="register" name="submit"
+        <?php         
+        
+   //         if(isset($store)){
+      //
+       // }
+        ?>
+       >guardar cambios</button>
       </form>
 </body>
 </html>
