@@ -49,6 +49,14 @@ $districtConnection = new district();
            </option>
        </select>
         <input type="submit" value="registar"/>
+        <button onclick="sendData(insert_store)" value="login" name="submit"
+        <?php         
+        
+   //         if(isset($store)){
+      //
+       // }
+        ?>
+       >registar</button>
       </form>
 
 
