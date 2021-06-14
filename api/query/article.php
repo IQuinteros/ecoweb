@@ -53,20 +53,174 @@ class Article extends Connection{
               die();
             }
     }
-    public function select_article(){
+    public function select_article($object){
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
         article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
-        article.`category_id`, article.`store_id`, article.`past_price`, category.`title`, article_form.`creation_date`, 
+        article.`category_id`, article.`store_id`, article.`past_price`, category.`title` AS category_title, 
+        article_form.`creation_date` AS from_creation_date, 
         article_form.`last_update_date` AS form_last_update_date, article_form.`recycled_mats`, 
         article_form.`recycled_mats_detail`, article_form.`general_detail`, article_form.`reuse_tips`, 
         article_form.`recycled_prod`, article_form.`recycled_prod_detail`, store.`public_name`, store.`location`, 
         store.`enabled`, store.`photo_url`,
-        (SELECT district.`name` FROM store INNER JOIN district ON district_id  = district.`id`) AS district_name 
+        (SELECT district.`id` FROM store INNER JOIN district ON district_id  = district.`id`) AS district_id,
+        (SELECT district.`name` FROM store INNER JOIN district ON district_id = district.`id`) AS district_name 
         FROM `article` 
         INNER JOIN category ON category_id= category.`id` 
         INNER JOIN article_form ON article_form_id = article_form.`id` 
         INNER JOIN store ON store_id = store.`id`";
+
+        $haveWHERE = false;
+
+        // Check for id
+        if(!is_null($object) && isset($object->id)){
+          $sql = $sql." WHERE id=:id";
+          $haveWHERE = true;
+        }
+        // Check for id_article_form
+        if(!is_null($object) && isset($object->id_form)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_form_id=:article_form_id";
+          $haveWHERE = true;
+        }
+        // Check for id_category
+        if(!is_null($object) && isset($object->id_category)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_id=:category_id";
+          $haveWHERE = true;
+        }
+        // Check for id_store
+        if(!is_null($object) && isset($object->id_store)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store_id=:store_id";
+          $haveWHERE = true;
+        }
+        // Check for article_name
+        if(!is_null($object) && isset($object->title)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title LIKE :title";
+          $haveWHERE = true;
+        }
+        // Check for category
+        if(!is_null($object) && isset($object->category)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_name=:category";
+          $haveWHERE = true;
+        }
+        // Check for store_name
+        if(!is_null($object) && isset($object->store_name)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."public_name LIKE :store_name";
+          $haveWHERE = true;
+        }
+        // Check for store_location
+        if(!is_null($object) && isset($object->store_location)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."location=:store_location";
+          $haveWHERE = true;
+        }
+        // Check for district_id
+        if(!is_null($object) && isset($object->district_id)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."district_id=:district_id";
+          $haveWHERE = true;
+        }
+        // Check for district_name
+        if(!is_null($object) && isset($object->district_name)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."district_name LIKE :district_name";
+          $haveWHERE = true;
+        }
+        // Check for store_enabled
+        if(!is_null($object) && isset($object->store_enabled)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."enabled=:store_enabled";
+          $haveWHERE = true;
+        }
+        // Check for price
+        if(!is_null($object) && isset($object->min_price) && isset($object->max_price)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."price<:max_price AND price>:min_price";
+          $haveWHERE = true;
+        }
+
+        $sql = $sql.";";
+
+        try{
+          $resultado=$this->pdo->prepare($sql);
+          if(isset($object->id)){
+            $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+          }
+          if(isset($object->id_form)){
+            $resultado->bindParam(':article_form_id', $object->id_form, PDO::PARAM_INT);
+          }
+          if(isset($object->id_category)){
+            $resultado->bindParam(':category_id', $object->id_category, PDO::PARAM_INT);
+          }
+          if(isset($object->id_store)){
+            $resultado->bindParam(':store_id', $object->id_store, PDO::PARAM_INT);
+          }
+          if(isset($object->title)){
+            $resultado->bindParam(':title', '%'.$object->title.'%', PDO::PARAM_STR);
+          }
+          if(isset($object->category)){
+            $resultado->bindParam(':category', $object->category, PDO::PARAM_STR);
+          }
+          if(isset($object->store_name)){
+            $resultado->bindParam(':store_name', '%'.$object->store_name.'%', PDO::PARAM_STR);
+          }
+          if(isset($object->store_location)){
+            $resultado->bindParam(':store_location', $object->store_location, PDO::PARAM_STR);
+          }
+          if(isset($object->district_id)){
+            $resultado->bindParam(':district_id', $object->district_id, PDO::PARAM_INT);
+          }
+          if(isset($object->district_name)){
+            $resultado->bindParam(':district_name', '%'.$object->district_name.'%', PDO::PARAM_STR);
+          }
+          if(isset($object->store_enabled)){
+            $resultado->bindParam(':store_enabled', $object->store_enabled, PDO::PARAM_INT);
+          }
+          if(isset($object->min_price)){
+            $resultado->bindParam(':min_price', $object->min_price, PDO::PARAM_INT);
+          }
+          if(isset($object->max_price)){
+            $resultado->bindParam(':max_price', $object->max_price, PDO::PARAM_INT);
+          }
+          $resultado->execute();
+          $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+          $lista_articles = array();
+  
+          for($i = 0; $i < count($data); $i++){
+            $articles =new Article_model();
+            $articles->id=$data[$i]["id"];
+            $articles->title=$data[$i]["title"];
+            $articles->description=$data[$i]["description"];
+            $articles->price=$data[$i]["price"];
+            $articles->stock=$data[$i]["stock"];
+            $articles->creation_date=$data[$i]["creation_date"];
+            $articles->last_update_date=$data[$i]["last_update_date"];
+            $articles->enabled=$data[$i]["enabled"];
+            $articles->article_form_id=$data[$i]["article_form_id"];
+            $articles->category_id=$data[$i]["category_id"];
+            $articles->store_id=$data[$i]["store_id"];
+            $articles->past_price=$data[$i]["past_price"];
+            $articles->category_title=$data[$i]["category_title"];
+            $articles->from_creation_date=$data[$i]["from_creation_date"];
+            $articles->form_last_update_date=$data[$i]["form_last_update_date"];
+            $articles->recycled_mats=$data[$i]["recycled_mats"];
+            $articles->recycled_mats_detail=$data[$i]["recycled_mats_detail"];
+            $articles->general_detail=$data[$i]["general_detail"];
+            $articles->reuse_tips=$data[$i]["reuse_tips"];
+            $articles->recycled_prod=$data[$i]["recycled_prod"];
+            $articles->recycled_prod_detail=$data[$i]["recycled_prod_detail"];
+            $articles->public_name=$data[$i]["public_name"];
+            $articles->location=$data[$i]["location"];
+            $articles->enabled=$data[$i]["enabled"];
+            $articles->photo_url=$data[$i]["photo_url"];
+            $articles->district_id=$data[$i]["district_id"];
+            $articles->district_name=$data[$i]["district_name"];
+            array_push($lista_articles, $articles);
+          }
+  
+          $this->pdo = null;
+          
+          return $lista_articles;
+        
+          } catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+          }
     }
     public function update_article($object){
         $this->connection_hosting();
