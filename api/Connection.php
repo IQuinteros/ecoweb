@@ -68,8 +68,8 @@ abstract class Connection{
 	}
 	public function connection_hosting(){
 		$dsn = 'mysql:host=localhost;port=3306;dbname=id16988549_ecomercio';
-		$username = 'id16988549_admin';
-		$password = 'ruJxus-kidky3-puhbox';
+		$username = 'root';//'id16988549_admin';
+		$password = 'root';//'ruJxus-kidky3-puhbox';
 		$options = array(
 		    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4'",
 		    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
