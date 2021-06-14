@@ -40,5 +40,7 @@ require_once('include.php');
       }
      ?>
   </table>
+  <ul>
+<li><a href="NewArticle.php">nuevo articulo</a></li></ul> 
 </body>
 </html>

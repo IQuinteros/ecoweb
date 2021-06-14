@@ -73,7 +73,7 @@ $districtConnection = new district();
                ?>           
            </option>
        </select>
-        <input type="submit" value="registar"/>
+        
         <button onclick="sendData(insert_store)" value="registro" name="submit"
         <?php         
         
@@ -84,5 +84,5 @@ $districtConnection = new district();
        >registar</button>
       </form>
 
-
+ <body>
 </html>
