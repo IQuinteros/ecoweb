@@ -1,3 +1,28 @@
+<?php 
+ if(isset($_POST['submit'])){
+     $Pname =$_POST['Pname'];
+     $description=$_POST['description'];
+      $email=$_POST['email'];
+     $contact_number=$_POST['contact_number'];
+     $location=$_POST['location'];
+     $passwords=$_POST['passwords'];
+     $rut=$_POST['rut'];
+     $rut_cd=$_POST['rut_cd'];
+     $district=$_POST['district'];
+     $store->id=null;
+     $store->public_name=$Pname;
+     $store->description=$description;
+     $store->email=$email;
+     $store->contact_number=$contact_number;
+     $store->location=$location;
+     $store->passwords=$passwords;
+     $store->rut=$rut;
+     $store->rut_cd=$rut_cd;
+     $store->district_id=$district;
+     $store->enabled=true;
+     $insert_store=$profileConnection->insert_store($store);
+ }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +74,7 @@ $districtConnection = new district();
            </option>
        </select>
         <input type="submit" value="registar"/>
-        <button onclick="sendData(insert_store)" value="login" name="submit"
+        <button onclick="sendData(insert_store)" value="registro" name="submit"
         <?php         
         
    //         if(isset($store)){

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +11,9 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(~0);
-require_once('api/query/article.php');
+require_once __DIR__.('api/query/article.php');
 $articleConnection = new article();
-require_once('api/query/store.php');
+require_once __DIR__.('api/query/store.php');
 $storeConnection = new Store();
 
 require_once('include.php');
@@ -29,14 +30,12 @@ require_once('include.php');
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
   <table>
-     <?php 
-      $id = $_SESSION["id"];
-      
+     <?php      
+      $id = $_SESSION["id"];      
       $storeConnection->select_store($id, null, null);
-
-      $article = $articleConnection->select_article(null);
+     // $article = $articleConnection->select_article($id);
       //isset($store)
-      foreach($article as $value){                                            
+      foreach($article as $value){                                           
            echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
       }
      ?>

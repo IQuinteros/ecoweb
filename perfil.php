@@ -4,14 +4,8 @@
      $contact_number=$_POST['contact_number'];
       $location=$_POST['location'];
      $district=$_POST['district'];
- //    $update_profile=$profileConnection->update_profile($email,$contact_number,$location,$district);
-
-
-require_once('api/query/profile.php');
-$profileConnection = new profile();
-require_once('include.php');
-require_once('api/query/district.php');
-$districtConnection = new district();
+     $id=$_SESSION["id"];
+ //    $update_profile=$profileConnection->update_profile($email,$contact_number,$location,$district,$id);
  }
 ?>
 <!DOCTYPE html>
@@ -26,8 +20,12 @@ $districtConnection = new district();
 <?php
 ini_set('display_errors', 1);
 error_reporting(~0);
-
-
+require_once __DIR__.('api/query/profile.php');
+$profileConnection = new profile();
+require_once __DIR__.('include.php');
+require_once __DIR__.('api/query/district.php');
+$districtConnection = new district();
+$_SESSION["id"] = $store->id;
 
  ?>
 <ul>
@@ -40,7 +38,7 @@ error_reporting(~0);
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul>
- <form action="api/requests/example.php" method="POST">
+ <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?> method="POST" >
        
        
        
@@ -60,7 +58,7 @@ error_reporting(~0);
                ?>           
            </option>
        </select>
-       <button onclick="sendData(update_profile)" value="register" name="submit"
+       <button onclick="sendData(update_profile)" value="guardar cambios" name="submit"
         <?php         
         
    //         if(isset($store)){
