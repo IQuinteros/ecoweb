@@ -75,7 +75,7 @@ $idStore = $_SESSION["id"];
        // }
         ?>
        >nuevo producto</button>
-       <button onclick="sendData(insert_article_form)" value="nuevo producto" name="submit"
+       <button onclick="sendData(insert_article,insert_article_form)" value="nuevo producto" name="submit"
         <?php         
         
    //         if(isset($store)){
