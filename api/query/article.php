@@ -79,37 +79,37 @@ class Article extends Connection{
         }
         // Check for id_article_form
         if(!is_null($object) && isset($object->id_form)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_form_id=:article_form_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.article_form_id=:article_form_id";
           $haveWHERE = true;
         }
         // Check for id_category
         if(!is_null($object) && isset($object->id_category)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_id=:category_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.category_id=:category_id";
           $haveWHERE = true;
         }
         // Check for id_store
         if(!is_null($object) && isset($object->id_store)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store_id=:store_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.store_id=:store_id";
           $haveWHERE = true;
         }
         // Check for article_name
         if(!is_null($object) && isset($object->title)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title LIKE :title";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.title LIKE :title";
           $haveWHERE = true;
         }
         // Check for category
         if(!is_null($object) && isset($object->category)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_name=:category";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_title=:category";
           $haveWHERE = true;
         }
         // Check for store_name
         if(!is_null($object) && isset($object->store_name)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."public_name LIKE :store_name";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.public_name LIKE :store_name";
           $haveWHERE = true;
         }
         // Check for store_location
         if(!is_null($object) && isset($object->store_location)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."location=:store_location";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.location=:store_location";
           $haveWHERE = true;
         }
         // Check for district_id
@@ -124,12 +124,12 @@ class Article extends Connection{
         }
         // Check for store_enabled
         if(!is_null($object) && isset($object->store_enabled)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."enabled=:store_enabled";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.enabled=:store_enabled";
           $haveWHERE = true;
         }
         // Check for price
         if(!is_null($object) && isset($object->min_price) && isset($object->max_price)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."price<:max_price AND price>:min_price";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price<:max_price AND article.price>:min_price";
           $haveWHERE = true;
         }
 
