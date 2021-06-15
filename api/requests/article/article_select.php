@@ -7,7 +7,7 @@ echo json_encode($data);
 $result=$article->select_article($data);
 
 if(is_null($result)){
-    send_response(false, null, "District no encontrado"); 
+    send_response(false, null, "Articulo no encontrado"); 
 }
 else{
     // Return result

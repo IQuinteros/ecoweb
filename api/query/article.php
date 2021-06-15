@@ -235,8 +235,8 @@ class Article extends Connection{
           }
     }
     public function update_article($object){
-        $this->connection_hosting();
-        $sql="UPDATE `article` 
+       $this->connection_hosting();
+       $sql="UPDATE `article` 
         SET `title`=:title,`description`=:description,`price`=:price,`stock`=:stock,`last_update_date`=CURRENT_TIME,
         `enabled`=:enabled,`category_id`=:category_id,`past_price`=:past_price WHERE `id`=:id";
         try{
@@ -257,6 +257,6 @@ class Article extends Connection{
             echo $e->getMessage();
             return $e;
             die();
-          }
+        }
     }
 }
