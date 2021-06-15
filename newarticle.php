@@ -48,14 +48,32 @@
 ini_set('display_errors', 1);
 error_reporting(~0);
 require_once('include.php');
-require_once __DIR__.('api/query/article.php');
+require_once __DIR__.('/api/query/article.php');
 $articleConnection = new article();
-require_once __DIR__.('api/query/article_form.php');
+//require_once __DIR__.('/api/query/article_form.php');
 //$article_formConnection = new article_form();
-require_once __DIR__.('api/query/category.php');
+require_once __DIR__.('/api/query/category.php');
 $categoryConnection = new category();
 $idStore = $_SESSION["id"]; 
  ?>
+
+ <script>
+    function validar(form){
+        let elements = form.elements;
+        let value;
+        for(let i = 0; i < elements.length; i++){
+            if(elements[i].name == "recycled_mats"){
+                if(elements[i].checked) value = elements[i].value;
+            }
+        }
+
+        if(value == "NINGUNO"){
+            prompt("Info ecoamigable general");
+        }
+        return false;
+    }
+
+ </script>
 <ul>
 <li><a href="home.php">home</a></li>
 <li><a href="pedidos.php">pedidos</a><li>
@@ -66,7 +84,7 @@ $idStore = $_SESSION["id"];
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
-<form action="api/requests/example.php" method="POST">
+<form action="api/requests/example.php" method="POST" onsubmit="return validar(this)">
         <label for="title"> nombre del producto:</label>
         <input type="text" id="title" name="title"><br><br>
         <label for="description">description:</label>
@@ -85,11 +103,12 @@ $idStore = $_SESSION["id"];
                ?>           
            </option>
        </select>
-       <form action="#" method="post" onsubmit="validar()">
-<input type="checkbox" name="recycled_mats" value="TOTAL">TOTAL</input>
-<input type="checkbox" name="recycled_mats" value="PARCIAL">PARCIAL</input>
-<input type="checkbox" name="recycled_mats" value="NINGUNO">NINGUNO</input>
-</form>
+       
+<input type="radio" name="recycled_mats" value="TOTAL">TOTAL</input>
+<input type="radio" name="recycled_mats" value="PARCIAL">PARCIAL</input>
+<input type="radio" name="recycled_mats" value="NINGUNO">NINGUNO</input>
+
+
 <label for="recycled_mats_detail">da detalles al cliente:</label>
         <input type="text" id="recycled_mats_detail" name="recycled_mats_detail"><br><br>
         <label for="reuse_tips">¿en que se puede reutilizar el producto?:</label>
@@ -97,6 +116,7 @@ $idStore = $_SESSION["id"];
         <input type="checkbox" name="recycled_prod" value="TOTAL">TOTAL</input>
 <input type="checkbox" name="recycled_prod" value="PARCIAL">PARCIAL</input>
 <input type="checkbox" name="recycled_prod" value="NINGUNO">NINGUNO</input><br><br>
+<input type="submit" value="TEST"/>
 </form><br><br>
 <label for="recycled_prod_detail">¿puede dar mas detalle?:</label>
         <input type="text" id="recycled_prod_detail" name="recycled_prod_detail"><br><br>
