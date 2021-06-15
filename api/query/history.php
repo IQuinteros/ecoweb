@@ -54,4 +54,26 @@ class History extends Connection{
               die();
             }
     }
+    public function history_delete($id){
+      $this->connection_hosting();
+
+      $sql = "DELETE FROM `history` WHERE `id`=:id";
+
+      if($this->pdo == null)
+      {
+        echo 'PDO NULL';
+        return;
+      }
+
+      $resultado=$this->pdo->prepare($sql);
+       $resultado->bindParam(':id', $id, PDO::PARAM_INT);
+       $re=$resultado->execute();
+       if (!$re) {
+        //die(mysql_error());
+      } else{
+        $this->pdo = null;
+        return $re;
+
+    }
+    }
 }
