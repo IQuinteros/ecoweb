@@ -139,7 +139,23 @@ class Article extends Connection{
           $haveWHERE = true;
         }  
 
+        // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+        if(!is_null($object) && isset($object->id_list)){
+          if(gettype($object->id_list) == "array"){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+            for($i = 0; $i < count($object->id_list); $i++){
+              $sql = $sql."article.id=:each_id".$i;
+              if($i < (count($object->id_list) - 1)){
+                $sql = $sql." OR ";
+              }
+            }
+            $haveWHERE = true;
+          }
+        }
+
         $sql = $sql.";";
+
+        //echo $sql;
 
         try{
           $resultado=$this->pdo->prepare($sql);
@@ -186,6 +202,14 @@ class Article extends Connection{
             $resultado->bindParam(':title_s', $object->search, PDO::PARAM_STR);
             $resultado->bindParam(':store_name_s', $object->search, PDO::PARAM_STR);
             $resultado->bindParam(':category_s', $object->search, PDO::PARAM_STR);
+          }
+
+          if(isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+              for($i = 0; $i < count($object->id_list); $i++){
+                $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+              }
+            }
           }
 
           $resultado->execute();
