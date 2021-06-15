@@ -6,14 +6,15 @@ require_once __DIR__.('/../models/history_model.php');
 class History extends Connection{
     public function insert_history($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `history` (`id`, `creation_date`, `article_id`, `user_id`) 
-        VALUES (NULL, CURRENT_TIME(), :article_id, :user_id);";
+        $sql="INSERT INTO `history` (`id`, `creation_date`, `deleted`, `article_id`, `user_id`) 
+        VALUES (NULL, CURRENT_TIME(), :deleted, :article_id, :user_id);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
           return;
         }
         $resultado=$this->pdo->prepare($sql);
+        $resultado->bindParam(':deleted', $object->deleted, PDO::PARAM_INT);
         $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
         $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_INT);
         $re=$resultado->execute();
@@ -39,6 +40,7 @@ class History extends Connection{
               $history =new History_model();
               $history->id=$data[$i]["id"];
               $history->creation_date=$data[$i]["creation_date"];
+              $history->deleted=$data[$i]["deleted"];
               $history->article_id=$data[$i]["article_id"];
               $history->user_id=$data[$i]["user_id"];
               array_push($lista_history, $history);
@@ -73,7 +75,10 @@ class History extends Connection{
       } else{
         $this->pdo = null;
         return $re;
-
-    }
-    }
+     }
+   }
+   public function history_update_deleted(){
+     $this->connection_hosting();
+     $sql="";
+   }
 }

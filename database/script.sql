@@ -37,6 +37,7 @@ CREATE TABLE `profile` (
 CREATE TABLE history(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
+    deleted bit not null,
     article_id int not null,
     user_id int not null,
     PRIMARY KEY (id)
@@ -45,7 +46,6 @@ CREATE TABLE history(
 CREATE TABLE history_detail(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    deleted bit not null,
     history_id int not null,
     PRIMARY KEY (id),
     UNIQUE KEY(history_id)
