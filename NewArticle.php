@@ -65,8 +65,7 @@ $idStore = $_SESSION["id"];
                 }
                ?>           
            </option>
-       </select>
-        
+       </select>    
         <button onclick="sendData(insert_article,insert_article_form)" value="nuevo producto" name="submit"
         <?php         
         
