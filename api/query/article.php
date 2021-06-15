@@ -54,6 +54,7 @@ class Article extends Connection{
             }
     }
     public function select_article($object){
+      // TODO: Cuando hay más de un store, esto no devuelve nada. (SEGURAMENTE POR EL INNER JOIN)
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
         article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
@@ -62,13 +63,12 @@ class Article extends Connection{
         article_form.`last_update_date` AS form_last_update_date, article_form.`recycled_mats`, 
         article_form.`recycled_mats_detail`, article_form.`general_detail`, article_form.`reuse_tips`, 
         article_form.`recycled_prod`, article_form.`recycled_prod_detail`, store.`public_name`, store.`location`, 
-        store.`enabled`, store.`photo_url`,
-        (SELECT district.`id` FROM store INNER JOIN district ON district_id  = district.`id`) AS district_id,
-        (SELECT district.`name` FROM store INNER JOIN district ON district_id = district.`id`) AS district_name 
+        store.`enabled`, store.`photo_url`, store.`district_id`, district.`name` AS district_name
         FROM `article` 
-        INNER JOIN category ON category_id= category.`id` 
-        INNER JOIN article_form ON article_form_id = article_form.`id` 
-        INNER JOIN store ON store_id = store.`id`";
+        INNER JOIN category ON article.`category_id` = category.`id` 
+        INNER JOIN article_form ON article.`article_form_id` = article_form.`id` 
+        INNER JOIN store ON article.`store_id` = store.`id`
+        INNER JOIN district ON store.`district_id` = district.`id`";
 
         $haveWHERE = false;
 
@@ -134,13 +134,12 @@ class Article extends Connection{
         }
 
         // Check for search
-        /* if(!is_null($object) && isset($object->search)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title = :title_s OR public_name LIKE CONCAT('%',:store_name_s,'%') OR category_name LIKE CONCAT('%',:category_s,'%')";
+         if(!is_null($object) && isset($object->search)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.title LIKE CONCAT('%',:title_s,'%') OR store.public_name LIKE CONCAT('%',:store_name_s,'%') OR category.title LIKE CONCAT('%',:category_s,'%')";
           $haveWHERE = true;
-        }  */
+        }  
 
         $sql = $sql.";";
-
 
         try{
           $resultado=$this->pdo->prepare($sql);

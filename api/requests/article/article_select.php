@@ -3,7 +3,7 @@ require_once('../base_request.php');
 require_once('../../query/article.php');
 
 $article = new Article();
-echo json_encode($data);
+
 $result=$article->select_article($data);
 
 if(is_null($result)){
