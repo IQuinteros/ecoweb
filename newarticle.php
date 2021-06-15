@@ -85,7 +85,7 @@ $idStore = $_SESSION["id"];
                ?>           
            </option>
        </select>
-       <form action="#" method="post">
+       <form action="#" method="post" onsubmit="validar()">
 <input type="checkbox" name="recycled_mats" value="TOTAL">TOTAL</input>
 <input type="checkbox" name="recycled_mats" value="PARCIAL">PARCIAL</input>
 <input type="checkbox" name="recycled_mats" value="NINGUNO">NINGUNO</input>
