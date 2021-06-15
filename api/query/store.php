@@ -130,18 +130,40 @@ class Store extends Connection{
           die();
         }
     }
-    public function select_store($id, $public_name, $email){
+    public function select_store($object){
       $this->connection_hosting();
       $sql="SELECT `id`, `public_name`, `description`, `email`, `contact_number`, `location`, `rut`, `rut_cd`, 
       `enabled`, `creation_date`, `last_update_date`, `district_id`, `photo_url` 
-      FROM `store` WHERE `id`=:id OR `public_name` LIKE :public_name OR `email` LIKE :email";
+      FROM `store`";
+
+      $haveWHERE = false;
+
+      // Check for id
+      if(!is_null($object) && isset($object->id)){
+        $sql = $sql." WHERE id=:id";
+        $haveWHERE = true;
+      }
+      // Check for name
+      if(!is_null($object) && isset($object->public_name)){
+      $sql = $sql.($haveWHERE? " OR " : " WHERE ")."`public_name` LIKE :public_name";
+      }
+      if(!is_null($object) && isset($object->email)){
+        $sql = $sql.($haveWHERE? " OR " : " WHERE ")."`email` LIKE :email";
+      }
+      $sql = $sql.";";
 
       try{
         $resultado=$this->pdo->prepare($sql);
         
-        $resultado->bindParam(':id', $id, PDO::PARAM_INT);
+        if(isset($object->id)){
+          $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+        }
+        if(isset($object->public_name)){
         $resultado->bindParam(':public_name', '%'.$public_name.'%', PDO::PARAM_STR);
+        }
+        if(isset($object->email)){
         $resultado->bindParam(':email', '%'.$email.'%', PDO::PARAM_STR);
+        }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_tiendas = array();
