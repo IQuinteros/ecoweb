@@ -37,8 +37,8 @@ CREATE TABLE `profile` (
 CREATE TABLE history(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    article_id int,
-    user_id int,
+    article_id int not null,
+    user_id int not null,
     PRIMARY KEY (id)
 );
 
