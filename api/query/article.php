@@ -114,7 +114,7 @@ class Article extends Connection{
         }
         // Check for district_id
         if(!is_null($object) && isset($object->district_id)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."district_id=:district_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.district_id=:district_id";
           $haveWHERE = true;
         }
         // Check for district_name
@@ -235,8 +235,8 @@ class Article extends Connection{
           }
     }
     public function update_article($object){
-        $this->connection_hosting();
-        $sql="UPDATE `article` 
+       $this->connection_hosting();
+       $sql="UPDATE `article` 
         SET `title`=:title,`description`=:description,`price`=:price,`stock`=:stock,`last_update_date`=CURRENT_TIME,
         `enabled`=:enabled,`category_id`=:category_id,`past_price`=:past_price WHERE `id`=:id";
         try{
@@ -257,6 +257,6 @@ class Article extends Connection{
             echo $e->getMessage();
             return $e;
             die();
-          }
+        }
     }
 }
