@@ -74,7 +74,7 @@ class Article extends Connection{
 
         // Check for id
         if(!is_null($object) && isset($object->id)){
-          $sql = $sql." WHERE id=:id";
+          $sql = $sql." WHERE article.id=:id";
           $haveWHERE = true;
         }
         // Check for id_article_form
@@ -132,13 +132,15 @@ class Article extends Connection{
           $sql = $sql.($haveWHERE? " AND " : " WHERE ")."price<:max_price AND price>:min_price";
           $haveWHERE = true;
         }
+
         // Check for search
-        if(!is_null($object) && isset($object->search)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title LIKE :title_s OR public_name LIKE :store_name_s OR category_name LIKE :category_s";
+        /* if(!is_null($object) && isset($object->search)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title = :title_s OR public_name LIKE CONCAT('%',:store_name_s,'%') OR category_name LIKE CONCAT('%',:category_s,'%')";
           $haveWHERE = true;
-        } 
+        }  */
 
         $sql = $sql.";";
+
 
         try{
           $resultado=$this->pdo->prepare($sql);
@@ -182,14 +184,11 @@ class Article extends Connection{
             $resultado->bindParam(':max_price', $object->max_price, PDO::PARAM_INT);
           }
           if(isset($object->search)){
-            $resultado->bindParam(':title_s', '%'.$object->search.'%', PDO::PARAM_STR);
+            $resultado->bindParam(':title_s', $object->search, PDO::PARAM_STR);
+            $resultado->bindParam(':store_name_s', $object->search, PDO::PARAM_STR);
+            $resultado->bindParam(':category_s', $object->search, PDO::PARAM_STR);
           }
-          if(isset($object->search)){
-            $resultado->bindParam(':store_name_s', '%'.$object->search.'%', PDO::PARAM_STR);
-          }
-          if(isset($object->search)){
-            $resultado->bindParam(':category_s', '%'.$object->search.'%', PDO::PARAM_STR);
-          }
+
           $resultado->execute();
           $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
           $lista_articles = array();
