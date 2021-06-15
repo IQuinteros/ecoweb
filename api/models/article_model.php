@@ -7,11 +7,11 @@ class Article_model{
     public int $stock;
     public string $creation_date;
     public string $last_update_date;
-    public int $enabled;
+    public bool $enabled;
     public int $article_form_id;
     public int $category_id;
     public int $store_id;
-    public int $past_price;
+    public ?int $past_price;
 
     public ?string $category_title;
     public ?string $from_creation_date;
@@ -25,7 +25,6 @@ class Article_model{
 
     public ?string $public_name;
     public ?string $location;
-    public ?int $enabled;
     public ?string $photo_url;
 
     public ?int $district_id;
