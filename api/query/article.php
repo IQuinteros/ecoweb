@@ -62,13 +62,12 @@ class Article extends Connection{
         article_form.`last_update_date` AS form_last_update_date, article_form.`recycled_mats`, 
         article_form.`recycled_mats_detail`, article_form.`general_detail`, article_form.`reuse_tips`, 
         article_form.`recycled_prod`, article_form.`recycled_prod_detail`, store.`public_name`, store.`location`, 
-        store.`enabled`, store.`photo_url`,
-        (SELECT district.`id` FROM store INNER JOIN district ON district_id  = district.`id`) AS district_id,
-        (SELECT district.`name` FROM store INNER JOIN district ON district_id = district.`id`) AS district_name 
+        store.`enabled`, store.`photo_url`, store.`district_id`, district.`name` AS district_name
         FROM `article` 
-        INNER JOIN category ON category_id= category.`id` 
-        INNER JOIN article_form ON article_form_id = article_form.`id` 
-        INNER JOIN store ON store_id = store.`id`";
+        INNER JOIN category ON article.`category_id` = category.`id` 
+        INNER JOIN article_form ON article.`article_form_id` = article_form.`id` 
+        INNER JOIN store ON article.`store_id` = store.`id`
+        INNER JOIN district ON store.`district_id` = district.`id`";
 
         $haveWHERE = false;
 
@@ -114,7 +113,7 @@ class Article extends Connection{
         }
         // Check for district_id
         if(!is_null($object) && isset($object->district_id)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."district_id=:district_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.district_id=:district_id";
           $haveWHERE = true;
         }
         // Check for district_name
