@@ -133,11 +133,11 @@ class Article extends Connection{
           $haveWHERE = true;
         }
         // Check for search
-        if(!is_null($object) && isset($object->search)){
-          // TODO: Compare with name, district name, store name, category name (With OR's) and only if contains... Eg: district_name LIKE %'...'% OR store_name LIKE
+        /* if(!is_null($object) && isset($object->search)){
+          // TODO: Compare with name, store name, category name (With OR's) and only if contains... Eg: district_name LIKE %'...'% OR store_name LIKE
           $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_form_id=:article_form_id";
           $haveWHERE = true;
-        }
+        }  */
 
         $sql = $sql.";";
 
