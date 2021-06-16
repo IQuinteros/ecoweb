@@ -54,6 +54,7 @@ class Article extends Connection{
             }
     }
     public function select_article($object){
+      // TODO: Cuando hay más de un store, esto no devuelve nada. (SEGURAMENTE POR EL INNER JOIN)
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
         article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
@@ -133,13 +134,28 @@ class Article extends Connection{
         }
 
         // Check for search
-        /* if(!is_null($object) && isset($object->search)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title = :title_s OR public_name LIKE CONCAT('%',:store_name_s,'%') OR category_name LIKE CONCAT('%',:category_s,'%')";
+         if(!is_null($object) && isset($object->search)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.title LIKE CONCAT('%',:title_s,'%') OR store.public_name LIKE CONCAT('%',:store_name_s,'%') OR category.title LIKE CONCAT('%',:category_s,'%')";
           $haveWHERE = true;
-        }  */
+        }  
+
+        // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+        if(!is_null($object) && isset($object->id_list)){
+          if(gettype($object->id_list) == "array"){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+            for($i = 0; $i < count($object->id_list); $i++){
+              $sql = $sql."article.id=:each_id".$i;
+              if($i < (count($object->id_list) - 1)){
+                $sql = $sql." OR ";
+              }
+            }
+            $haveWHERE = true;
+          }
+        }
 
         $sql = $sql.";";
 
+        //echo $sql;
 
         try{
           $resultado=$this->pdo->prepare($sql);
@@ -186,6 +202,14 @@ class Article extends Connection{
             $resultado->bindParam(':title_s', $object->search, PDO::PARAM_STR);
             $resultado->bindParam(':store_name_s', $object->search, PDO::PARAM_STR);
             $resultado->bindParam(':category_s', $object->search, PDO::PARAM_STR);
+          }
+
+          if(isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+              for($i = 0; $i < count($object->id_list); $i++){
+                $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+              }
+            }
           }
 
           $resultado->execute();

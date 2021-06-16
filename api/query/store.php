@@ -132,23 +132,23 @@ class Store extends Connection{
     }
     public function select_store($object){
       $this->connection_hosting();
-      $sql="SELECT `id`, `public_name`, `description`, `email`, `contact_number`, `location`, `rut`, `rut_cd`, 
-      `enabled`, `creation_date`, `last_update_date`, `district_id`, `photo_url` 
-      FROM `store`";
+      $sql="SELECT store.`id`, `public_name`, `description`, `email`, `contact_number`, `location`, `rut`, `rut_cd`, 
+      `enabled`, `creation_date`, `last_update_date`, `district_id`, `photo_url`, district.`name` AS district_name 
+      FROM `store` JOIN district ON store.`district_id` = district.`id`";
 
       $haveWHERE = false;
 
       // Check for id
       if(!is_null($object) && isset($object->id)){
-        $sql = $sql." WHERE id=:id";
+        $sql = $sql." WHERE store.id=:id";
         $haveWHERE = true;
       }
       // Check for name
       if(!is_null($object) && isset($object->public_name)){
-      $sql = $sql.($haveWHERE? " OR " : " WHERE ")."`public_name` LIKE :public_name";
+      $sql = $sql.($haveWHERE? " AND " : " WHERE ")."`public_name` LIKE :public_name";
       }
       if(!is_null($object) && isset($object->email)){
-        $sql = $sql.($haveWHERE? " OR " : " WHERE ")."`email` LIKE :email";
+        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."`email` LIKE :email";
       }
       $sql = $sql.";";
 
@@ -159,10 +159,10 @@ class Store extends Connection{
           $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
         }
         if(isset($object->public_name)){
-        $resultado->bindParam(':public_name', '%'.$public_name.'%', PDO::PARAM_STR);
+        $resultado->bindParam(':public_name', '%'.$object->public_name.'%', PDO::PARAM_STR);
         }
         if(isset($object->email)){
-        $resultado->bindParam(':email', '%'.$email.'%', PDO::PARAM_STR);
+        $resultado->bindParam(':email', '%'.$object->email.'%', PDO::PARAM_STR);
         }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -182,10 +182,10 @@ class Store extends Connection{
           $tiendas->creation_date=$data[$i]["creation_date"];
           $tiendas->last_update_date=$data[$i]["last_update_date"];
           $tiendas->district_id=$data[$i]["district_id"];
+          $tiendas->district_name=$data[$i]["district_name"];
           $tiendas->photo_url=$data[$i]["photo_url"];
           array_push($lista_tiendas, $tiendas);
         }
-
         $this->pdo = null;
         
         return $lista_tiendas;

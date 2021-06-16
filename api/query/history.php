@@ -27,11 +27,32 @@ class History extends Connection{
          return array($re);
      }
     }
-    public function select_history(){
+    public function select_history($object){
         $this->connection_hosting();
-        $sql="SELECT * FROM `history`;";
+        $sql="SELECT * FROM `history`";
+        $haveWHERE = false;
+
+         // Check for id
+        if(!is_null($object) && isset($object->article_id)){
+          $sql = $sql." WHERE article_id=:article_id";
+          $haveWHERE = true;
+        }
+         // Check for id
+        if(!is_null($object) && isset($object->user_id)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."user_id=:user_id";
+          $haveWHERE = true;
+        }
+
+        // TODO: return articles by id
+
         try{
             $resultado=$this->pdo->prepare($sql);
+            if(isset($object->article_id)){
+              $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
+            }
+            if(isset($object->user_id)){
+              $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_INT);
+            }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_history = array();

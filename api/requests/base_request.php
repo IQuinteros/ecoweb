@@ -29,7 +29,7 @@ $json = file_get_contents('php://input');
 // Converts it into a PHP object
 $data = json_decode($json);
 
-if(count($_POST) > 0){
-    $data = json_decode(json_encode($_POST), FALSE);
+if(count($_REQUEST) > 0){
+    $data = json_decode(json_encode($_REQUEST), FALSE);
 }
 
