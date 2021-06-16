@@ -1,4 +1,8 @@
 <?php
+
+require_once __DIR__.('/store_model.php');
+require_once __DIR__.('/article_form_model.php');
+
 class Article_model{
     public int $id;
     public string $title;
@@ -27,6 +31,11 @@ class Article_model{
     public ?string $location;
     public ?string $photo_url;
 
+    public ?Store_model $store;
+    public ?Article_form_model $form;
+    public ?Category_model $category;
+
     public ?int $district_id;
     public ?string $district_name;
+    public ?array $opinions;
 }

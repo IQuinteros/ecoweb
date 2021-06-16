@@ -1,5 +1,10 @@
 <?php
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/opinion.php');
+require_once __DIR__.('/question.php');
+require_once __DIR__.('/store.php');
+require_once __DIR__.('/category.php');
+require_once __DIR__.('/article_form.php');
 require_once __DIR__.('/../models/article_model.php');
 class Article extends Connection{
     public function insert_article($object){
@@ -245,6 +250,30 @@ class Article extends Connection{
             $articles->photo_url=$data[$i]["photo_url"];
             $articles->district_id=$data[$i]["district_id"];
             $articles->district_name=$data[$i]["district_name"];
+
+            $articleIdObject = json_decode(json_encode(array("article_id" => $articles->id)));
+            $opinionConnection = new Opinion();
+            $opinions = $opinionConnection->select_opinion($articleIdObject);
+            $articles->opinions = $opinions;
+
+            $storeIdObject = json_decode(json_encode(array("id" => $articles->store_id)));
+            $storeConnection = new Store();
+            $stores = $storeConnection->select_store($storeIdObject);
+            $articles->store = count($stores) > 0? $stores[0] : null;
+
+            $formIdObject = json_decode(json_encode(array("id" => $articles->article_form_id)));
+            $formConnection = new Article_form();
+            $forms = $formConnection->select_article_form($formIdObject);
+            $articles->form = count($forms) > 0? $forms[0] : null;;
+
+            $categoryConnection = new Category();
+            $categories = $categoryConnection->select_category($articles->category_id, null, null);
+            $articles->category = count($categories) > 0? $categories[0] : null;;
+
+            $questionConnection = new Question();
+            $questions = $questionConnection->select_question($articleIdObject);
+            $articles->questions = $questions;
+
             array_push($lista_articles, $articles);
           }
   
