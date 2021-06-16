@@ -57,8 +57,8 @@ CREATE TABLE opinion (
     title varchar(50) not null,
     content varchar(250) not null,
     creation_date timestamp not null,
-    article_id int,
-    profile_id int,
+    article_id int not null,
+    profile_id int not null,
     PRIMARY KEY (id)
 );
 

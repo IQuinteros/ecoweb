@@ -98,8 +98,19 @@ class History extends Connection{
         return $re;
      }
    }
-   public function history_update_deleted(){
+   public function history_update_deleted($id){
      $this->connection_hosting();
-     $sql="";
+     $sql="UPDATE `history` SET `deleted`= true WHERE `id`=:id";
+     try{
+       $resultado->bindParam(':id', $id, PDO::PARAM_INT);
+       $re=$resultado->execute();
+        $this->pdo = null;
+        return $re;
+    
+      }catch(PDOException $e){
+        echo $e->getMessage();
+        return $e;
+        die();
+      }
    }
 }
