@@ -50,7 +50,7 @@ class Opinion extends Connection{
     }
     public function select_opinion($object){
         $this->connection_hosting();
-        $sql="SELECT * FROM `opinion`";
+        $sql="SELECT opinion.*, store.public_name FROM `opinion` INNER JOIN article ON opinion.article_id = article.id INNER JOIN store ON article.store_id = store.id";
         $haveWHERE = false;
 
         // Check for id
@@ -63,6 +63,13 @@ class Opinion extends Connection{
          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_id=:article_id";
          $haveWHERE = true;
        }
+
+       // Check for store_id
+       if(!is_null($object) && isset($object->store_id)){
+        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.id=:store_id";
+        $haveWHERE = true;
+      }
+
        try{
         $resultado=$this->pdo->prepare($sql);
         if(isset($object->id)){
@@ -70,6 +77,9 @@ class Opinion extends Connection{
           }
         if(isset($object->article_id)){
           $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
+        }
+        if(isset($object->store_id)){
+          $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
         }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
