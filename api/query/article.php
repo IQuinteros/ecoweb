@@ -63,12 +63,7 @@ class Article extends Connection{
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
         article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
-        article.`category_id`, article.`store_id`, article.`past_price`, category.`title` AS category_title, 
-        article_form.`creation_date` AS from_creation_date, 
-        article_form.`last_update_date` AS form_last_update_date, article_form.`recycled_mats`, 
-        article_form.`recycled_mats_detail`, article_form.`general_detail`, article_form.`reuse_tips`, 
-        article_form.`recycled_prod`, article_form.`recycled_prod_detail`, store.`public_name`, store.`location`, 
-        store.`enabled`, store.`photo_url`, store.`district_id`, district.`name` AS district_name
+        article.`category_id`, article.`store_id`, article.`past_price`
         FROM `article` 
         INNER JOIN category ON article.`category_id` = category.`id` 
         INNER JOIN article_form ON article.`article_form_id` = article_form.`id` 
@@ -104,7 +99,7 @@ class Article extends Connection{
         }
         // Check for category
         if(!is_null($object) && isset($object->category)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_title=:category";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category.title=:category";
           $haveWHERE = true;
         }
         // Check for store_name
@@ -124,7 +119,7 @@ class Article extends Connection{
         }
         // Check for district_name
         if(!is_null($object) && isset($object->district_name)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."district_name LIKE :district_name";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."district.name LIKE :district_name";
           $haveWHERE = true;
         }
         // Check for store_enabled
@@ -235,21 +230,6 @@ class Article extends Connection{
             $articles->category_id=$data[$i]["category_id"];
             $articles->store_id=$data[$i]["store_id"];
             $articles->past_price=$data[$i]["past_price"];
-            $articles->category_title=$data[$i]["category_title"];
-            $articles->from_creation_date=$data[$i]["from_creation_date"];
-            $articles->form_last_update_date=$data[$i]["form_last_update_date"];
-            $articles->recycled_mats=$data[$i]["recycled_mats"];
-            $articles->recycled_mats_detail=$data[$i]["recycled_mats_detail"];
-            $articles->general_detail=$data[$i]["general_detail"];
-            $articles->reuse_tips=$data[$i]["reuse_tips"];
-            $articles->recycled_prod=$data[$i]["recycled_prod"];
-            $articles->recycled_prod_detail=$data[$i]["recycled_prod_detail"];
-            $articles->public_name=$data[$i]["public_name"];
-            $articles->location=$data[$i]["location"];
-            $articles->enabled=$data[$i]["enabled"];
-            $articles->photo_url=$data[$i]["photo_url"];
-            $articles->district_id=$data[$i]["district_id"];
-            $articles->district_name=$data[$i]["district_name"];
 
             $articleIdObject = json_decode(json_encode(array("article_id" => $articles->id)));
             $opinionConnection = new Opinion();
