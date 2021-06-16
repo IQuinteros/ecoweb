@@ -105,14 +105,11 @@ class History extends Connection{
         return $re;
      }
    }
-   public function history_update_deleted($object){
+   public function history_update_deleted($id){
      $this->connection_hosting();
-     $sql="UPDATE `history` SET `deleted`= :deleted WHERE `article_id`=:article_id AND `user_id`=:user_id";
+     $sql="UPDATE `history` SET `deleted`= true WHERE `id`=:id";
      try{
-        $resultado=$this->pdo->prepare($sql);
-        $resultado->bindParam(':deleted', $object->deleted, PDO::PARAM_BOOL);
-       $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
-       $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_INT);
+       $resultado->bindParam(':id', $id, PDO::PARAM_INT);
        $re=$resultado->execute();
         $this->pdo = null;
         return $re;
