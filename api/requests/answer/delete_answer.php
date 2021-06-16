@@ -4,7 +4,7 @@ require_once('../../query/answer.php');
 
 $answer = new Answer();
 
-$result=$answer->insert_answer($data);
+$result=$answer->delete_answer($data->id);
 
 
 send_response(isset($result), $result); 
