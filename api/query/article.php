@@ -59,7 +59,7 @@ class Article extends Connection{
             }
     }
     public function select_article($object){
-      // TODO: Cuando hay más de un store, esto no devuelve nada. (SEGURAMENTE POR EL INNER JOIN)
+      // TODO: Colocar LIMIT
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
         article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
