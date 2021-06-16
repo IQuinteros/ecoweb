@@ -5,30 +5,34 @@
     $recycled_mats_detail=$_POST['recycled_mats_detail'];
     $reuse_tips=$_POST['reuse_tips'];
     $recycled_prod=$_POST['recycled_prod'];
-    $recycled_prod_detail=$_POST['recycled_prod_detail'];
+    $recycled_prod_detail=$_POST['recycled_prod_detail'];    
     $article_form->recycled_mats=$recycled_mats;
     $article_form->recycled_mats_detail=$recycled_mats_detail;
     $article_form->reuse_tips=$reuse_tips;
     $article_form->recycled_prod=$recycled_prod;
     $article_form->recycled_prod_detail=$recycled_prod_detail;
+    $article_form->general_detail=$general_detail;
+
     
-    //$insert_article_form=$article_formConnection->insert_article_form($article_form);
-    //return array($re, $user_id);
-    //$insert_article[1]
+    
+    $insert_article_form=$article_formConnection->insert_article_form($article_form);
+    return array($re, $user_id);
+    $insert_article[1];
 
+    $title =$_POST['title'];
+    $description=$_POST['description'];
+    $price=$_POST['price'];
+    $stock=$_POST['stock'];
+    $category_id=$_POST['category_id'];
+    $article->title=$title;
+    $article->description=$description;
+    $article->price=$price;
+    $article->stock=$stock;
+    $article->category_id=$category_id;
+    $article->store_id=$idStore;
 
-     $title =$_POST['title'];
-     $description=$_POST['description'];
-      $price=$_POST['price'];
-     $stock=$_POST['stock'];
-     $category_id=$_POST['category_id'];
-     $article->title=$title;
-     $article->description=$description;
-     $article->price=$price;
-     $article->stock=$stock;
-     $article->category_id=$category_id;
-     $article->store_id=$idStore;
-     $article->article_form_id=$insert_article[1];    
+     
+     $article->article_form_id=$insert_article[1];
      $insert_article=$articleConnection->insert_article($article);
 
      
@@ -50,13 +54,13 @@ error_reporting(~0);
 require_once('include.php');
 require_once __DIR__.('/api/query/article.php');
 $articleConnection = new article();
-//require_once __DIR__.('/api/query/article_form.php');
-//$article_formConnection = new article_form();
+require_once __DIR__.('/api/query/article_form.php');
+$article_formConnection = new article_form();
 require_once __DIR__.('/api/query/category.php');
 $categoryConnection = new category();
 $idStore = $_SESSION["id"]; 
+$general_detail="";
  ?>
-
  <script>
     function validar(form){
         let elements = form.elements;
@@ -67,13 +71,25 @@ $idStore = $_SESSION["id"];
             }
         }
 
-        if(value == "NINGUNO"){
-            prompt("Info ecoamigable general");
+        if(value == "NINGUNO"){  
+           let elements = form.elements;
+        let value;
+        for(let i = 0; i < elements.length; i++){
+            if(elements[i].name == "recycled_prod"){
+                if(elements[i].checked) value = elements[i].value;
+            }
+        }
+
+        if(value == "NINGUNO"){        
+          var  generaldetail =  prompt("Info ecoamigable general");
+        }
         }
         return false;
     }
-
  </script>
+ <?php 
+ $general_detail="<script type='text/javascript'> document.write(generaldetail); </script>";
+ ?>
 <ul>
 <li><a href="home.php">home</a></li>
 <li><a href="pedidos.php">pedidos</a><li>
@@ -113,19 +129,15 @@ $idStore = $_SESSION["id"];
         <input type="text" id="recycled_mats_detail" name="recycled_mats_detail"><br><br>
         <label for="reuse_tips">¿en que se puede reutilizar el producto?:</label>
         <input type="text" id="reuse_tips" name="reuse_tips"><br><br>
-        <input type="checkbox" name="recycled_prod" value="TOTAL">TOTAL</input>
-<input type="checkbox" name="recycled_prod" value="PARCIAL">PARCIAL</input>
-<input type="checkbox" name="recycled_prod" value="NINGUNO">NINGUNO</input><br><br>
+
+<input type="radio" name="recycled_prod" value="TOTAL">TOTAL</input>
+<input type="radio" name="recycled_prod" value="PARCIAL">PARCIAL</input>
+<input type="radio" name="recycled_prod" value="NINGUNO">NINGUNO</input><br><br>
+
 <input type="submit" value="TEST"/>
 </form><br><br>
 <label for="recycled_prod_detail">¿puede dar mas detalle?:</label>
         <input type="text" id="recycled_prod_detail" name="recycled_prod_detail"><br><br>
-        <button onclick="sendData(insert_article,insert_article_form)" value="nuevo producto" name="submit"
-        <?php                 
-   //         if(isset($store)){
-      //
-       // }
-        ?>
-       >nuevo producto</button>
+        <button onclick="sendData(insert_article,insert_article_form)" value="nuevo producto" name="submit">nuevo producto</button>
 </body>
 </html>
