@@ -3,10 +3,11 @@ require_once('../base_request.php');
 require_once('../../query/article.php');
 
 $article = new Article();
+
 $result=$article->select_article($data);
 
 if(is_null($result)){
-    send_response(false, null, "District no encontrado"); 
+    send_response(false, null, "Articulo no encontrado"); 
 }
 else{
     // Return result

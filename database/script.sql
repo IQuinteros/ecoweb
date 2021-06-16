@@ -37,15 +37,15 @@ CREATE TABLE `profile` (
 CREATE TABLE history(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    article_id int,
-    user_id int,
+    deleted bit not null,
+    article_id int not null,
+    user_id int not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE history_detail(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    deleted bit not null,
     history_id int not null,
     PRIMARY KEY (id),
     UNIQUE KEY(history_id)
@@ -57,8 +57,8 @@ CREATE TABLE opinion (
     title varchar(50) not null,
     content varchar(250) not null,
     creation_date timestamp not null,
-    article_id int,
-    profile_id int,
+    article_id int not null,
+    profile_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -109,7 +109,7 @@ CREATE TABLE chat(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     closed bit not null,
-    last_seen_date datetime not null,
+    last_seen_date timestamp not null,
     profile_id int,
     store_id int,
     PRIMARY KEY (id)
@@ -342,8 +342,8 @@ GRANT USAGE ON *.* TO 'registered'@'localhost';
 GRANT UPDATE, INSERT ON TABLE `user` TO 'users'@'localhost';
 GRANT INSERT ON TABLE `search` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `profile` TO 'users'@'localhost';
-GRANT SELECT, INSERT ON TABLE `history` TO 'users'@'localhost';
-GRANT SELECT, UPDATE, INSERT ON TABLE `history_detail` TO 'users'@'localhost';
+GRANT SELECT, INSERT, DELETE ON TABLE `history` TO 'users'@'localhost';
+GRANT SELECT, INSERT ON TABLE `history_detail` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `opinion` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `question` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `answer` TO 'users'@'localhost';
@@ -379,8 +379,8 @@ GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `store` TO 'shop'@'localhost';
 GRANT SELECT, UPDATE ON TABLE `user` TO 'registered'@'localhost';
 GRANT INSERT ON TABLE `search` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `profile` TO 'registered'@'localhost';
-GRANT SELECT, INSERT ON TABLE `history` TO 'registered'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON TABLE `history_detail` TO 'registered'@'localhost';
+GRANT SELECT, INSERT, DELETE ON TABLE `history` TO 'registered'@'localhost';
+GRANT SELECT, INSERT, ON TABLE `history_detail` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `opinion` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `question` TO 'registered'@'localhost';
 GRANT SELECT ON TABLE `answer` TO 'registered'@'localhost';

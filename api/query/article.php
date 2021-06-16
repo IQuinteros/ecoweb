@@ -54,6 +54,7 @@ class Article extends Connection{
             }
     }
     public function select_article($object){
+      // TODO: Cuando hay más de un store, esto no devuelve nada. (SEGURAMENTE POR EL INNER JOIN)
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
         article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
@@ -62,59 +63,58 @@ class Article extends Connection{
         article_form.`last_update_date` AS form_last_update_date, article_form.`recycled_mats`, 
         article_form.`recycled_mats_detail`, article_form.`general_detail`, article_form.`reuse_tips`, 
         article_form.`recycled_prod`, article_form.`recycled_prod_detail`, store.`public_name`, store.`location`, 
-        store.`enabled`, store.`photo_url`,
-        (SELECT district.`id` FROM store INNER JOIN district ON district_id  = district.`id`) AS district_id,
-        (SELECT district.`name` FROM store INNER JOIN district ON district_id = district.`id`) AS district_name 
+        store.`enabled`, store.`photo_url`, store.`district_id`, district.`name` AS district_name
         FROM `article` 
-        INNER JOIN category ON category_id= category.`id` 
-        INNER JOIN article_form ON article_form_id = article_form.`id` 
-        INNER JOIN store ON store_id = store.`id`";
+        INNER JOIN category ON article.`category_id` = category.`id` 
+        INNER JOIN article_form ON article.`article_form_id` = article_form.`id` 
+        INNER JOIN store ON article.`store_id` = store.`id`
+        INNER JOIN district ON store.`district_id` = district.`id`";
 
         $haveWHERE = false;
 
         // Check for id
         if(!is_null($object) && isset($object->id)){
-          $sql = $sql." WHERE id=:id";
+          $sql = $sql." WHERE article.id=:id";
           $haveWHERE = true;
         }
         // Check for id_article_form
         if(!is_null($object) && isset($object->id_form)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_form_id=:article_form_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.article_form_id=:article_form_id";
           $haveWHERE = true;
         }
         // Check for id_category
         if(!is_null($object) && isset($object->id_category)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_id=:category_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.category_id=:category_id";
           $haveWHERE = true;
         }
         // Check for id_store
         if(!is_null($object) && isset($object->id_store)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store_id=:store_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.store_id=:store_id";
           $haveWHERE = true;
         }
         // Check for article_name
         if(!is_null($object) && isset($object->title)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title LIKE :title";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.title LIKE :title";
           $haveWHERE = true;
         }
         // Check for category
         if(!is_null($object) && isset($object->category)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_name=:category";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."category_title=:category";
           $haveWHERE = true;
         }
         // Check for store_name
         if(!is_null($object) && isset($object->store_name)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."public_name LIKE :store_name";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.public_name LIKE :store_name";
           $haveWHERE = true;
         }
         // Check for store_location
         if(!is_null($object) && isset($object->store_location)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."location=:store_location";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.location=:store_location";
           $haveWHERE = true;
         }
         // Check for district_id
         if(!is_null($object) && isset($object->district_id)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."district_id=:district_id";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.district_id=:district_id";
           $haveWHERE = true;
         }
         // Check for district_name
@@ -124,21 +124,38 @@ class Article extends Connection{
         }
         // Check for store_enabled
         if(!is_null($object) && isset($object->store_enabled)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."enabled=:store_enabled";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.enabled=:store_enabled";
           $haveWHERE = true;
         }
         // Check for price
         if(!is_null($object) && isset($object->min_price) && isset($object->max_price)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."price<:max_price AND price>:min_price";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price<:max_price AND article.price>:min_price";
           $haveWHERE = true;
         }
+
         // Check for search
-        if(!is_null($object) && isset($object->search)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."title LIKE :title_s OR public_name LIKE :store_name_s OR category_name LIKE :category_s";
+         if(!is_null($object) && isset($object->search)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.title LIKE CONCAT('%',:title_s,'%') OR store.public_name LIKE CONCAT('%',:store_name_s,'%') OR category.title LIKE CONCAT('%',:category_s,'%')";
           $haveWHERE = true;
-        } 
+        }  
+
+        // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+        if(!is_null($object) && isset($object->id_list)){
+          if(gettype($object->id_list) == "array"){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+            for($i = 0; $i < count($object->id_list); $i++){
+              $sql = $sql."article.id=:each_id".$i;
+              if($i < (count($object->id_list) - 1)){
+                $sql = $sql." OR ";
+              }
+            }
+            $haveWHERE = true;
+          }
+        }
 
         $sql = $sql.";";
+
+        //echo $sql;
 
         try{
           $resultado=$this->pdo->prepare($sql);
@@ -182,14 +199,19 @@ class Article extends Connection{
             $resultado->bindParam(':max_price', $object->max_price, PDO::PARAM_INT);
           }
           if(isset($object->search)){
-            $resultado->bindParam(':title_s', '%'.$object->search.'%', PDO::PARAM_STR);
+            $resultado->bindParam(':title_s', $object->search, PDO::PARAM_STR);
+            $resultado->bindParam(':store_name_s', $object->search, PDO::PARAM_STR);
+            $resultado->bindParam(':category_s', $object->search, PDO::PARAM_STR);
           }
-          if(isset($object->search)){
-            $resultado->bindParam(':store_name_s', '%'.$object->search.'%', PDO::PARAM_STR);
+
+          if(isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+              for($i = 0; $i < count($object->id_list); $i++){
+                $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+              }
+            }
           }
-          if(isset($object->search)){
-            $resultado->bindParam(':category_s', '%'.$object->search.'%', PDO::PARAM_STR);
-          }
+
           $resultado->execute();
           $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
           $lista_articles = array();
@@ -237,8 +259,8 @@ class Article extends Connection{
           }
     }
     public function update_article($object){
-        $this->connection_hosting();
-        $sql="UPDATE `article` 
+       $this->connection_hosting();
+       $sql="UPDATE `article` 
         SET `title`=:title,`description`=:description,`price`=:price,`stock`=:stock,`last_update_date`=CURRENT_TIME,
         `enabled`=:enabled,`category_id`=:category_id,`past_price`=:past_price WHERE `id`=:id";
         try{
@@ -259,6 +281,6 @@ class Article extends Connection{
             echo $e->getMessage();
             return $e;
             die();
-          }
+        }
     }
 }
