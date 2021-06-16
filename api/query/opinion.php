@@ -83,7 +83,7 @@ class Opinion extends Connection{
           $opinion->content=$data[$i]["content"];
           $opinion->article_id=$data[$i]["article_id"];
           $opinion->profile_id=$data[$i]["profile_id"];
-          array_push($lista_opinion, $history);
+          array_push($lista_opinion, $opinion);
         }
   
         $this->pdo = null;

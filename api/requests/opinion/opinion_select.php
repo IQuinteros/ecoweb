@@ -7,7 +7,7 @@ $opinion = new Opinion();
 $result=$opinion->select_opinion($data);
 
 if(is_null($result)){
-    send_response(false, null, "Historial no encontrado"); 
+    send_response(false, null, "Opiniones no encontradas"); 
 }
 else{
     // Return result
