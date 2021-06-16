@@ -4,8 +4,8 @@ require_once __DIR__.('/../models/history_detail_model.php');
 class History_detail extends Connection{
     public function insert_history_detail($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `history_detail` (`id`, `creation_date`, `deleted`, `history_id`) 
-        VALUES (NULL, CURRENT_TIME(), false, :history_id);";
+        $sql="INSERT INTO `history_detail` (`id`, `creation_date`, `history_id`) 
+        VALUES (NULL, CURRENT_TIME(), :history_id);";
         try{
             $resultado=$this->pdo->prepare($sql);
             $resultado->bindParam(':history_id', $object->history_id, PDO::PARAM_INT);
