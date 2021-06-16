@@ -109,6 +109,7 @@ class History extends Connection{
      $this->connection_hosting();
      $sql="UPDATE `history` SET `deleted`= true WHERE `id`=:id";
      try{
+      $resultado=$this->pdo->prepare($sql);
        $resultado->bindParam(':id', $id, PDO::PARAM_INT);
        $re=$resultado->execute();
         $this->pdo = null;
