@@ -81,6 +81,7 @@ class Opinion extends Connection{
           $opinion->rating=$data[$i]["rating"];
           $opinion->title=$data[$i]["title"];
           $opinion->content=$data[$i]["content"];
+          $opinion->creation_date=$data[$i]["creation_date"];
           $opinion->article_id=$data[$i]["article_id"];
           $opinion->profile_id=$data[$i]["profile_id"];
           array_push($lista_opinion, $opinion);
