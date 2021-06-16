@@ -7,14 +7,13 @@ class History extends Connection{
     public function insert_history($object){
         $this->connection_hosting();
         $sql="INSERT INTO `history` (`id`, `creation_date`, `deleted`, `article_id`, `user_id`) 
-        VALUES (NULL, CURRENT_TIME(), :deleted, :article_id, :user_id);";
+        VALUES (NULL, CURRENT_TIME(), false, :article_id, :user_id);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
           return;
         }
         $resultado=$this->pdo->prepare($sql);
-        $resultado->bindParam(':deleted', $object->deleted, PDO::PARAM_INT);
         $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
         $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_INT);
         $re=$resultado->execute();
@@ -37,10 +36,15 @@ class History extends Connection{
           $sql = $sql." WHERE article_id=:article_id";
           $haveWHERE = true;
         }
-         // Check for id
+         // Check for user id
         if(!is_null($object) && isset($object->user_id)){
           $sql = $sql.($haveWHERE? " AND " : " WHERE ")."user_id=:user_id";
           $haveWHERE = true;
+        }
+         // Check for deleted
+         if(!is_null($object) && isset($object->deleted)){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."deleted=:deleted";
+            $haveWHERE = true;
         }
 
         // TODO: return articles by id
@@ -52,6 +56,9 @@ class History extends Connection{
             }
             if(isset($object->user_id)){
               $resultado->bindParam(':user_id', $object->user_id, PDO::PARAM_INT);
+            }
+            if(isset($object->deleted)){
+              $resultado->bindParam(':deleted', $object->deleted, PDO::PARAM_BOOL);
             }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
