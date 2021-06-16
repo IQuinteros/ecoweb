@@ -109,7 +109,7 @@ CREATE TABLE chat(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     closed bit not null,
-    last_seen_date datetime not null,
+    last_seen_date timestamp not null,
     profile_id int,
     store_id int,
     PRIMARY KEY (id)

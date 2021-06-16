@@ -54,7 +54,7 @@ class Answer extends Connection{
       $sql = $sql." WHERE id=:id";
       $haveWHERE = true;
     }
-      // Check for id_article
+      // Check for id_question
     if(!is_null($object) && isset($object->question_id)){
       $sql = $sql.($haveWHERE? " AND " : " WHERE ")."question_id=:question_id";
       $haveWHERE = true;
