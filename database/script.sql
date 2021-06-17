@@ -100,7 +100,7 @@ CREATE TABLE message(
     id int not null AUTO_INCREMENT,
     message varchar(255) not null,
     creation_date timestamp not null,
-    chat_id int,
+    chat_id int not null,
     owner varchar(15),
     PRIMARY KEY (id)
 );
@@ -142,7 +142,7 @@ CREATE TABLE article(
 
 CREATE TABLE photo(
     id int not null AUTO_INCREMENT,
-    photo blob not null,
+    photo varchar(255) not null,
     article_id int not null,
     PRIMARY KEY (id)
 );
@@ -386,7 +386,7 @@ GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `question` TO 'registered'@'localh
 GRANT SELECT ON TABLE `answer` TO 'registered'@'localhost';
 GRANT SELECT, INSERT, DELETE ON TABLE `favorite` TO 'registered'@'localhost';
 GRANT SELECT ON TABLE `district` TO 'registered'@'localhost';
-GRANT SELECT, INSERT ON TABLE `message` TO 'registered'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON TABLE `message` TO 'registered'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON TABLE `chat` TO 'registered'@'localhost';
 GRANT SELECT, INSERT ON TABLE `purchase` TO 'registered'@'localhost';
 GRANT SELECT, INSERT ON TABLE `info_purchase` TO 'registered'@'localhost';
