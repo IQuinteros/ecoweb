@@ -1,20 +1,22 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
-require_once __DIR__.('/../models/photo_model.php');
+require_once __DIR__.('/../models/purchase_model.php');
 
-class Photo extends Connection{
-    public function insert_photo($object){
+class Purchase extends Connection{
+    public function insert_purchase($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `photo` (`id`, `photo`, `article_id`) 
-        VALUES (NULL, :photo, :article_id);";
+        $sql="INSERT INTO `purchase` (`id`, `total`, `creation_date`, `profile_id`, `info_purchase_id`, `chat_id`) 
+        VALUES (NULL, :total, CURRENT_TIME(), :profile_id, :info_purchase_id, :chat_id);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
           return;
         }
         $resultado=$this->pdo->prepare($sql);
-        $resultado->bindParam(':photo', $object->photo, PDO::PARAM_STR);
+        $resultado->bindParam(':total', $object->total, PDO::PARAM_INT);
+        $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
+        $resultado->bindParam(':info_purchase_id', $object->info_purchase_id, PDO::PARAM_INT);
         $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
         $re=$resultado->execute();
         if (!$re) 
@@ -26,9 +28,9 @@ class Photo extends Connection{
           return array($re);
         }
     }
-    public function delete_photo($id){
+    public function delete_purchase($id){
         $this->connection_hosting();
-        $sql="DELETE FROM `photo` WHERE id=:id;";
+        $sql="DELETE FROM `purchase` WHERE id=:id;";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -44,9 +46,9 @@ class Photo extends Connection{
             return $re;
         }
     }
-    public function select_photo(){
+    public function select_purchase($object){
         $this->connection_hosting();
-        $sql="SELECT * FROM `photo`";
+        $sql="SELECT * FROM `purchase`";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -58,9 +60,9 @@ class Photo extends Connection{
             $sql = $sql." WHERE id=:id";
             $haveWHERE = true;
         }
-        // Check for article_id
-        if(!is_null($object) && isset($object->article_id)){
-            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_id=:article_id";
+        // Check for profile_id
+        if(!is_null($object) && isset($object->profile_id)){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."profile_id=:profile_id";
             $haveWHERE = true;
         }
         try{
@@ -68,23 +70,26 @@ class Photo extends Connection{
             if(isset($object->id)){
                 $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
             }
-            if(isset($object->article_id)){
-              $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
+            if(isset($object->profile_id)){
+              $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
             }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-            $lista_photo = array();
+            $lista_purchase = array();
             for($i = 0; $i < count($data); $i++){
-                $photos =new Photo_model();
-                $photos->id=$data[$i]["id"];
-                $photos->photo=$data[$i]["photo"];
-                $photos->article_id=$data[$i]["article_id"];
-                array_push($lista_photo, $photos);
+                $purchase =new Purchase_model();
+                $purchase->id=$data[$i]["id"];
+                $purchase->total=$data[$i]["total"];
+                $purchase->creation_date=$data[$i]["creation_date"];
+                $purchase->profile_id=$data[$i]["profile_id"];
+                $purchase->info_purchase_id=$data[$i]["info_purchase_id"];
+                $purchase->chat_id=$data[$i]["chat_id"];
+                array_push($lista_purchase, $purchase);
             }
         
             $this->pdo = null;
               
-            return $lista_photo;
+            return $lista_purchase;
         }catch(PDOException $e){
             echo $e->getMessage();
             return $e;

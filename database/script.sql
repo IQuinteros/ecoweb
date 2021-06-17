@@ -119,9 +119,9 @@ CREATE TABLE purchase(
     id int not null AUTO_INCREMENT,
     total int not null,
     creation_date timestamp not null,
-    profile_id int,
-    info_purchase_id int,
-    chat_id int,
+    profile_id int not null,
+    info_purchase_id int not null,
+    chat_id int not null,
     PRIMARY KEY (id)
 );
 
