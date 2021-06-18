@@ -6,4 +6,6 @@ class Purchase_model{
     public int $profile_id;
     public int $info_purchase_id;
     public int $chat_id;
+
+    public ?Chat_model $chat;
 }

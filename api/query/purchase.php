@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/chat.php');
 require_once __DIR__.('/../models/purchase_model.php');
 
 class Purchase extends Connection{
@@ -65,6 +66,11 @@ class Purchase extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."profile_id=:profile_id";
             $haveWHERE = true;
         }
+        // Check for profile_id
+        if(!is_null($object) && isset($object->chat_id)){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."chat_id=:chat_id";
+            $haveWHERE = true;
+        }
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){
@@ -72,6 +78,9 @@ class Purchase extends Connection{
             }
             if(isset($object->profile_id)){
               $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
+            }
+            if(isset($object->chat_id)){
+              $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
             }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -84,6 +93,12 @@ class Purchase extends Connection{
                 $purchase->profile_id=$data[$i]["profile_id"];
                 $purchase->info_purchase_id=$data[$i]["info_purchase_id"];
                 $purchase->chat_id=$data[$i]["chat_id"];
+
+                $chatIdObject = json_decode(json_encode(array("id" => $purchase->chat_id)));
+                $chatConnection = new Chat();
+                $chats = $chatConnection->select_chat($chatIdObject);
+                $purchase->chat = count($chats) > 0? $chats[0] : null;
+
                 array_push($lista_purchase, $purchase);
             }
         
