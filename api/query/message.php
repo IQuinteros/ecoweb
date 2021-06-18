@@ -80,6 +80,7 @@ class Message extends Connection{
                 $messages->message=$data[$i]["message"];
                 $messages->creation_date=$data[$i]["creation_date"];
                 $messages->chat_id=$data[$i]["chat_id"];
+                $messages->from_store=$data[$i]["from_store"];
                 array_push($lista_message, $messages);
             }
         
