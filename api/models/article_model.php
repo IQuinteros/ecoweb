@@ -22,4 +22,5 @@ class Article_model{
     public ?Category_model $category;
 
     public ?array $opinions;
+    public ?array $photos;
 }

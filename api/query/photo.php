@@ -44,7 +44,7 @@ class Photo extends Connection{
             return $re;
         }
     }
-    public function select_photo(){
+    public function select_photo($object){
         $this->connection_hosting();
         $sql="SELECT * FROM `photo`";
         if($this->pdo == null)
