@@ -13,8 +13,14 @@ ini_set('display_errors', 1);
 error_reporting(~0);
 require_once __DIR__.('api/query/article.php');
 $articleConnection = new article();
+require_once __DIR__.('api/query/article_from.php');
+$article_fromConnection = new article_form();
 require_once __DIR__.('api/query/store.php');
 $storeConnection = new Store();
+require_once __DIR__.('api/query/history.php');
+$historyConnection = new history();
+//require_once __DIR__.('api/query/opinion.php');
+//$opinionConection = new opinion();
 
 require_once('include.php');
 
@@ -32,11 +38,28 @@ require_once('include.php');
   <table>
      <?php      
       $id = $_SESSION["id"];      
-      $storeConnection->select_store($id, null, null);
-     // $article = $articleConnection->select_article($id);
+     //$storeConnection->select_store($id, null, null);
+     $object->id=null;
+     $object->id_form=null;
+     $object->id_category=null;
+     $object->id_store=$id;
+     $opi->id=null;
+     
+      $article = $articleConnection->select_article($object); 
       //isset($store)
       foreach($article as $value){                                           
            echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
+          $article_form =$article_fromConnection->select_article_form($value->article_form_id);
+          return array($re, $user_recycled_mats,$user_recycled_prod);
+          echo "".$user_recycled_mats."".$user_recycled_prod."";
+          $history=$historyConnection->select_history($value->id);
+          $cont=0;
+          foreach($history as $value){
+            $cont =$cont+1;
+          }
+          echo "visualisaciones :".$cont;
+          //$opi->article_id=$value->id;
+         // $opinion=$opinionConection->select_opinion($opi);
       }
      ?>
   </table>
