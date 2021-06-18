@@ -2,6 +2,7 @@
 
 require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/store.php');
+require_once __DIR__.('/message.php');
 require_once __DIR__.('/../models/chat_model.php');
 
 class Chat extends Connection{
@@ -116,6 +117,11 @@ class Chat extends Connection{
                 $storeConnection = new Store();
                 $stores = $storeConnection->select_store($storeIdObject);
                 $chat->store = count($stores) > 0? $stores[0] : null;
+
+                $chatIdObject = json_decode(json_encode(array("chat_id" => $chat->id)));
+                $messagesConnection = new Message();
+                $messages = $messagesConnection->select_message($chatIdObject);
+                $chat->messages = $messages;
 
                 array_push($lista_chat, $chat);
             }

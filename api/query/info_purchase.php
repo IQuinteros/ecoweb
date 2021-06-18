@@ -46,7 +46,7 @@ class Info_purchase extends Connection{
             return $re;
         }
     }
-    public function select_info_purchase(){
+    public function select_info_purchase($object){
         $this->connection_hosting();
         $sql="SELECT * FROM `info_purchase`";
         if($this->pdo == null)

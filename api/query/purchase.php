@@ -2,6 +2,8 @@
 
 require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/chat.php');
+require_once __DIR__.('/article_purchase.php');
+require_once __DIR__.('/info_purchase.php');
 require_once __DIR__.('/../models/purchase_model.php');
 
 class Purchase extends Connection{
@@ -94,10 +96,20 @@ class Purchase extends Connection{
                 $purchase->info_purchase_id=$data[$i]["info_purchase_id"];
                 $purchase->chat_id=$data[$i]["chat_id"];
 
-                $chatIdObject = json_decode(json_encode(array("id" => $purchase->chat_id)));
+                $chatIdObject = json_decode(json_encode(array("id" => $purchase->chat_id ?? 0)));
                 $chatConnection = new Chat();
                 $chats = $chatConnection->select_chat($chatIdObject);
                 $purchase->chat = count($chats) > 0? $chats[0] : null;
+
+                $infoPurchaseIdObject = json_decode(json_encode(array("id" => $purchase->info_purchase_id)));
+                $infoPurchaseConnection = new Info_purchase();
+                $info = $infoPurchaseConnection->select_info_purchase($infoPurchaseIdObject);
+                $purchase->info_purchase = count($info) > 0? $info[0] : null;
+
+                $purchaseIdObject = json_decode(json_encode(array("purchase_id" => $purchase->id)));
+                $articlesPurchaseConnection = new Article_purchase();
+                $articles = $articlesPurchaseConnection->select_article_purchase($purchaseIdObject);
+                $purchase->articles = $articles;
 
                 array_push($lista_purchase, $purchase);
             }
