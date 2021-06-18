@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/store.php');
 require_once __DIR__.('/../models/chat_model.php');
 
 class Chat extends Connection{
@@ -26,7 +27,7 @@ class Chat extends Connection{
           return array($re);
         }
     }
-    public function update_chat_closed($id){
+    public function update_chat_closed($object){
         $this->connection_hosting();
         $sql="UPDATE `chat` SET `closed`=true WHERE `id`=:id";
         if($this->pdo == null)
@@ -46,7 +47,7 @@ class Chat extends Connection{
             die();
         }
     }
-    public function update_chat_date($id){
+    public function update_chat_date($object){
         $this->connection_hosting();
         $sql="UPDATE `chat` SET `last_seen_date`=CURRENT_TIME() WHERE `id`=:id";
         if($this->pdo == null)
@@ -120,6 +121,12 @@ class Chat extends Connection{
                 $chat->last_seen_date=$data[$i]["last_seen_date"];
                 $chat->profile_id=$data[$i]["profile_id"];
                 $chat->store_id=$data[$i]["store_id"];
+
+                $storeIdObject = json_decode(json_encode(array("id" => $chat->store_id)));
+                $storeConnection = new Store();
+                $stores = $storeConnection->select_store($storeIdObject);
+                $chat->store = count($stores) > 0? $stores[0] : null;
+
                 array_push($lista_chat, $chat);
             }
         
