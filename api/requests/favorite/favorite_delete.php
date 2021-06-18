@@ -4,7 +4,7 @@ require_once('../../query/favorite.php');
 
 $favorite = new Favorite();
 
-$result=$favorite->delete_favorite($data->id);
+$result=$favorite->delete_favorite($data);
 
 
 send_response(isset($result), $result); 

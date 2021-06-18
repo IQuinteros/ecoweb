@@ -5,6 +5,7 @@ require_once __DIR__.('/question.php');
 require_once __DIR__.('/store.php');
 require_once __DIR__.('/category.php');
 require_once __DIR__.('/photo.php');
+require_once __DIR__.('/favorite.php');
 require_once __DIR__.('/article_form.php');
 require_once __DIR__.('/../models/article_model.php');
 class Article extends Connection{
@@ -258,6 +259,12 @@ class Article extends Connection{
             $photosConnection = new Photo();
             $photos = $photosConnection->select_photo($articleIdObject);
             $articles->photos = $photos;
+
+            if(isset($object->profile_id)){
+              $favoriteConnection = new Favorite();
+              $favorites = $favoriteConnection->select_favorite(json_decode(json_encode(array("article_id" => $articles->id, "profile_id" => $object->profile_id))));
+              $articles->favorite = count($favorites) > 0;
+            }            
 
             array_push($lista_articles, $articles);
           }

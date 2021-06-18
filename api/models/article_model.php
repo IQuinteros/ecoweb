@@ -17,6 +17,8 @@ class Article_model{
     public int $store_id;
     public ?int $past_price;
 
+    public bool $favorite = false;
+
     public ?Store_model $store;
     public ?Article_form_model $form;
     public ?Category_model $category;
