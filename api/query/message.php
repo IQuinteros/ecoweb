@@ -6,8 +6,8 @@ require_once __DIR__.('/../models/message_model.php');
 class Message extends Connection{
     public function insert_message($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `message` (`id`, `message`, `creation_date`, `chat_id`) 
-        VALUES (NULL, :message, CURRENT_TIME(), :chat_id);";
+        $sql="INSERT INTO `message` (`id`, `message`, `creation_date`, `chat_id`, `from_store`) 
+        VALUES (NULL, :message, CURRENT_TIME(), :chat_id, false);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -80,6 +80,7 @@ class Message extends Connection{
                 $messages->message=$data[$i]["message"];
                 $messages->creation_date=$data[$i]["creation_date"];
                 $messages->chat_id=$data[$i]["chat_id"];
+                $messages->from_store=$data[$i]["from_store"];
                 array_push($lista_message, $messages);
             }
         

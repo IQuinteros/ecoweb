@@ -101,7 +101,7 @@ CREATE TABLE message(
     message varchar(255) not null,
     creation_date timestamp not null,
     chat_id int not null,
-    owner varchar(15),
+    from_store bit not null,
     PRIMARY KEY (id)
 );
 
