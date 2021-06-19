@@ -9,8 +9,8 @@ require_once __DIR__.('/../models/purchase_model.php');
 class Purchase extends Connection{
     public function insert_purchase($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `purchase` (`id`, `total`, `creation_date`, `profile_id`, `info_purchase_id`, `chat_id`) 
-        VALUES (NULL, :total, CURRENT_TIME(), :profile_id, :info_purchase_id, :chat_id);";
+        $sql="INSERT INTO `purchase` (`id`, `total`, `creation_date`, `profile_id`, `info_purchase_id`) 
+        VALUES (NULL, :total, CURRENT_TIME(), :profile_id, :info_purchase_id);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -20,7 +20,6 @@ class Purchase extends Connection{
         $resultado->bindParam(':total', $object->total, PDO::PARAM_INT);
         $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
         $resultado->bindParam(':info_purchase_id', $object->info_purchase_id, PDO::PARAM_INT);
-        $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
         $re=$resultado->execute();
         if (!$re) 
         {
@@ -94,7 +93,6 @@ class Purchase extends Connection{
                 $purchase->creation_date=$data[$i]["creation_date"];
                 $purchase->profile_id=$data[$i]["profile_id"];
                 $purchase->info_purchase_id=$data[$i]["info_purchase_id"];
-                $purchase->chat_id=$data[$i]["chat_id"];
 
                 $chatIdObject = json_decode(json_encode(array("id" => $purchase->chat_id ?? 0)));
                 $chatConnection = new Chat();

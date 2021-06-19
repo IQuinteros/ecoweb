@@ -121,7 +121,6 @@ CREATE TABLE purchase(
     creation_date timestamp not null,
     profile_id int not null,
     info_purchase_id int not null,
-    chat_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -208,6 +207,7 @@ CREATE TABLE article_purchase(
     recycled_prod_detail text,
     general_detail text,
     store_id int,
+    chat_id int,
     PRIMARY KEY(id),
     UNIQUE KEY(purchase_id),
     UNIQUE KEY(article_id)
@@ -287,8 +287,6 @@ ALTER TABLE purchase
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT purchase_info_purchase_FK
     FOREIGN KEY(info_purchase_id) REFERENCES info_purchase(id),
-    ADD CONSTRAINT purchase_chat_FK
-    FOREIGN KEY(chat_id) REFERENCES chat(id)
 ;
 
 ALTER TABLE article
@@ -316,7 +314,9 @@ ALTER TABLE article_purchase
     ADD CONSTRAINT article_purchase_article_FK
     FOREIGN KEY(article_id) REFERENCES article(id),
     ADD CONSTRAINT article_purchase_store_FK
-    FOREIGN KEY(store_id) REFERENCES store(id)
+    FOREIGN KEY(store_id) REFERENCES store(id),
+    ADD CONSTRAINT article_purchase_chat_FK
+    FOREIGN KEY(chat_id) REFERENCES chat(id)
 ;
 
 ALTER TABLE `user` ADD COLUMN lastConnectionDate datetime not null;
