@@ -4,7 +4,7 @@ require_once('../../query/message.php');
 
 $message = new Message();
 
-$result=$message->insert_message($data);
+$result=$message->delete_message($data->id);
 
 
-send_response(isset($result), $result); 
+send_response(isset($result), $result);

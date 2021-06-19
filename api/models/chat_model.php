@@ -6,4 +6,5 @@ class Chat_model{
     public string $last_seen_date;
     public int $profile_id;
     public int $store_id;
+    public int $purchase_id;
 }

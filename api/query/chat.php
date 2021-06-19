@@ -6,8 +6,8 @@ require_once __DIR__.('/../models/chat_model.php');
 class Chat extends Connection{
     public function insert_chat($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `chat` (`id`, `creation_date`, `closed`, `last_seen_date`, `profile_id`, `store_id`) 
-        VALUES (NULL, CURRENT_TIME(), false, CURRENT_TIME(), :profile_id, :store_id);";
+        $sql="INSERT INTO `chat` (`id`, `creation_date`, `closed`, `last_seen_date`, `profile_id`, `store_id`, `purchase_id`) 
+        VALUES (NULL, CURRENT_TIME(), false, CURRENT_TIME(), :profile_id, :store_id, :purchase_id);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -16,6 +16,7 @@ class Chat extends Connection{
         $resultado=$this->pdo->prepare($sql);
         $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
         $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+        $resultado->bindParam(':purchase_id', $object->purchase_id, PDO::PARAM_INT);
         $re=$resultado->execute();
         if (!$re) 
         {
@@ -95,6 +96,11 @@ class Chat extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store_id=:store_id";
             $haveWHERE = true;
         }
+        // Check for id_purchase
+        if(!is_null($object) && isset($object->purchase_id)){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."purchase_id=:purchase_id";
+            $haveWHERE = true;
+        }
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){
@@ -109,6 +115,9 @@ class Chat extends Connection{
             if(isset($object->store_id)){
               $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
             }
+            if(isset($object->purchase_id)){
+                $resultado->bindParam(':purchase_id', $object->purchase_id, PDO::PARAM_INT);
+              }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_chat = array();
@@ -120,6 +129,7 @@ class Chat extends Connection{
                 $chat->last_seen_date=$data[$i]["last_seen_date"];
                 $chat->profile_id=$data[$i]["profile_id"];
                 $chat->store_id=$data[$i]["store_id"];
+                $chat->purchase_id=$data[$i]["purchase_id"];
                 array_push($lista_chat, $chat);
             }
         

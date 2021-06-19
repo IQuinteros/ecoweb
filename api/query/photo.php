@@ -1,20 +1,20 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
-require_once __DIR__.('/../models/message_model.php');
+require_once __DIR__.('/../models/photo_model.php');
 
-class Message extends Connection{
-    public function insert_message($object){
+class Photo extends Connection{
+    public function insert_photo($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `message` (`id`, `message`, `creation_date`, `chat_id`, `from_store`) 
-        VALUES (NULL, :message, CURRENT_TIME(), :chat_id, false);";
+        $sql="INSERT INTO `photo` (`id`, `photo`, `article_id`) 
+        VALUES (NULL, :photo, :article_id);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
           return;
         }
         $resultado=$this->pdo->prepare($sql);
-        $resultado->bindParam(':message', $object->message, PDO::PARAM_STR);
+        $resultado->bindParam(':photo', $object->photo, PDO::PARAM_STR);
         $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
         $re=$resultado->execute();
         if (!$re) 
@@ -26,9 +26,9 @@ class Message extends Connection{
           return array($re);
         }
     }
-    public function delete_message($id){
+    public function delete_photo($id){
         $this->connection_hosting();
-        $sql="DELETE FROM `message` WHERE id=:id;";
+        $sql="DELETE FROM `photo` WHERE id=:id;";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -44,9 +44,9 @@ class Message extends Connection{
             return $re;
         }
     }
-    public function select_message($object){
+    public function select_photo(){
         $this->connection_hosting();
-        $sql="SELECT * FROM `message`";
+        $sql="SELECT * FROM `photo`";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -58,9 +58,9 @@ class Message extends Connection{
             $sql = $sql." WHERE id=:id";
             $haveWHERE = true;
         }
-        // Check for chat_id
-        if(!is_null($object) && isset($object->chat_id)){
-            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."chat_id=:chat_id";
+        // Check for article_id
+        if(!is_null($object) && isset($object->article_id)){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_id=:article_id";
             $haveWHERE = true;
         }
         try{
@@ -68,25 +68,23 @@ class Message extends Connection{
             if(isset($object->id)){
                 $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
             }
-            if(isset($object->chat_id)){
-              $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
+            if(isset($object->article_id)){
+              $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
             }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-            $lista_message = array();
+            $lista_photo = array();
             for($i = 0; $i < count($data); $i++){
-                $messages =new Message_model();
-                $messages->id=$data[$i]["id"];
-                $messages->message=$data[$i]["message"];
-                $messages->creation_date=$data[$i]["creation_date"];
-                $messages->chat_id=$data[$i]["chat_id"];
-                $messages->from_store=$data[$i]["from_store"];
-                array_push($lista_message, $messages);
+                $photos =new Photo_model();
+                $photos->id=$data[$i]["id"];
+                $photos->photo=$data[$i]["photo"];
+                $photos->article_id=$data[$i]["article_id"];
+                array_push($lista_photo, $photos);
             }
         
             $this->pdo = null;
               
-            return $lista_message;
+            return $lista_photo;
         }catch(PDOException $e){
             echo $e->getMessage();
             return $e;

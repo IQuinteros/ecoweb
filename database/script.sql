@@ -100,8 +100,8 @@ CREATE TABLE message(
     id int not null AUTO_INCREMENT,
     message varchar(255) not null,
     creation_date timestamp not null,
-    chat_id int,
-    owner varchar(15),
+    chat_id int not null,
+    from_store bit not null,
     PRIMARY KEY (id)
 );
 
@@ -112,6 +112,7 @@ CREATE TABLE chat(
     last_seen_date timestamp not null,
     profile_id int,
     store_id int,
+    purchase_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -119,9 +120,8 @@ CREATE TABLE purchase(
     id int not null AUTO_INCREMENT,
     total int not null,
     creation_date timestamp not null,
-    profile_id int,
-    info_purchase_id int,
-    chat_id int,
+    profile_id int not null,
+    info_purchase_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -142,7 +142,7 @@ CREATE TABLE article(
 
 CREATE TABLE photo(
     id int not null AUTO_INCREMENT,
-    photo blob not null,
+    photo varchar(255) not null,
     article_id int not null,
     PRIMARY KEY (id)
 );
@@ -280,6 +280,8 @@ ALTER TABLE chat
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT chat_store_FK
     FOREIGN KEY(store_id) REFERENCES store(id),
+    ADD CONSTRAINT chat_purchase_FK
+    FOREIGN KEY(purchase_id) REFERENCES purchase(id),
 ;
 
 ALTER TABLE purchase
@@ -287,8 +289,6 @@ ALTER TABLE purchase
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT purchase_info_purchase_FK
     FOREIGN KEY(info_purchase_id) REFERENCES info_purchase(id),
-    ADD CONSTRAINT purchase_chat_FK
-    FOREIGN KEY(chat_id) REFERENCES chat(id)
 ;
 
 ALTER TABLE article
@@ -316,7 +316,7 @@ ALTER TABLE article_purchase
     ADD CONSTRAINT article_purchase_article_FK
     FOREIGN KEY(article_id) REFERENCES article(id),
     ADD CONSTRAINT article_purchase_store_FK
-    FOREIGN KEY(store_id) REFERENCES store(id)
+    FOREIGN KEY(store_id) REFERENCES store(id),
 ;
 
 ALTER TABLE `user` ADD COLUMN lastConnectionDate datetime not null;
@@ -386,7 +386,7 @@ GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `question` TO 'registered'@'localh
 GRANT SELECT ON TABLE `answer` TO 'registered'@'localhost';
 GRANT SELECT, INSERT, DELETE ON TABLE `favorite` TO 'registered'@'localhost';
 GRANT SELECT ON TABLE `district` TO 'registered'@'localhost';
-GRANT SELECT, INSERT ON TABLE `message` TO 'registered'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON TABLE `message` TO 'registered'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON TABLE `chat` TO 'registered'@'localhost';
 GRANT SELECT, INSERT ON TABLE `purchase` TO 'registered'@'localhost';
 GRANT SELECT, INSERT ON TABLE `info_purchase` TO 'registered'@'localhost';
