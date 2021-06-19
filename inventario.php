@@ -51,7 +51,7 @@ require_once('include.php');
           echo "".$value->form->recycled_mats."".$value->form->recycled_prod."";
           $history=$historyConnection->select_history($value->id);
           $cont=0;
-          foreach($history as $value){
+          foreach($history as $val){
             $cont =$cont+1;
           }
           echo "visualisaciones :".$cont;
