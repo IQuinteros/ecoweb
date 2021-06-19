@@ -9,9 +9,9 @@ class Article_purchase extends Connection{
         $this->connection_hosting();
         $sql="INSERT INTO `article_purchase` (`id`, `purchase_id`, `article_id`, `title`, `unit_price`, 
         `quantity`, `photo_url`, `recycled_mats`, `recycled_mats_detail`, `reuse_tips`, `recycled_prod`, 
-        `recycled_prod_detail`, `general_detail`, `store_id`, `chat_id`) 
+        `recycled_prod_detail`, `general_detail`, `store_id`) 
         VALUES (NULL, :purchase_id, :article_id, :title, :unit_price, :quantity, :photo_url, :recycled_mats, 
-        :recycled_mats_detail, :reuse_tips, :recycled_prod, :recycled_prod_detail, :general_detail, :store_id, :chat_id);";
+        :recycled_mats_detail, :reuse_tips, :recycled_prod, :recycled_prod_detail, :general_detail, :store_id);";
         try{
             $resultado=$this->pdo->prepare($sql);
             $resultado->bindParam(':purchase_id', $object->purchase_id, PDO::PARAM_INT);
@@ -52,11 +52,6 @@ class Article_purchase extends Connection{
                 $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
             }else{
                 $resultado->bindParam(':store_id', null, PDO::PARAM_NULL);
-            }
-            if(isset($object->chat_id)){
-                $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
-            }else{
-                $resultado->bindParam(':chat_id', null, PDO::PARAM_NULL);
             }
             $re=$resultado->execute();
             if (!$re) 
@@ -116,11 +111,6 @@ class Article_purchase extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store_id=:store_id";
             $haveWHERE = true;
         }
-        // Check for chat_id
-        if(!is_null($object) && isset($object->chat_id)){
-            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."chat_id=:chat_id";
-            $haveWHERE = true;
-        }
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){
@@ -135,9 +125,6 @@ class Article_purchase extends Connection{
             if(isset($object->store_id)){
                 $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
             }
-            if(isset($object->chat_id)){
-                $resultado->bindParam(':chat_id', $object->store_id, PDO::PARAM_INT);
-            }  
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_a_purchase = array();
@@ -157,6 +144,7 @@ class Article_purchase extends Connection{
                 $article_p->recycled_prod_detail=$data[$i]["recycled_prod_detail"];
                 $article_p->general_detail=$data[$i]["general_detail"];
                 $article_p->store_id=$data[$i]["store_id"];
+<<<<<<< HEAD
                 $article_p->chat_id=$data[$i]["chat_id"];
 
                 $chatIdObject = json_decode(json_encode(array("id" => $article_p->chat_id ?? 0)));
@@ -169,6 +157,8 @@ class Article_purchase extends Connection{
                 $articles = $articleConnection->select_article($articleIdObject);
                 $article_p->article = count($articles) > 0? $articles[0] : null;
                 
+=======
+>>>>>>> api-dev
                 array_push($lista_a_purchase, $article_p);
             }
         

@@ -12,4 +12,5 @@ class Chat_model{
     public ?Store_model $store;
 
     public ?array $messages;
+    public int $purchase_id;
 }
