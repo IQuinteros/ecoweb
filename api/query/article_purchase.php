@@ -2,6 +2,7 @@
 
 require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/article.php');
+require_once __DIR__.('/store.php');
 require_once __DIR__.('/../models/article_purchase_model.php');
 
 class Article_purchase extends Connection{
@@ -144,21 +145,17 @@ class Article_purchase extends Connection{
                 $article_p->recycled_prod_detail=$data[$i]["recycled_prod_detail"];
                 $article_p->general_detail=$data[$i]["general_detail"];
                 $article_p->store_id=$data[$i]["store_id"];
-<<<<<<< HEAD
-                $article_p->chat_id=$data[$i]["chat_id"];
-
-                $chatIdObject = json_decode(json_encode(array("id" => $article_p->chat_id ?? 0)));
-                $chatConnection = new Chat();
-                $chats = $chatConnection->select_chat($chatIdObject);
-                $article_p->chat = count($chats) > 0? $chats[0] : null;
 
                 $articleIdObject = json_decode(json_encode(array("id" => $article_p->article_id)));
                 $articleConnection = new Article();
                 $articles = $articleConnection->select_article($articleIdObject);
                 $article_p->article = count($articles) > 0? $articles[0] : null;
+
+                $storeIdObject = json_decode(json_encode(array("id" => $article_p->store_id)));
+                $storeConnection = new Store();
+                $stores = $storeConnection->select_store($storeIdObject);
+                $article_p->store = count($stores) > 0? $stores[0] : null;
                 
-=======
->>>>>>> api-dev
                 array_push($lista_a_purchase, $article_p);
             }
         

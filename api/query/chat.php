@@ -3,6 +3,7 @@
 require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/store.php');
 require_once __DIR__.('/message.php');
+require_once __DIR__.('/purchase.php');
 require_once __DIR__.('/../models/chat_model.php');
 
 class Chat extends Connection{
@@ -121,18 +122,23 @@ class Chat extends Connection{
                 $chat->closed=$data[$i]["closed"];
                 $chat->last_seen_date=$data[$i]["last_seen_date"];
                 $chat->store_id=$data[$i]["store_id"];
+                $chat->purchase_id=$data[$i]["purchase_id"];
 
                 $storeIdObject = json_decode(json_encode(array("id" => $chat->store_id)));
                 $storeConnection = new Store();
                 $stores = $storeConnection->select_store($storeIdObject);
                 $chat->store = count($stores) > 0? $stores[0] : null;
 
+                $purchaseIdObject = json_decode(json_encode(array("id" => $chat->purchase_id)));
+                $purchaseConnection = new Purchase();
+                $purchases = $purchaseConnection->select_purchase($purchaseIdObject);
+                $chat->purchase = count($purchases) > 0? $purchases[0] : null;
+
                 $chatIdObject = json_decode(json_encode(array("chat_id" => $chat->id)));
                 $messagesConnection = new Message();
                 $messages = $messagesConnection->select_message($chatIdObject);
                 $chat->messages = $messages;
 
-                $chat->purchase_id=$data[$i]["purchase_id"];
                 array_push($lista_chat, $chat);
             }
         

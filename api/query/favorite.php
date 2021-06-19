@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/article.php');
 require_once __DIR__.('/../models/favorite_model.php');
 
 class Favorite extends Connection{
@@ -91,6 +92,12 @@ class Favorite extends Connection{
                 $favorite->creation_date=$data[$i]["creation_date"];
                 $favorite->profile_id=$data[$i]["profile_id"];
                 $favorite->article_id=$data[$i]["article_id"];
+
+                $articleIdObject = json_decode(json_encode(array("id" => $favorite->article_id)));
+                $articleConnection = new Article();
+                $articles = $articleConnection->select_article($articleIdObject);
+                $favorite->article = count($articles) > 0? $articles[0] : null;;
+
                 array_push($lista_favorite, $favorite);
             }
         

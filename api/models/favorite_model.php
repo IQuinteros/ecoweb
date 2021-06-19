@@ -4,4 +4,6 @@ class Favorite_model{
     public string $creation_date;
     public int $profile_id;
     public int $article_id;
+
+    public Article_model $article;
 }
