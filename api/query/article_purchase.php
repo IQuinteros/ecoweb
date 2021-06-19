@@ -159,6 +159,11 @@ class Article_purchase extends Connection{
                 $article_p->store_id=$data[$i]["store_id"];
                 $article_p->chat_id=$data[$i]["chat_id"];
 
+                $chatIdObject = json_decode(json_encode(array("id" => $article_p->chat_id ?? 0)));
+                $chatConnection = new Chat();
+                $chats = $chatConnection->select_chat($chatIdObject);
+                $article_p->chat = count($chats) > 0? $chats[0] : null;
+
                 $articleIdObject = json_decode(json_encode(array("id" => $article_p->article_id)));
                 $articleConnection = new Article();
                 $articles = $articleConnection->select_article($articleIdObject);

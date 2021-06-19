@@ -94,11 +94,6 @@ class Purchase extends Connection{
                 $purchase->profile_id=$data[$i]["profile_id"];
                 $purchase->info_purchase_id=$data[$i]["info_purchase_id"];
 
-                $chatIdObject = json_decode(json_encode(array("id" => $purchase->chat_id ?? 0)));
-                $chatConnection = new Chat();
-                $chats = $chatConnection->select_chat($chatIdObject);
-                $purchase->chat = count($chats) > 0? $chats[0] : null;
-
                 $infoPurchaseIdObject = json_decode(json_encode(array("id" => $purchase->info_purchase_id)));
                 $infoPurchaseConnection = new Info_purchase();
                 $info = $infoPurchaseConnection->select_info_purchase($infoPurchaseIdObject);
