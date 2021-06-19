@@ -19,8 +19,8 @@ require_once __DIR__.('api/query/store.php');
 $storeConnection = new Store();
 require_once __DIR__.('api/query/history.php');
 $historyConnection = new history();
-//require_once __DIR__.('api/query/opinion.php');
-//$opinionConection = new opinion();
+require_once __DIR__.('api/query/opinion.php');
+$opinionConection = new opinion();
 
 require_once('include.php');
 
@@ -61,6 +61,13 @@ require_once('include.php');
           $opi->article_id=$value->id;
          $opinion=$opinionConection->select_opinion($opi);
       }
+      $con=0;
+      foreach($opinion as $value){
+        $add=$value->rating+$add;
+        $con =$con+1;
+      }
+      $star=$add/$con;
+      echo "".$star;
      ?>
   </table>
   <ul>
