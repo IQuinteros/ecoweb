@@ -14,5 +14,4 @@ class Article_purchase_model{
     public ?string $recycled_prod_detail;
     public string $general_detail;
     public ?int $store_id;
-    public ?int $chat_id;
 }
