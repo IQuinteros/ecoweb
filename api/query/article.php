@@ -154,6 +154,8 @@ class Article extends Connection{
             $haveWHERE = true;
           }
         }
+        // LIMIT
+        $sql = $sql." LIMIT :initial_number,:quantity";
 
         $sql = $sql.";";
 
@@ -204,6 +206,16 @@ class Article extends Connection{
             $resultado->bindParam(':title_s', $object->search, PDO::PARAM_STR);
             $resultado->bindParam(':store_name_s', $object->search, PDO::PARAM_STR);
             $resultado->bindParam(':category_s', $object->search, PDO::PARAM_STR);
+          }
+          if(isset($object->initial_number)){
+            $resultado->bindParam(':initial_number', $object->initial_number, PDO::PARAM_INT);
+          }else{
+            $resultado->bindParam(':initial_number', 1, PDO::PARAM_INT);
+          }
+          if(isset($object->quantity)){
+            $resultado->bindParam(':quantity', $object->quantity, PDO::PARAM_INT);
+          }else{
+            $resultado->bindParam(':quantity', 10, PDO::PARAM_INT);
           }
 
           if(isset($object->id_list)){
