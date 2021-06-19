@@ -58,6 +58,7 @@ class Article_purchase extends Connection{
             if (!$re) 
             {
                 //die(mysql_error());
+                
             } else{
                 $re = $this->pdo->lastInsertId();
                 $this->pdo = null;

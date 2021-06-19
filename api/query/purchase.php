@@ -8,6 +8,12 @@ require_once __DIR__.('/../models/purchase_model.php');
 
 class Purchase extends Connection{
     public function insert_purchase($object){
+        $infoPurchaseConnection = new Info_purchase();
+        $result = $infoPurchaseConnection->insert_info_purchase($object->info);
+
+        if(gettype($result) == "void") return array(false);
+        if(count($result) <= 0) return array(false);
+
         $this->connection_hosting();
         $sql="INSERT INTO `purchase` (`id`, `total`, `creation_date`, `profile_id`, `info_purchase_id`) 
         VALUES (NULL, :total, CURRENT_TIME(), :profile_id, :info_purchase_id);";
@@ -19,7 +25,7 @@ class Purchase extends Connection{
         $resultado=$this->pdo->prepare($sql);
         $resultado->bindParam(':total', $object->total, PDO::PARAM_INT);
         $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
-        $resultado->bindParam(':info_purchase_id', $object->info_purchase_id, PDO::PARAM_INT);
+        $resultado->bindParam(':info_purchase_id', $result[0], PDO::PARAM_INT);
         $re=$resultado->execute();
         if (!$re) 
         {
@@ -27,6 +33,16 @@ class Purchase extends Connection{
         } else{
           $re = $this->pdo->lastInsertId();
           $this->pdo = null;
+
+          // Insert articles
+          if(gettype($object->articles) == "array"){
+                foreach($object->articles as $article){
+                    $article->purchase_id = $re;
+                    $articlesPurchaseConnection = new Article_purchase();
+                    $result = $articlesPurchaseConnection->insert_article_purchase($article);
+                }
+          }
+
           return array($re);
         }
     }

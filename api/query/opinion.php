@@ -70,6 +70,12 @@ class Opinion extends Connection{
         $haveWHERE = true;
       }
 
+      // Check for profile_id
+       if(!is_null($object) && isset($object->profile_id)){
+        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."opinion.profile_id=:profile_id";
+        $haveWHERE = true;
+      }
+
        try{
         $resultado=$this->pdo->prepare($sql);
         if(isset($object->id)){
@@ -80,6 +86,9 @@ class Opinion extends Connection{
         }
         if(isset($object->store_id)){
           $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+        }
+        if(isset($object->profile_id)){
+          $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
         }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
