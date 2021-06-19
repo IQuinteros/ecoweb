@@ -46,24 +46,23 @@ require_once('include.php');
       //isset($store)
       foreach($article as $value){                                           
            echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
-          $article_form =$article_fromConnection->select_article_form($value->article_form_id);
-          
           echo "".$value->form->recycled_mats."".$value->form->recycled_prod."";
           $history=$historyConnection->select_history($value->id);
           $cont=0;
           foreach($history as $val){
             $cont =$cont+1;
-          }
-          echo "visualisaciones :".$cont;
-         $value->opinions;
-      }
+          }          
+          echo "visualisaciones :".$cont;              
       $con=0;
-      foreach($opinion as $value){
-        $add=$value->rating+$add;
+      $add=0;
+      $opinion=$opinionConection->select_opinion(null,$value->id);
+      foreach($opinion as $va){
+        $add=$va->rating+$add;
         $con =$con+1;
       }
       $star=$add/$con;
       echo "".$star;
+    }
      ?>
   </table>
   <ul>
