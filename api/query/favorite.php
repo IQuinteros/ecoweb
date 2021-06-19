@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/article.php');
 require_once __DIR__.('/../models/favorite_model.php');
 
 class Favorite extends Connection{
@@ -26,22 +27,24 @@ class Favorite extends Connection{
           return array($re);
         }
     }
-    public function delete_favorite($id){
+    public function delete_favorite($object){
         $this->connection_hosting();
-        $sql="DELETE FROM `favorite` WHERE id=:id;";
+        $sql="DELETE FROM `favorite` WHERE article_id=:article_id AND profile_id=:profile_id;";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
           return;
         }
+
         $resultado=$this->pdo->prepare($sql);
-        $resultado->bindParam(':id', $id, PDO::PARAM_INT);
+        $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
+        $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
         $re=$resultado->execute();
         if (!$re) {
             //die(mysql_error());
         } else{
             $this->pdo = null;
-            return $re;
+            return array($re);
         }
     }
     public function select_favorite($object){
@@ -52,6 +55,7 @@ class Favorite extends Connection{
           echo 'PDO NULL';
           return;
         }
+
         $haveWHERE = false;
         // Check for id
         if(!is_null($object) && isset($object->id)){
@@ -88,6 +92,12 @@ class Favorite extends Connection{
                 $favorite->creation_date=$data[$i]["creation_date"];
                 $favorite->profile_id=$data[$i]["profile_id"];
                 $favorite->article_id=$data[$i]["article_id"];
+
+                $articleIdObject = json_decode(json_encode(array("id" => $favorite->article_id)));
+                $articleConnection = new Article();
+                $articles = $articleConnection->select_article($articleIdObject);
+                $favorite->article = count($articles) > 0? $articles[0] : null;;
+
                 array_push($lista_favorite, $favorite);
             }
         

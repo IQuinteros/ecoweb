@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/answer.php');
 require_once __DIR__.('/../models/question_model.php');
 
 class Question extends Connection{
@@ -80,6 +81,12 @@ class Question extends Connection{
         $questionn->creation_date=$data[$i]["creation_date"];
         $questionn->profile_id=$data[$i]["profile_id"];
         $questionn->article_id=$data[$i]["article_id"];
+
+        $questionIdObject = json_decode(json_encode(array("question_id" => $questionn->id)));
+        $answerConnection = new Answer();
+        $answers = $answerConnection->select_answer($questionIdObject);
+        $questionn->answer = count($answers) > 0? $answers[0] : null;
+
         array_push($lista_question, $questionn);
       }
 

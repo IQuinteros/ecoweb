@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/opinion.php');
 require_once __DIR__.('/../models/store_model.php');
 class Store extends Connection{
     public function insert_store($object){
@@ -184,6 +185,12 @@ class Store extends Connection{
           $tiendas->district_id=$data[$i]["district_id"];
           $tiendas->district_name=$data[$i]["district_name"];
           $tiendas->photo_url=$data[$i]["photo_url"];
+
+          $storeIdObject = json_decode(json_encode(array("store_id" => $tiendas->id)));
+          $opinionConnection = new Opinion();
+          $opinions = $opinionConnection->select_opinion($storeIdObject);
+          $tiendas->opinions = $opinions;
+
           array_push($lista_tiendas, $tiendas);
         }
         $this->pdo = null;

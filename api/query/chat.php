@@ -1,20 +1,22 @@
 <?php
 
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/store.php');
+require_once __DIR__.('/message.php');
+require_once __DIR__.('/purchase.php');
 require_once __DIR__.('/../models/chat_model.php');
 
 class Chat extends Connection{
     public function insert_chat($object){
         $this->connection_hosting();
-        $sql="INSERT INTO `chat` (`id`, `creation_date`, `closed`, `last_seen_date`, `profile_id`, `store_id`, `purchase_id`) 
-        VALUES (NULL, CURRENT_TIME(), false, CURRENT_TIME(), :profile_id, :store_id, :purchase_id);";
+        $sql="INSERT INTO `chat` (`id`, `creation_date`, `closed`, `last_seen_date`, `store_id`, `purchase_id`) 
+        VALUES (NULL, CURRENT_TIME(), false, CURRENT_TIME(), :store_id, :purchase_id);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
           return;
         }
         $resultado=$this->pdo->prepare($sql);
-        $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
         $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
         $resultado->bindParam(':purchase_id', $object->purchase_id, PDO::PARAM_INT);
         $re=$resultado->execute();
@@ -27,7 +29,7 @@ class Chat extends Connection{
           return array($re);
         }
     }
-    public function update_chat_closed($id){
+    public function update_chat_closed($object){
         $this->connection_hosting();
         $sql="UPDATE `chat` SET `closed`=true WHERE `id`=:id";
         if($this->pdo == null)
@@ -47,7 +49,7 @@ class Chat extends Connection{
             die();
         }
     }
-    public function update_chat_date($id){
+    public function update_chat_date($object){
         $this->connection_hosting();
         $sql="UPDATE `chat` SET `last_seen_date`=CURRENT_TIME() WHERE `id`=:id";
         if($this->pdo == null)
@@ -86,11 +88,6 @@ class Chat extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."closed=:closed";
             $haveWHERE = true;
         }
-        // Check for id_profile
-        if(!is_null($object) && isset($object->profile_id)){
-            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."profile_id=:profile_id";
-            $haveWHERE = true;
-        }
         // Check for id_store
         if(!is_null($object) && isset($object->store_id)){
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store_id=:store_id";
@@ -109,9 +106,6 @@ class Chat extends Connection{
             if(isset($object->closed)){
               $resultado->bindParam(':closed', $object->closed, PDO::PARAM_INT);
             }
-            if(isset($object->profile_id)){
-                $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
-            }
             if(isset($object->store_id)){
               $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
             }
@@ -127,9 +121,24 @@ class Chat extends Connection{
                 $chat->creation_date=$data[$i]["creation_date"];
                 $chat->closed=$data[$i]["closed"];
                 $chat->last_seen_date=$data[$i]["last_seen_date"];
-                $chat->profile_id=$data[$i]["profile_id"];
                 $chat->store_id=$data[$i]["store_id"];
                 $chat->purchase_id=$data[$i]["purchase_id"];
+
+                $storeIdObject = json_decode(json_encode(array("id" => $chat->store_id)));
+                $storeConnection = new Store();
+                $stores = $storeConnection->select_store($storeIdObject);
+                $chat->store = count($stores) > 0? $stores[0] : null;
+
+                $purchaseIdObject = json_decode(json_encode(array("id" => $chat->purchase_id)));
+                $purchaseConnection = new Purchase();
+                $purchases = $purchaseConnection->select_purchase($purchaseIdObject);
+                $chat->purchase = count($purchases) > 0? $purchases[0] : null;
+
+                $chatIdObject = json_decode(json_encode(array("chat_id" => $chat->id)));
+                $messagesConnection = new Message();
+                $messages = $messagesConnection->select_message($chatIdObject);
+                $chat->messages = $messages;
+
                 array_push($lista_chat, $chat);
             }
         

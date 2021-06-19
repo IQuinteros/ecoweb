@@ -15,4 +15,6 @@ class Store_model{
     public int $district_id;
     public ?string $district_name;
     public ?string $photo_url;
+
+    public ?array $opinions;
 }
