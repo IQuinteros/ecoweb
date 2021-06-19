@@ -58,8 +58,8 @@ require_once('include.php');
             $cont =$cont+1;
           }
           echo "visualisaciones :".$cont;
-          //$opi->article_id=$value->id;
-         // $opinion=$opinionConection->select_opinion($opi);
+          $opi->article_id=$value->id;
+         $opinion=$opinionConection->select_opinion($opi);
       }
      ?>
   </table>
