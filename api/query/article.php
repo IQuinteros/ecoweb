@@ -131,13 +131,13 @@ class Article extends Connection{
         }
         // Check for price
         if(!is_null($object) && isset($object->min_price) && isset($object->max_price)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price<:max_price AND article.price>:min_price";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price <= :max_price AND article.price >= :min_price";
           $haveWHERE = true;
         }
 
         // Check for search
          if(!is_null($object) && isset($object->search)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.title LIKE CONCAT('%',:title_s,'%') OR store.public_name LIKE CONCAT('%',:store_name_s,'%') OR category.title LIKE CONCAT('%',:category_s,'%')";
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."(article.title LIKE CONCAT('%',:title_s,'%') OR store.public_name LIKE CONCAT('%',:store_name_s,'%') OR category.title LIKE CONCAT('%',:category_s,'%'))";
           $haveWHERE = true;
         }  
 
