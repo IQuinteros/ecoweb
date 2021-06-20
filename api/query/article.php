@@ -215,7 +215,7 @@ class Article extends Connection{
           if(isset($object->quantity)){
             $resultado->bindParam(':quantity', $object->quantity, PDO::PARAM_INT);
           }else{
-            $resultado->bindValue(':quantity', 10, PDO::PARAM_INT);
+            $resultado->bindValue(':quantity', 20, PDO::PARAM_INT);
           }
 
           if(isset($object->id_list)){
