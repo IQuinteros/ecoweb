@@ -88,6 +88,8 @@ class Purchase extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."chat_id=:chat_id";
             $haveWHERE = true;
         }
+        $sql = $sql." ORDER BY creation_date DESC";
+
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){

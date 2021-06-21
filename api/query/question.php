@@ -62,6 +62,8 @@ class Question extends Connection{
        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_id=:article_id";
        $haveWHERE = true;
      }
+     $sql = $sql." ORDER BY creation_date DESC";
+
      try{
       $resultado=$this->pdo->prepare($sql);
       if(isset($object->id)){

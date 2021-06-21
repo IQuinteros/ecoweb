@@ -76,6 +76,8 @@ class Opinion extends Connection{
         $haveWHERE = true;
       }
 
+      $sql = $sql." ORDER BY opinion.creation_date DESC";
+
        try{
         $resultado=$this->pdo->prepare($sql);
         if(isset($object->id)){

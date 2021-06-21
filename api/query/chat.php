@@ -62,7 +62,7 @@ class Chat extends Connection{
             $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
             $re=$resultado->execute();
             $this->pdo = null;
-            return $re;
+            return array($re);
         }catch(PDOException $e){
             echo $e->getMessage();
             return $e;
