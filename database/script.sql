@@ -184,11 +184,11 @@ CREATE TABLE article_form(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     last_update_date timestamp not null,
-    recycled_mats varchar(10) not null,
+    recycled_mats varchar(100) not null,
     recycled_mats_detail varchar(255),
     general_detail text,
     reuse_tips text,
-    recycled_prod varchar(10) not null,
+    recycled_prod varchar(100) not null,
     recycled_prod_detail varchar(255),
     PRIMARY KEY (id)
 );
@@ -216,11 +216,6 @@ CREATE TABLE article_purchase(
 ALTER TABLE search
     ADD CONSTRAINT search_user_FK
     FOREIGN KEY(user_id) REFERENCES `user`(id)
-;
-
-ALTER TABLE `user`
-    ADD CONSTRAINT user_profile_FK
-    FOREIGN KEY(profile_id) REFERENCES `profile`(id)
 ;
 
 ALTER TABLE `profile`
@@ -255,12 +250,12 @@ ALTER TABLE question
     ADD CONSTRAINT question_profile_FK
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT question_article_FK
-    FOREIGN KEY(article_id) REFERENCES article(id),
+    FOREIGN KEY(article_id) REFERENCES article(id)
 ;
 
 ALTER TABLE answer
     ADD CONSTRAINT answer_question_FK
-    FOREIGN KEY(question_id) REFERENCES `question`(id),
+    FOREIGN KEY(question_id) REFERENCES `question`(id)
 ;
 
 ALTER TABLE favorite
@@ -281,14 +276,14 @@ ALTER TABLE chat
     ADD CONSTRAINT chat_store_FK
     FOREIGN KEY(store_id) REFERENCES store(id),
     ADD CONSTRAINT chat_purchase_FK
-    FOREIGN KEY(purchase_id) REFERENCES purchase(id),
+    FOREIGN KEY(purchase_id) REFERENCES purchase(id)
 ;
 
 ALTER TABLE purchase
     ADD CONSTRAINT purchase_profile_FK
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT purchase_info_purchase_FK
-    FOREIGN KEY(info_purchase_id) REFERENCES info_purchase(id),
+    FOREIGN KEY(info_purchase_id) REFERENCES info_purchase(id)
 ;
 
 ALTER TABLE article
@@ -316,10 +311,8 @@ ALTER TABLE article_purchase
     ADD CONSTRAINT article_purchase_article_FK
     FOREIGN KEY(article_id) REFERENCES article(id),
     ADD CONSTRAINT article_purchase_store_FK
-    FOREIGN KEY(store_id) REFERENCES store(id),
+    FOREIGN KEY(store_id) REFERENCES store(id)
 ;
-
-ALTER TABLE `user` ADD COLUMN lastConnectionDate datetime not null;
 
 ALTER TABLE store ADD COLUMN photo_url varchar(255);
 
@@ -380,7 +373,7 @@ GRANT SELECT, UPDATE ON TABLE `user` TO 'registered'@'localhost';
 GRANT INSERT ON TABLE `search` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `profile` TO 'registered'@'localhost';
 GRANT SELECT, INSERT, DELETE ON TABLE `history` TO 'registered'@'localhost';
-GRANT SELECT, INSERT, ON TABLE `history_detail` TO 'registered'@'localhost';
+GRANT SELECT, INSERT ON TABLE `history_detail` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `opinion` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `question` TO 'registered'@'localhost';
 GRANT SELECT ON TABLE `answer` TO 'registered'@'localhost';
