@@ -1,0 +1,97 @@
+@use "sass:math"
+    
+$primary-color: rgba(20, 153, 17, 1.0)
+$primary-dark-color: rgba(37, 109, 27, 1.0)
+$left-bar-color: rgba(0, 139, 114, 1.0)
+$accent-color: rgba(245, 184, 46, 1.0)
+$accent-blue-color: rgba(58, 174, 216, 1.0)
+$blue-color: rgba(17, 75, 95, 1.0)
+$red-color: rgba(254, 95, 85, 1.0)
+$dark-color: rgba(0, 27, 46, 1.0)
+$shadow-color: rgba(0, 0, 0, 0.25)
+$padding-unit: 20px
+$margin-unit: 20px
+
+@mixin padding($vertical: 1, $horizontal: 1) 
+  padding: ($padding-unit * $vertical) ($padding-unit * $horizontal)
+
+@mixin centerContent()
+    display: flex
+    align-items: center
+    justify-content: center
+
+@mixin shadow($horizontal: 0, $vertical: 0)
+    box-shadow: $horizontal $vertical 3px $shadow-color
+
+* 
+    border: 0
+    margin: 0
+    box-sizing: border-box
+
+html
+    font-size: 62.5%
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif
+
+.layout    
+    display: grid
+    grid-template-areas: "leftbar main" "footer footer"
+    grid-template-rows: 1fr 80px
+    grid-template-columns: 300px 1fr
+    width: 100vw
+    min-height: 100vh
+
+
+.main
+    grid-area: main
+
+.footer 
+    @include centerContent()
+    @include shadow($vertical: -3px)
+
+    background-color: $blue-color
+    color: white
+    font-size: 1.4rem
+    grid-area: footer
+    
+/* Left bar */
+
+.leftbar
+    @include shadow($horizontal: 3px)
+    @include padding($vertical: 1, $horizontal: 0)
+
+    background-color: $left-bar-color
+    box-shadow: 3px 0 3px $shadow-color
+    color: white
+    font-size: 1.4rem
+    grid-area: leftbar
+
+.leftbar__title,
+.leftbar__date
+    @include padding($vertical: 0, $horizontal: 2)
+
+    margin-bottom: math.div($margin-unit, 2)
+
+.nav
+    margin: $margin-unit 0
+
+    .nav__list
+        padding: 0
+        display: flex
+        flex-flow: column nowrap
+        list-style: none
+
+        .nav__list__item 
+            @include padding($vertical: 0.5, $horizontal: 2)
+            
+            display: block
+            color: white
+            text-decoration: none
+            width: 100%
+
+        .nav__list__item:hover,
+        .nav__list__item.nav__list__item--selected:hover
+            background-color: $primary-color
+            transition: 0.2s background-color
+
+        .nav__list__item.nav__list__item--selected
+            background-color: $accent-blue-color
