@@ -43,7 +43,6 @@ require_once('include.php');
      $object = json_decode(json_encode(array("store_id" => $id)));
      
       $article = $articleConnection->select_article($object); 
-      //isset($store)
       foreach($article as $value){                                           
            echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
           echo "".$value->form->recycled_mats."".$value->form->recycled_prod."";
@@ -52,7 +51,8 @@ require_once('include.php');
           foreach($history as $val){
             $cont =$cont+1;
           }          
-          echo "visualisaciones :".$cont;              
+          echo "
+          visualisaciones :".$cont;
       $con=0;
       $add=0;
       $opinion=$opinionConection->select_opinion(null,$value->id);

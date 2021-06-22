@@ -5,7 +5,7 @@
       $location=$_POST['location'];
      $district=$_POST['district'];
      $id=$_SESSION["id"];
- //    $update_profile=$profileConnection->update_profile($email,$contact_number,$location,$district,$id);
+   $update_profile=$profileConnection->update_profile(null,null,$email,$contact_number,null,$location,$district,$id);
  }
 ?>
 <!DOCTYPE html>
@@ -25,6 +25,7 @@ $profileConnection = new profile();
 require_once __DIR__.('include.php');
 require_once __DIR__.('api/query/district.php');
 $districtConnection = new district();
+session_start();
 $_SESSION["id"] = $store->id;
 
  ?>

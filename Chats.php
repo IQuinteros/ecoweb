@@ -10,10 +10,20 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(~0);
-require_once('api/query/store.php');
+require_once __DIR__.('/api/query/store.php');
 $storeConnection = new Store();
-//require_once('api/query/message.php');
-//$messageConnection = new message();
+require_once __DIR__.('/api/query/message.php');
+$messageConnection = new message();
+require_once __DIR__.('/api/query/chat.php');
+$chatConnection = new chat();
+require_once __DIR__.('/api/query/user.php');
+$userConnection = new user();
+require_once __DIR__.('/api/query/profile.php');
+$profileConnection = new profile();
+?>
+<?php 
+session_start();
+$id = $_SESSION["id"]; 
 ?>
 <ul>
 <li><a href="home.php">home</a></li>
@@ -25,8 +35,11 @@ $storeConnection = new Store();
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
+<input type="image" name="botondeenvio" src="" alt="Enviar formulario" value="">
 <table>
+
      <?php 
+     
     //  $article = $articleConnection->select_message(null);
       //isset($store)
      // foreach($message as $value){                                            
