@@ -44,9 +44,11 @@ require_once  ('include.php');
         echo "<option value='".$value->title."'></option>"; 
            $question =$questionConnection->select_question(null,$value->id);
            foreach($question as $val){
-            $profile= $profileConnection->select_profile($val->profile_id);
-      //error      return ($profiles);
-      //por lo anterior      echo "".$profiles->name." ".$profiles->last_name."";
+            $profiles = $profileConnection->select_profile(json_decode(json_encode(array("id" => $val->profile_id))));
+
+            if(count($profiles) > 0){
+                echo "".$profiles[0]->name." ".$profiles[0]->last_name."";
+            }
             echo "".$val->question;
 
       }
