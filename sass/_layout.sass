@@ -1,0 +1,87 @@
+@use "sass:math"
+    
+.layout    
+    display: grid
+    grid-template-areas: "leftbar main" "footer footer"
+    grid-template-rows: 1fr 80px
+    grid-template-columns: 250px 1fr
+    width: 100vw
+    min-height: 100vh
+
+
+.main
+    @include padding()
+    grid-area: main
+    display: grid
+    grid-template-rows: auto 1fr
+    grid-template-columns: 1fr 250px
+    gap: $margin-unit
+    grid-template-areas: "title title" "container buttons"
+
+    .main__title
+        grid-area: title
+        color: $primary-dark-color
+
+    .main__container
+        grid-area: container
+        display: grid
+        gap: $margin-unit
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+        height: min-content
+
+
+.footer 
+    @include centerContent()
+    @include shadow($vertical: -3)
+    @include padding()
+    
+
+    background-color: $blue-color
+    color: white
+    font-size: 1.4rem
+    text-align: center
+    grid-area: footer
+    
+/* Left bar */
+
+.leftbar
+    @include shadow($horizontal: 3)
+    @include padding($vertical: 1, $horizontal: 0)
+
+    background-color: $left-bar-color
+    color: white
+    font-size: 1.4rem
+    grid-area: leftbar
+
+.leftbar__title,
+.leftbar__date
+    @include padding($vertical: 0, $horizontal: 2)
+
+    margin-bottom: math.div($margin-unit, 2)
+
+.nav
+    margin: $margin-unit 0
+
+    .nav__list
+        padding: 0
+        display: flex
+        flex-flow: column nowrap
+        list-style: none
+
+        .nav__list__item 
+            @include padding($vertical: 0.5, $horizontal: 2)
+            
+            display: block
+            color: white
+            text-decoration: none
+            transition: 0.2s background-color, 0.8s box-shadow
+            width: 100%
+
+        .nav__list__item.nav__list__item--selected
+            background-color: $accent-blue-color
+
+        .nav__list__item:hover,
+        .nav__list__item.nav__list__item--selected:hover
+            background-color: $primary-color
+            @include shadow($blur: 6)
+            

@@ -1,0 +1,70 @@
+@use "sass:math"
+@import 'colors'
+@import 'mixins'
+    
+.article
+    background-color: white
+    color: $dark-color
+    display: grid
+    grid-template-columns: 0.5fr 1fr
+    gap: math.div($margin-unit, 2)
+    height: 100px
+    max-height: 100px
+    margin-top: math.div($margin-unit, 2)
+    transition: 0.5s box-shadow
+    overflow: hidden
+
+    .article__img
+        width: 100%
+        height: 100px
+        object-fit: cover
+        @include shadow($horizontal: 3)
+
+    .article__content
+        @include padding($horizontal: 0.5, $vertical: 0.5)
+        display: grid
+        grid-template-rows: auto auto
+        grid-template-columns: 1fr auto
+        grid-template-areas: "title title" "price eco"
+        align-content: space-between
+        padding-right: $padding-unit
+        height: 100%
+        width: 100%
+
+    .article__content__title
+        grid-area: title
+        font-size: 1.4rem
+        font-weight: 400
+    
+    .article__content__price
+        grid-area: price
+        font-weight: 600
+    
+    .ecoindicator
+        justify-content: center
+        justify-items: center
+        grid-area: eco
+        display: grid
+        grid-template-rows: 1fr 1fr
+        grid-template-columns: 1fr 1fr
+        gap: 4px
+    
+        .ecoindicator__circle:nth-child(n + 3)
+            grid-row: 1
+            grid-column: span 2
+        .ecoindicator__circle:only-child
+            grid-column: span 2
+
+    .ecoindicator__circle
+        border-radius: 50%
+        height: 9px
+        width: 9px
+    .ecoindicator__circle--blue
+        background-color: $accent-blue-color
+    .ecoindicator__circle--yellow
+        background-color: $accent-color
+    .ecoindicator__circle--green
+        background-color: $primary-color
+        
+.card.article
+    padding: 0

@@ -1,0 +1,69 @@
+@use "sass:math"
+    
+/* Card */
+
+.card
+    @include shadow($blur: 6)
+    @include padding($vertical: 0.6)
+    
+    background-color: $light-color
+    border-radius: $border-radius-unit
+    color: $primary-dark-color
+
+    .card__header
+        display: inline-flex
+        flex-flow: row wrap
+        justify-content: space-between
+        margin-bottom: math.div($margin-unit, 2)
+        margin-left: -$margin-unit
+        margin-top: - math.div($margin-unit, 3)
+        padding-right: $padding-unit
+        padding-bottom: math.div($padding-unit, 3)
+        width: calc(100% + 40px)
+        @include shadow($vertical: 2, $blur: 2, $opacity: 0.05)
+        
+
+    .card__title
+        font-size: 1.6rem
+        margin-left: $margin-unit
+        margin-top: math.div($margin-unit, 3)
+
+    .card__redirect
+        @include goToLink()    
+        font-size: 1.4rem
+        justify-self: end  
+        margin-left: $margin-unit
+        margin-top: math.div($margin-unit, 3)
+
+    .card__content--unique
+        font-size: 2.2rem
+
+/* Right bar */
+
+.btn
+    text-align: start
+    font-family: $font-family
+    cursor: pointer
+    transition: 0.2s background-color, 0.3s color, 0.3s box-shadow
+.btn:hover
+    @include shadow($vertical: 3, $blur: 10, $opacity: 0.6)
+
+.buttons
+    display: grid
+    gap: $margin-unit
+    grid-area: buttons
+    height: min-content
+
+    .btn
+        background-color: $left-bar-color
+        color: white
+
+        h1
+            font-size: 1.6rem
+            margin-bottom: math.div($margin-unit, 2)
+    .btn--red
+        background-color: $red-color
+    
+    .btn:hover
+        background-color: $primary-color
+        color: white

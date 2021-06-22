@@ -1,0 +1,14 @@
+@mixin padding($vertical: 1, $horizontal: 1) 
+  padding: ($padding-unit * $vertical) ($padding-unit * $horizontal)
+
+@mixin centerContent()
+    display: flex
+    align-items: center
+    justify-content: center
+
+@mixin shadow($horizontal: 0, $vertical: 0, $blur: 3, $opacity: 0.25)
+    box-shadow: ($horizontal * 1px) ($vertical * 1px) ($blur * 1px) adjust-color($shadow-color, $alpha: -1 + $opacity) 
+
+@mixin goToLink()
+    color: $primary-color
+    text-decoration: none
