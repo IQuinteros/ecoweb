@@ -44,8 +44,9 @@ require_once('include.php');
      
       $article = $articleConnection->select_article($object); 
       foreach($article as $value){                                           
-           echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
-          echo "".$value->form->recycled_mats."".$value->form->recycled_prod."";
+           echo "".$value->title?> <li></li><?php echo " ".$value->description?><li></li><?php echo " precio :".$value->price ?><li></li><?php echo "disponible :".$value->stock."";
+           ?><li></li>
+           <?php echo "material : ".$value->form->recycled_mats ?><li></li><?php "producion : ".$value->form->recycled_prod."";
           $history=$historyConnection->select_history($value->id);
           $cont=0;
           foreach($history as $val){
@@ -60,8 +61,8 @@ require_once('include.php');
         $add=$va->rating+$add;
         $con =$con+1;
       }
-      $star=$add/$con;
-      echo "".$star;
+      $star=$add/$con; ?><li></li><?php
+      echo " estrellas :".$star;
     }
      ?>
   </table>

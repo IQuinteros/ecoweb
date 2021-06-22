@@ -41,13 +41,13 @@ require_once  ('include.php');
      
       $article = $articleConnection->select_article($object); 
       foreach($article as $value){                                          
-        echo "<option value='".$value->title."'></option>"; 
+        echo $value->title; ?><li></li><?php
            $question =$questionConnection->select_question(null,$value->id);
            foreach($question as $val){
-            $profiles = $profileConnection->select_profile(json_decode(json_encode(array("id" => $val->profile_id))));
-
-            if(count($profiles) > 0){
-                echo "".$profiles[0]->name." ".$profiles[0]->last_name."";
+            $profile = $profileConnection->select_profile(json_decode(json_encode(array("id" => $val->profile_id))));
+            
+            if(count($profile) > 0){
+              ?><li></li><?php   echo $profile[0]->name.$profile[0]->last_name;
             }
             echo "".$val->question;
 
