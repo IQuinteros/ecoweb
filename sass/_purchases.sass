@@ -1,14 +1,15 @@
-@use 'sass:math'
-.chat
+@use "sass:math"
+@import 'colors'
+@import 'mixins'
+
+.purchase
     background-color: white
     color: $dark-color
     margin-top: math.div($margin-unit, 2)
     width: 100%
 
-    .chat__name
+    .purchase__quantity
         font-size: 1.6rem
         font-weight: 600
-        margin-bottom: math.div($margin-unit, 2)
-    .chat__message
-        font-size: 1.4rem
+    .purchase__status
         margin-bottom: math.div($margin-unit, 2)

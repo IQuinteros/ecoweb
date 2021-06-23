@@ -66,5 +66,16 @@
     .ecoindicator__circle--green
         background-color: $primary-color
         
+@media screen and ( max-width: 400px )
+    .article
+        grid-template-columns: 1fr
+        gap: 0
+        height: min-content
+        max-height: 200px
+        .article__content
+            margin-bottom: math.div($margin-unit, 3)
+            height: 100%
+            width: 100%
+
 .card.article
     padding: 0

@@ -45,25 +45,9 @@
     font-family: $font-family
     cursor: pointer
     transition: 0.2s background-color, 0.3s color, 0.3s box-shadow
+.btn.btn--red
+    background-color: $red-color
+    color: white
 .btn:hover
     @include shadow($vertical: 3, $blur: 10, $opacity: 0.6)
 
-.buttons
-    display: grid
-    gap: $margin-unit
-    grid-area: buttons
-    height: min-content
-
-    .btn
-        background-color: $left-bar-color
-        color: white
-
-        h1
-            font-size: 1.6rem
-            margin-bottom: math.div($margin-unit, 2)
-    .btn--red
-        background-color: $red-color
-    
-    .btn:hover
-        background-color: $primary-color
-        color: white

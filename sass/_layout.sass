@@ -5,16 +5,22 @@
     grid-template-areas: "leftbar main" "footer footer"
     grid-template-rows: 1fr 80px
     grid-template-columns: 250px 1fr
-    width: 100vw
+    width: 100%
+    max-width: 100vw
     min-height: 100vh
 
+@media screen and ( max-width: 400px )
+    .layout
+        display: flex
+        flex-flow: column nowrap
+        grid-template-columns: 1fr
 
 .main
     @include padding()
     grid-area: main
     display: grid
     grid-template-rows: auto 1fr
-    grid-template-columns: 1fr 250px
+    grid-template-columns: 1fr minmax(200px, 250px)
     gap: $margin-unit
     grid-template-areas: "title title" "container buttons"
 
@@ -26,8 +32,16 @@
         grid-area: container
         display: grid
         gap: $margin-unit
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))
         height: min-content
+
+@media screen and ( max-width: 900px )
+    .main
+        grid-template-columns: 1fr
+        grid-template-rows: auto
+        grid-template-areas: "title" "buttons" "container"
+        .main__container
+            grid-template-columns: 1fr
 
 
 .footer 
@@ -52,13 +66,65 @@
     color: white
     font-size: 1.4rem
     grid-area: leftbar
+    display: flex
+    flex-flow: column nowrap
 
-.leftbar__title,
-.leftbar__date
-    @include padding($vertical: 0, $horizontal: 2)
+    .leftbar__title,
+    .leftbar__date
+        @include padding($vertical: 0, $horizontal: 2)
 
-    margin-bottom: math.div($margin-unit, 2)
-
+        margin-bottom: math.div($margin-unit, 2)
+    .leftbar__img
+        @include shadow()
+        width: 80px
+        height: 80px
+        object-fit: cover
+        border-radius: 50%
+        align-self: center
+        margin-bottom: $margin-unit
+    .leftbar__menu
+        color: white
+        display: none
+        text-decoration: none
+        
+    .leftbar__appbar
+        display: flex
+        align-items: center   
+        justify-content: center
+        
+@media screen and ( max-width: 400px )
+    .leftbar
+        @include padding($vertical: 0, $horizontal: 0)
+        max-height: 100px
+        overflow: hidden
+        .leftbar__img
+            align-self: flex-end 
+            width: 40px
+            height: 40px
+            margin-bottom: 0
+        .leftbar__title,
+        .leftbar__date
+            display: none
+        .leftbar__menu
+            display: flex
+            align-items: center
+            span:first-child
+                margin-right: math.div($margin-unit, 2)
+        .leftbar__appbar
+            @include padding($vertical: 0.5, $horizontal: 1)
+            @include shadow($vertical: 3)
+            justify-content: space-between  
+            
+    .leftbar.open
+        max-height: 900px
+        transition: max-height 1s ease-in-out
+        .leftbar__title,
+        .leftbar__date
+            display: block
+        .leftbar__appbar
+            margin-bottom: $margin-unit
+   
+        
 .nav
     margin: $margin-unit 0
 
@@ -70,12 +136,14 @@
 
         .nav__list__item 
             @include padding($vertical: 0.5, $horizontal: 2)
-            
-            display: block
+            align-items: center
+            display: grid
+            grid-template-columns: auto 1fr
+            gap: math.div($margin-unit, 2)
             color: white
             text-decoration: none
             transition: 0.2s background-color, 0.8s box-shadow
-            width: 100%
+            width: 100%                
 
         .nav__list__item.nav__list__item--selected
             background-color: $accent-blue-color
@@ -84,4 +152,61 @@
         .nav__list__item.nav__list__item--selected:hover
             background-color: $primary-color
             @include shadow($blur: 6)
+
+@media screen and ( max-width: 400px )
+    .nav
+        display: none
+    .leftbar.open
+        .nav
+            display: block
+
+@media screen and ( max-width: 680px) and (min-width: 401px)
+    .layout
+        grid-template-columns: auto 1fr
+    .leftbar
+        .leftbar__date,
+        .leftbar__title
+            display: none
+        .leftbar__img
+            width: 40px
+            height: 40px
+    .nav
+        .nav__list
+            .nav__list__item
+                @include padding($vertical: 0.5, $horizontal: 1)
+                gap: 0
+                .nav__list__item__text
+                    display: none
+    .main
+        .main__container
+            grid-template-columns: 1fr
             
+/* Buttons section */
+
+.buttons
+    display: grid
+    gap: $margin-unit
+    grid-area: buttons
+    height: min-content
+
+    .btn
+        background-color: $left-bar-color
+        color: white
+
+        h1
+            font-size: 1.6rem
+            margin-bottom: math.div($margin-unit, 2)
+    .btn.btn--red
+        background-color: $red-color
+    
+    .btn:hover
+        background-color: $primary-color
+        color: white
+
+@media screen and ( max-width: 900px )
+    .buttons
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))
+
+@media screen and (max-width: 400px)
+    .buttons
+        grid-template-columns: 1fr
