@@ -130,8 +130,13 @@ class Article extends Connection{
           $haveWHERE = true;
         }
         // Check for price
-        if(!is_null($object) && isset($object->min_price) && isset($object->max_price)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price <= :max_price AND article.price >= :min_price";
+        if(!is_null($object) && isset($object->max_price)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price <= :max_price";
+          $haveWHERE = true;
+        }
+        // Check for price
+        if(!is_null($object) && isset($object->min_price)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price >= :min_price";
           $haveWHERE = true;
         }
 
