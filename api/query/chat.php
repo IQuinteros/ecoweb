@@ -71,7 +71,7 @@ class Chat extends Connection{
     }
     public function select_chat($object){
         $this->connection_hosting();
-        $sql="SELECT * FROM `chat`";
+        $sql="SELECT chat.* FROM `chat` INNER JOIN purchase ON chat.purchase_id = purchase.id";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -98,6 +98,12 @@ class Chat extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."purchase_id=:purchase_id";
             $haveWHERE = true;
         }
+        // Check for profile id
+        if(!is_null($object) && isset($object->profile_id)){
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."purchase.profile_id=:profile_id";
+            $haveWHERE = true;
+        }
+        
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){
@@ -111,7 +117,10 @@ class Chat extends Connection{
             }
             if(isset($object->purchase_id)){
                 $resultado->bindParam(':purchase_id', $object->purchase_id, PDO::PARAM_INT);
-              }
+            }
+            if(isset($object->profile_id)){
+                $resultado->bindParam(':profile_id', $object->profile_id, PDO::PARAM_INT);
+            }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_chat = array();
