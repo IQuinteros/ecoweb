@@ -50,10 +50,14 @@ require_once  ('include.php');
               ?><li></li><?php   echo $profile[0]->name.$profile[0]->last_name;
             }
             echo "".$val->question;
+            $id_question =$val->id;
 
       }
       ?> 
-      <li><a href="answer.php">Responder</a></li></ul> 
+      <form action="respuesta.php" method="post">
+     <input type="hidden" name="id_question" value="<?php $id_question?>" />            
+                  <input type="submit" value="Responder" />
+            </form>
       <?php
     }
           

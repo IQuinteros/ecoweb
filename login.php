@@ -28,9 +28,10 @@ error_reporting(~0);
 require_once('include.php');
  ?>
  <script>
- if( $_SESSION["id"] == null){
+ x =<?php  $_SESSION["id"]?>;
+ if(  x == null){
  var page="login.php";
- }else{if($_SESSION["id"] != null
+ }else{if(x != null
  ){
     var page="home.php"
  }}

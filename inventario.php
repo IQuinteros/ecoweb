@@ -62,7 +62,7 @@ require_once('include.php');
         $con =$con+1;
       }
       $star=$add/$con; ?><li></li><?php
-      echo " estrellas :".$star;
+      echo " estrellas :".$star;?><li></li><?php
     }
      ?>
   </table>
