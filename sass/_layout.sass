@@ -24,10 +24,26 @@
     gap: $margin-unit
     grid-template-areas: "title title" "container buttons"
 
-    .main__title
-        grid-area: title
+    .main__header
         color: $primary-dark-color
-
+        display: grid
+        grid-template-areas: "title topright" "subtitle bottomright"
+        gap: math.div($margin-unit, 2)
+        grid-area: title
+        .header__title
+            grid-area: title
+        .header__subtitle
+            font-weight: 400
+        .header__subtitle--bottomleft
+            grid-area: subtitle
+        .header__subtitle--topright
+            grid-area: topright
+        .header__subtitle--bottomright
+            grid-area: bottomright
+        .header__subtitle--topright,
+        .header__subtitle--bottomright
+            text-align: end
+            
     .main__container
         grid-area: container
         display: grid
@@ -42,6 +58,16 @@
         grid-template-areas: "title" "buttons" "container"
         .main__container
             grid-template-columns: 1fr
+
+@media screen and ( max-width: 400px )
+    .main
+        .main__header
+            grid-template-areas: "title" "subtitle" "topright" "bottomright"
+            grid-template-columns: 1fr
+
+            .header__subtitle--topright,
+            .header__subtitle--bottomright
+                text-align: start
 
 
 .footer 
