@@ -23,6 +23,7 @@
     grid-template-columns: 1fr minmax(200px, 250px)
     gap: $margin-unit
     grid-template-areas: "title title" "container buttons"
+    height: min-content
 
     .main__header
         color: $primary-dark-color
@@ -50,6 +51,14 @@
         gap: $margin-unit
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))
         height: min-content
+    .main__container.unique
+        display: flex
+        flex-flow: columns nowrap
+        justify-content: stretch
+        justify-items: stretch
+        .card
+            width: 100%
+            height: 100%
 
 @media screen and ( max-width: 900px )
     .main

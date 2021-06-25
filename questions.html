@@ -42,11 +42,11 @@
                     <span class="material-icons material-icons-outlined">chat_bubble_outline</span>
                     <span class="nav__list__item__text">Chats</span>
                 </a>
-                <a href="questions.html" class="nav__list__item">
+                <a href="questions.html" class="nav__list__item nav__list__item--selected">
                     <span class="material-icons material-icons-outlined">live_help</span>
                     <span class="nav__list__item__text">Preguntas</span>
                 </a>
-                <a href="rating.html" class="nav__list__item nav__list__item--selected">
+                <a href="rating.html" class="nav__list__item">
                     <span class="material-icons material-icons-outlined">star_outline</span>
                     <span class="nav__list__item__text">Valoraciones</span>
                 </a>
@@ -72,10 +72,9 @@
 
     <main class="main">
         <header class="main__header">
-            <h1 class="header__title">Valoraciones a tus productos</h1>
-            <h2 class="header__subtitle header__subtitle--bottomleft">88 valoraciones positivas en total</h2>
-            <h2 class="header__subtitle header__subtitle--topright">88 nuevas valoraciones hoy</h2>
-            <h2 class="header__subtitle header__subtitle--bottomright">150 valoraciones en total</h2>
+            <h1 class="header__title">Preguntas</h1>
+            <h2 class="header__subtitle header__subtitle--bottomleft">58 preguntas sin responder</h2>
+            <h2 class="header__subtitle header__subtitle--bottomright">100 preguntas en total</h2>
         </header>
         
         <div class="main__container unique">
@@ -89,17 +88,28 @@
                         </div>
                         <div class="list-item__content__row">
                             <p class="w300">Nombre y apellido</p>
-                            <div class="stars">
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--inactive">star</span>
-                            </div>
                         </div>
                         <div class="list-item__content__row">
-                            <p>Excelente producto</p>
-                            <a href="#">Ver comentario</a>
+                            <p>¿Cuál es la pregunta que estoy preguntando?</p>
+                            <a href="#">Responder</a>
+                        </div>
+                    </div>
+                </button>
+                <hr class="divider">
+                <button class="list-item">
+                    <img class="list-item__img" src="https://source.unsplash.com/random/1" alt="image">
+                    <div class="list-item__content">
+                        <div class="list-item__content__row">
+                            <a class="list-item__content__title" href="#">Nombre del producto completo</a>
+                            <p>Hoy</p>
+                        </div>
+                        <div class="list-item__content__row">
+                            <p class="w300">Nombre y apellido</p>
+                            <p class="w300">Ya respondido</p>
+                        </div>
+                        <div class="list-item__content__row">
+                            <p>¿Cuál es la pregunta que estoy preguntando?</p>
+                            <a href="#">Ver respuesta</a>
                         </div>
                     </div>
                 </button>

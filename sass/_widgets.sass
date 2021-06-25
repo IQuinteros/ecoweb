@@ -38,6 +38,126 @@
     .card__content--unique
         font-size: 2.2rem
 
+    .list-item
+        border-radius: $border-radius-unit
+        background-color: transparent
+        display: grid
+        grid-template-rows: 1fr
+        grid-template-columns: auto 1fr
+        gap: math.div($margin-unit, 2)
+        @include padding($vertical: 0.5, $horizontal: 0.5)
+        width: 100%
+        height: 100%
+        .list-item__img
+            @include shadow($vertical: 3)
+            width: 80px
+            height: 80px
+            object-fit: cover
+            border-radius: $border-radius-unit
+        .list-item__content
+            display: flex
+            flex-flow: column nowrap
+            height: 100%
+            .list-item__content__title
+                text-align: start
+                font-size: 1.6rem
+                font-weight: 500
+            .list-item__content__row
+                justify-self: center
+                display: grid
+                grid-template-columns: 1fr 1fr
+                flex-grow: 1
+                justify-content: space-between
+                justify-items: start
+                align-items: center
+                a:nth-child(n),
+                p:nth-child(n),
+                div:nth-child(n)
+                    justify-self: start
+                    text-align: start
+                a:nth-child(2n),
+                p:nth-child(2n),
+                div:nth-child(2n)
+                    justify-self: end
+                    text-align: end
+            .list-item__content__row:nth-child(2n)
+                margin: math.div($margin-unit, 3) 0
+            a
+                color: $primary-color
+                text-decoration: none
+            .star--active
+                color: $accent-color
+            .star--inactive
+                color: gray
+
+// Optimize
+@media screen and ( min-width:  901px) and (max-width: 1040px)
+    .card
+        .list-item
+            justify-items: center
+            grid-template-columns: 1fr
+            grid-template-rows: auto auto
+            .list-item__img
+                width: 80%
+            .list-item__content
+                .list-item__content__title
+                    text-align: center
+                display: grid
+                grid-template-columns: 1fr
+                gap: math.div($margin-unit, 2)
+                .list-item__content__row
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    a:nth-child(n),
+                    p:nth-child(n),
+                    div:nth-child(n)
+                        justify-self: center
+// Optimize
+@media screen and ( min-width:  681px) and (max-width: 810px)
+    .card
+        .list-item
+            justify-items: center
+            grid-template-columns: 1fr
+            grid-template-rows: auto auto
+            .list-item__img
+                width: 80%
+            .list-item__content
+                .list-item__content__title
+                    text-align: center
+                display: grid
+                grid-template-columns: 1fr
+                gap: math.div($margin-unit, 2)
+                .list-item__content__row
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    a:nth-child(n),
+                    p:nth-child(n),
+                    div:nth-child(n)
+                        justify-self: center
+// Optimize
+@media screen and (max-width: 590px)
+    .card
+        .list-item
+            justify-items: center
+            grid-template-columns: 1fr
+            grid-template-rows: auto auto
+            .list-item__img
+                width: 80%
+            .list-item__content
+                .list-item__content__title
+                    text-align: center
+                display: grid
+                grid-template-columns: 1fr
+                gap: math.div($margin-unit, 2)
+                .list-item__content__row
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    a:nth-child(n),
+                    p:nth-child(n),
+                    div:nth-child(n)
+                        justify-self: center
+            
+
 @media screen and ( min-width:  901px)
     .card__chart
         width: 100%
@@ -59,6 +179,8 @@
         max-width: calc(100vw - 80px)
 
 /* Right bar */
+button
+    font-family: $font-family
 
 .btn
     text-align: start
@@ -71,3 +193,9 @@
 .btn:hover
     @include shadow($vertical: 3, $blur: 10, $opacity: 0.6)
 
+.divider
+    width: 100%
+    border: none
+    background-color: rgba(0, 0, 0, 0.1)
+    height: 1px
+    margin: math.div($margin-unit, 2) 0
