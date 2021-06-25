@@ -8,6 +8,8 @@
 
 @mixin shadow($horizontal: 0, $vertical: 0, $blur: 3, $opacity: 0.25)
     box-shadow: ($horizontal * 1px) ($vertical * 1px) ($blur * 1px) adjust-color($shadow-color, $alpha: -1 + $opacity) 
+@mixin textShadow($horizontal: 0, $vertical: 0, $blur: 3, $opacity: 0.25)
+    text-shadow: ($horizontal * 1px) ($vertical * 1px) ($blur * 1px) adjust-color($shadow-color, $alpha: -1 + $opacity) 
 
 @mixin goToLink()
     color: $primary-color

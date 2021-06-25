@@ -12,3 +12,51 @@
     .chat__message
         font-size: 1.4rem
         margin-bottom: math.div($margin-unit, 2)
+
+.chat-list__item
+    background-color: transparent
+    color: $dark-color
+    cursor: pointer
+    align-items: center
+    display: grid
+    grid-template-areas: "image . status" "image . status"
+    grid-template-columns: auto 1fr auto
+    gap: math.div($margin-unit, 1.5)
+    justify-items: start
+    text-align: start
+    width: 100%
+    img
+        @include shadow($vertical: 3)
+        grid-area: image
+        border-radius: 50%
+        height: 50px
+        width: 50px
+        object-fit: cover
+        transition: 0.3s box-shadow
+    h1
+        color: $primary-color
+        align-self: end
+        transition: 0.3s text-shadow
+    p
+        align-self: start
+        transition: 0.3s text-shadow
+    .chat-list__item__status
+        background-color: $red-color
+        border-radius: 50%
+        height: 10px
+        width: 10px
+        grid-area: status
+        transition: 0.3s box-shadow
+button.chat-list__item:hover
+    img
+        @include shadow($vertical: 6, $blur: 5)
+    h1,
+    p
+        @include textShadow($vertical: 1)
+        color: $primary-color
+    .chat-list__item__status
+        @include shadow($vertical: 3)
+
+div.chat-list__item
+    grid-template-areas: "image ." "image ."
+    grid-template-columns: auto 1fr
