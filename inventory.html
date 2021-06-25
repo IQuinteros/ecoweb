@@ -46,11 +46,11 @@
                     <span class="material-icons material-icons-outlined">live_help</span>
                     <span class="nav__list__item__text">Preguntas</span>
                 </a>
-                <a href="rating.html" class="nav__list__item nav__list__item--selected">
+                <a href="rating.html" class="nav__list__item">
                     <span class="material-icons material-icons-outlined">star_outline</span>
                     <span class="nav__list__item__text">Valoraciones</span>
                 </a>
-                <a href="inventory.html" class="nav__list__item">
+                <a href="inventory.html" class="nav__list__item nav__list__item--selected">
                     <span class="material-icons material-icons-outlined">inventory_2</span>
                     <span class="nav__list__item__text">Inventario</span>
                 </a>
@@ -72,10 +72,9 @@
 
     <main class="main">
         <header class="main__header">
-            <h1 class="header__title">Valoraciones a tus productos</h1>
-            <h2 class="header__subtitle header__subtitle--bottomleft">88 valoraciones positivas en total</h2>
-            <h2 class="header__subtitle header__subtitle--topright">88 nuevas valoraciones hoy</h2>
-            <h2 class="header__subtitle header__subtitle--bottomright">150 valoraciones en total</h2>
+            <h1 class="header__title">Inventario</h1>
+            <h2 class="header__subtitle header__subtitle--topright">50 artículos publicados</h2>
+            <h2 class="header__subtitle header__subtitle--bottomright">5 artículos desactivados</h2>
         </header>
         
         <div class="main__container unique">
@@ -85,10 +84,18 @@
                     <div class="list-item__content">
                         <div class="list-item__content__row">
                             <a class="list-item__content__title" href="#">Nombre del producto completo</a>
-                            <p>Hoy</p>
+                            <p>Publicado</p>
                         </div>
                         <div class="list-item__content__row">
-                            <p class="w300">Nombre y apellido</p>
+                            <p class="w300">$45.000</p>
+                            <div class="ecoindicator ecoindicator--linear">
+                                <div class="ecoindicator__circle ecoindicator__circle--green"></div>
+                                <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
+                                <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
+                            </div>
+                        </div>
+                        <div class="list-item__content__row">
+                            <p>2531 visualizaciones</p>
                             <div class="stars">
                                 <span class="material-icons star--active">star</span>
                                 <span class="material-icons star--active">star</span>
@@ -96,10 +103,6 @@
                                 <span class="material-icons star--active">star</span>
                                 <span class="material-icons star--inactive">star</span>
                             </div>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p>Excelente producto</p>
-                            <a href="#">Ver comentario</a>
                         </div>
                     </div>
                 </button>

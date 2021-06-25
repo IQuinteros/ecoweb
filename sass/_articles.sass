@@ -31,6 +31,9 @@
         height: 100%
         width: 100%
 
+        .ecoindicator
+            grid-area: eco
+
     .article__content__title
         grid-area: title
         font-size: 1.4rem
@@ -40,31 +43,34 @@
         grid-area: price
         font-weight: 600
     
-    .ecoindicator
-        justify-content: center
-        justify-items: center
-        grid-area: eco
-        display: grid
-        grid-template-rows: 1fr 1fr
-        grid-template-columns: 1fr 1fr
-        gap: 4px
-    
-        .ecoindicator__circle:nth-child(n + 3)
-            grid-row: 1
-            grid-column: span 2
-        .ecoindicator__circle:only-child
-            grid-column: span 2
+.ecoindicator
+    justify-content: center
+    justify-items: center
+    display: grid
+    grid-template-rows: 1fr 1fr
+    grid-template-columns: 1fr 1fr
+    gap: 4px
 
-    .ecoindicator__circle
-        border-radius: 50%
-        height: 9px
-        width: 9px
-    .ecoindicator__circle--blue
-        background-color: $accent-blue-color
-    .ecoindicator__circle--yellow
-        background-color: $accent-color
-    .ecoindicator__circle--green
-        background-color: $primary-color
+    .ecoindicator__circle:nth-child(n + 3)
+        grid-row: 1
+        grid-column: span 2
+    .ecoindicator__circle:only-child
+        grid-column: span 2
+
+.ecoindicator--linear
+    display: flex
+    flex-flow: row nowrap
+
+.ecoindicator__circle
+    border-radius: 50%
+    height: 9px
+    width: 9px
+.ecoindicator__circle--blue
+    background-color: $accent-blue-color
+.ecoindicator__circle--yellow
+    background-color: $accent-color
+.ecoindicator__circle--green
+    background-color: $primary-color
         
 @media screen and ( max-width: 400px )
     .article

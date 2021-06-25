@@ -570,6 +570,9 @@ button {
   height: 100%;
   width: 100%;
 }
+.article .article__content .ecoindicator {
+  grid-area: eco;
+}
 .article .article__content__title {
   grid-area: title;
   font-size: 1.4rem;
@@ -579,34 +582,43 @@ button {
   grid-area: price;
   font-weight: 600;
 }
-.article .ecoindicator {
+
+.ecoindicator {
   justify-content: center;
   justify-items: center;
-  grid-area: eco;
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
   gap: 4px;
 }
-.article .ecoindicator .ecoindicator__circle:nth-child(n+3) {
+.ecoindicator .ecoindicator__circle:nth-child(n+3) {
   grid-row: 1;
   grid-column: span 2;
 }
-.article .ecoindicator .ecoindicator__circle:only-child {
+.ecoindicator .ecoindicator__circle:only-child {
   grid-column: span 2;
 }
-.article .ecoindicator__circle {
+
+.ecoindicator--linear {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.ecoindicator__circle {
   border-radius: 50%;
   height: 9px;
   width: 9px;
 }
-.article .ecoindicator__circle--blue {
+
+.ecoindicator__circle--blue {
   background-color: #3aaed8;
 }
-.article .ecoindicator__circle--yellow {
+
+.ecoindicator__circle--yellow {
   background-color: #f5b82e;
 }
-.article .ecoindicator__circle--green {
+
+.ecoindicator__circle--green {
   background-color: #149911;
 }
 
