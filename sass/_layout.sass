@@ -53,7 +53,7 @@
         height: min-content
     .main__container.unique
         display: flex
-        flex-flow: columns nowrap
+        flex-flow: column nowrap
         justify-content: stretch
         justify-items: stretch
         .card
@@ -70,6 +70,7 @@
 
 @media screen and ( max-width: 400px )
     .main
+        margin-top: 70px
         .main__header
             grid-template-areas: "title" "subtitle" "topright" "bottomright"
             grid-template-columns: 1fr
@@ -131,7 +132,10 @@
     .leftbar
         @include padding($vertical: 0, $horizontal: 0)
         max-height: 100px
+        position: fixed
         overflow: hidden
+        right: 0
+        left: 0
         .leftbar__img
             align-self: flex-end 
             width: 40px

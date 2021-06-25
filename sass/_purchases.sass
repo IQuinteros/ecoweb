@@ -13,3 +13,50 @@
         font-weight: 600
     .purchase__status
         margin-bottom: math.div($margin-unit, 2)
+
+.card--purchase
+    display: grid
+    grid-template-columns: 1fr 1fr
+    gap: $margin-unit
+    width: 100%
+    .purchase-list
+        display: grid
+        grid-template-columns: 1fr
+        gap: math.div($margin-unit, 2)
+        margin-bottom: $margin-unit
+        h1
+            margin-bottom: math.div($margin-unit, 2)
+        .purchase-list__article
+            display: grid
+            grid-template-areas: "image ." "image ."
+            gap: math.div($margin-unit, 2)
+            justify-content: start
+            align-items: center
+            img
+                @include shadow($vertical: 3)
+                border-radius: $border-radius-unit
+                grid-area: image
+                height: 80px
+                width: 80px
+    .purchase-info
+        .purchase-info__header
+            display: flex
+            flex-flow: row nowrap
+            justify-content: space-between
+            margin-bottom: $margin-unit
+        h2,
+        span,
+        a
+            display: block
+            margin-bottom: math.div($margin-unit, 3)
+
+@media screen and ( max-width: 530px )
+    .card--purchase
+        grid-template-columns: 1fr
+        .purchase-list
+            order: 2
+        .purchase-info
+            order: 1
+        
+            
+            
