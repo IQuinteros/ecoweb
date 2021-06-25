@@ -24,6 +24,7 @@
         grid-template-columns: 1fr
         gap: math.div($margin-unit, 2)
         margin-bottom: $margin-unit
+        height: min-content
         h1
             margin-bottom: math.div($margin-unit, 2)
         .purchase-list__article
@@ -38,6 +39,7 @@
                 grid-area: image
                 height: 80px
                 width: 80px
+                object-fit: cover
     .purchase-info
         .purchase-info__header
             display: flex

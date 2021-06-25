@@ -138,6 +138,7 @@
 .card .list-item .list-item__content .list-item__content__row p:nth-child(n),
 .card .list-item .list-item__content .list-item__content__row div:nth-child(n) {
     justify-self: center;
+    text-align: center;
   }
 }
 @media screen and (min-width: 681px) and (max-width: 810px) {
@@ -165,6 +166,7 @@
 .card .list-item .list-item__content .list-item__content__row p:nth-child(n),
 .card .list-item .list-item__content .list-item__content__row div:nth-child(n) {
     justify-self: center;
+    text-align: center;
   }
 }
 @media screen and (max-width: 590px) {
@@ -192,6 +194,7 @@
 .card .list-item .list-item__content .list-item__content__row p:nth-child(n),
 .card .list-item .list-item__content .list-item__content__row div:nth-child(n) {
     justify-self: center;
+    text-align: center;
   }
 }
 @media screen and (min-width: 901px) {
@@ -702,6 +705,7 @@ button {
   grid-template-columns: 1fr;
   gap: 10px;
   margin-bottom: 20px;
+  height: min-content;
 }
 .card--purchase .purchase-list h1 {
   margin-bottom: 10px;
@@ -719,6 +723,7 @@ button {
   grid-area: image;
   height: 80px;
   width: 80px;
+  object-fit: cover;
 }
 .card--purchase .purchase-info .purchase-info__header {
   display: flex;
