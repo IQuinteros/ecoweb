@@ -27,7 +27,6 @@
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
 <?php
-$id_question=null;
 $id_question=$_GET['id_question'];//da error si se abre esta pagina directamente por que no recibe el dato de la pagina pregunta.php
 require_once  ('include.php');
 ini_set('display_errors', 1);

@@ -16,12 +16,9 @@ require_once __DIR__.('/api/query/message.php');
 $messageConnection = new message();
 require_once __DIR__.('/api/query/chat.php');
 $chatConnection = new chat();
-require_once __DIR__.('/api/query/user.php');
-$userConnection = new user();
 require_once __DIR__.('/api/query/profile.php');
 $profileConnection = new profile();
-?>
-<?php 
+require_once  ('include.php');
 session_start();
 $id = $_SESSION["id"]; 
 ?>
@@ -35,17 +32,22 @@ $id = $_SESSION["id"];
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
-<input type="image" name="botondeenvio" src="" alt="Enviar formulario" value="">
-<table>
-
      <?php 
-     
-    //  $article = $articleConnection->select_message(null);
-      //isset($store)
-     // foreach($message as $value){                                            
-      //     echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
-    // }
+     $object = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $id)));
+     $chat = $chatConnection->select_chat($object);
+     foreach($chat as $value){
+      $profile = $profileConnection->select_profile( $value->profile_id);
+            
+            if(count($profile) > 0){                 
+            }
+      }   
      ?>
-  </table>
+     <div id="contenedor">
+     <div id="caja">
+     <div id="datos">
+     
+     </div>
+     </div>
+     </div>
 </body>
 </html>

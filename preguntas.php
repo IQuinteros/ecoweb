@@ -40,7 +40,7 @@ require_once  ('include.php');
      $object = json_decode(json_encode(array("store_id" => $id)));
      
       $article = $articleConnection->select_article($object); 
-      foreach($article as $value){                                          
+      foreach($article as $value){
         echo $value->title; ?><li></li><?php
            $question =$questionConnection->select_question(null,$value->id);
            foreach($question as $val){
