@@ -11,14 +11,19 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(~0);
+
 require_once __DIR__.('/php/utils/auth_util.php');
 
-echo AuthUtil::login("huevos@gmail.com", "123456")? "Logged": "Doesn't work";
-echo AuthUtil::getStoreSession() != null? AuthUtil::getStoreSession()->public_name : "Not login";
-
 AuthUtil::login("huevos@gmail.com", "123456");
-AuthUtil::getStoreSession();
 AuthUtil::logout();
+
+if(AuthUtil::getStoreSession() != null){
+    // Sesión iniciada
+    echo AuthUtil::getStoreSession()->public_name;
+} else{
+    // Sesión no iniciada
+    echo 'No está iniciada la sesión';
+}
 
 ?>
 
