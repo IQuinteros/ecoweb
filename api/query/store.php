@@ -205,16 +205,17 @@ class Store extends Connection{
     }
     public function login($email, $pass){
       $this->connection_hosting();
-      $sql="SELECT `email`, `passwords` FROM `store` WHERE `email`=:email AND `passwords`=PASSWORD(:password)";
+      $sql="SELECT `id`, `email`, `passwords` FROM `store` WHERE `email`=:email AND `passwords`=PASSWORD(:passwords)";
       try{
         $resultado=$this->pdo->prepare($sql);
         $resultado->bindParam(':email', $email, PDO::PARAM_STR);
-        $resultado->bindParam(':public_name', $pass, PDO::PARAM_STR);
+        $resultado->bindParam(':passwords', $pass, PDO::PARAM_STR);
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_login = array();
         for($i = 0; $i < count($data); $i++){
           $tiendas =new Store_model();
+          $tiendas->id=$data[$i]["id"];
           $tiendas->email=$data[$i]["email"];
           $tiendas->passwords=$data[$i]["passwords"];
           array_push($lista_login, $tiendas);

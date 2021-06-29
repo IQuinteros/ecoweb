@@ -2,9 +2,7 @@
  if(isset($_POST['submit'])){        
      $email =$_POST['email'];
      $passwords=$_POST['passwords'];
-     require_once __DIR__.('/api/query/store.php');
-     $storeConnection = new Store();
-     $login_store = $storeConnection->login($email, $passwords);
+     
      session_start();
     // Hiciste el login 
      $store;
