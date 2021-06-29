@@ -8,8 +8,7 @@
      $passwords=$_POST['passwords'];
      $rut=$_POST['rut'];
      $rut_cd=$_POST['rut_cd'];
-     $district=$_POST['district'];
-     $store->id=null;
+     $district=$_POST['district'];     
      $store->public_name=$Pname;
      $store->description=$description;
      $store->email=$email;
@@ -47,9 +46,9 @@ $districtConnection = new district();
  ?>
 
         <form action="api/requests/example.php" method="POST">
-        <label for="Pname"> public name:</label>
+        <label for="Pname"> nombre publico:</label>
         <input type="text" id="Pname" name="Pname"><br><br>
-        <label for="description">description:</label>
+        <label for="description">descripcion:</label>
         <input type="text" id="description" name="description"><br><br>
         <label for="email">email:</label>
         <input type="text" id="email" name="email"><br><br>
@@ -57,7 +56,7 @@ $districtConnection = new district();
         <input type="text" id="contact_number" name="contact_number"><br><br>
         <label for="location">direccion:</label>
         <input type="text" id="location" name="location"><br><br>
-        <label for="passwords">passwords:</label>
+        <label for="passwords">contraseña:</label>
         <input type="text" id="passwords" name="passwords"><br><br>
         <label for="rut">rut:</label>
         <input type="text" id="rut" name="rut">
@@ -77,9 +76,9 @@ $districtConnection = new district();
         <button onclick="sendData(insert_store)" value="registro" name="submit"
         <?php         
         
-   //         if(isset($store)){
-      //
-       // }
+          if(isset($store)){
+      
+       }
         ?>
        >registar</button>
       </form>
