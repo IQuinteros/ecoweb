@@ -36,7 +36,8 @@ $answerConnection= new answer();
 ?>
 <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?> method="POST">
        <label for="anwer">respuesta:</label>
-       <input type="text" id="anwer" name="anwer"><br><br>
+       <textarea name="anwer" placeholder="mensaje" id="anwer" ></textarea>
+       
       <button onclick="sendData(insert_answer)" value="enviar respuesta" name="submit"    
       >enviar respuesta</button>
      </form>

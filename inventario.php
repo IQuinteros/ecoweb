@@ -67,6 +67,6 @@ require_once('include.php');
      ?>
   </table>
   <ul>
-<li><a href="newarticle.php">nuevo articulo</a></li></ul> 
+<li><a href="nuevoarticulo.php">nuevo articulo</a></li></ul> 
 </body>
 </html>
