@@ -130,8 +130,13 @@ class Article extends Connection{
           $haveWHERE = true;
         }
         // Check for price
-        if(!is_null($object) && isset($object->min_price) && isset($object->max_price)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price <= :max_price AND article.price >= :min_price";
+        if(!is_null($object) && isset($object->max_price)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price <= :max_price";
+          $haveWHERE = true;
+        }
+        // Check for price
+        if(!is_null($object) && isset($object->min_price)){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.price >= :min_price";
           $haveWHERE = true;
         }
 
@@ -306,6 +311,25 @@ class Article extends Connection{
            $resultado->bindParam(':category_id', $object->category_id, PDO::PARAM_INT);
            $resultado->bindParam(':past_price', $object->past_price, PDO::PARAM_INT);
            $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+           $re=$resultado->execute();
+            $this->pdo = null;
+            return $re;
+        
+          }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+        }
+    }
+    
+    public function update_article_stock(int $id, int $quantity){
+       $this->connection_hosting();
+       $sql="UPDATE `article` 
+        SET `stock`= (`stock` - :stock),`last_update_date`=CURRENT_TIME WHERE `id`=:id";
+        try{
+          $resultado=$this->pdo->prepare($sql);
+           $resultado->bindParam(':stock', $quantity, PDO::PARAM_INT);
+           $resultado->bindParam(':id', $id, PDO::PARAM_INT);
            $re=$resultado->execute();
             $this->pdo = null;
             return $re;

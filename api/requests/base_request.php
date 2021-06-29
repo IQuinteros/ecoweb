@@ -33,3 +33,6 @@ if(count($_REQUEST) > 0){
     $data = json_decode(json_encode($_REQUEST), FALSE);
 }
 
+if(!isset($data->C8AEA) || $data->C8AEA != 'iyinF635EHL7SF8cmYY6rR9en4uRQjA1'){
+    send_response(false, null, 'Not authorized');
+}

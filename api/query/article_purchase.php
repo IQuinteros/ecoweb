@@ -61,6 +61,10 @@ class Article_purchase extends Connection{
                 
             } else{
                 $re = $this->pdo->lastInsertId();
+
+                $articleConnection = new Article();
+                $articleConnection->update_article_stock($object->article_id, $object->quantity);
+
                 $this->pdo = null;
                 return array($re);
             }

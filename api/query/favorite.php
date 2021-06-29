@@ -72,6 +72,9 @@ class Favorite extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_id=:article_id";
             $haveWHERE = true;
         }
+        // LIMIT
+        $sql = $sql." LIMIT :initial_number,:quantity";
+        
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){
@@ -82,7 +85,17 @@ class Favorite extends Connection{
             }
             if(isset($object->article_id)){
                 $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
-              }
+            }
+            if(isset($object->initial_number)){
+                $resultado->bindParam(':initial_number', $object->initial_number, PDO::PARAM_INT);
+            }else{
+                $resultado->bindValue(':initial_number', 0, PDO::PARAM_INT);
+            }
+            if(isset($object->quantity)){
+                $resultado->bindParam(':quantity', $object->quantity, PDO::PARAM_INT);
+            }else{
+                $resultado->bindValue(':quantity', 20, PDO::PARAM_INT);
+            }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_favorite = array();
