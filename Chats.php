@@ -33,14 +33,14 @@ $chat =$_SESSION["chat"]
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
-<a  href="Chats.php"><?php 
+<?php 
     $object = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $id)));
      $chat = $chatConnection->select_chat($object);
       foreach($chat as $value){
         $_SESSION["chat"]=$value->id;
-         $profile = $profileConnection->select_profile( $value->profile_id);
-         if(count($profile) > 0){      
-            ?><li></li><?php   echo $profile[0]->name.$profile[0]->last_name;    ?> </a><?php        
+        $profile = $profileConnection->select_profile(json_decode(json_encode(array("id" => $value->purchase-> profile_id))));
+         if(count($profile) > 0){      ?> <a  href="Chats.php">><?php
+            ?><li></li><?php   echo $profile->name.$profile->last_name;    ?> </a><?php        
           }
        }  
               ?>
