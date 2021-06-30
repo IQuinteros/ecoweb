@@ -756,6 +756,7 @@ div.chat-list__item {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   width: 100%;
+  font-size: 1.4rem;
 }
 .card--purchase .purchase-list {
   display: grid;
