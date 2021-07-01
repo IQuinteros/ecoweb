@@ -268,9 +268,9 @@ textarea
 
 .check-group
     display: grid
-    grid-template-columns: 1fr
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+    justify-items: center
     .input-label
-        width: 100%
         position: relative
         display: flex
         align-items: center
@@ -296,5 +296,72 @@ textarea
         .checkbox:checked ~ .checkmark
             color: $primary-color
         .input-label__text
-            margin-left: $margin-unit * 2.5
-        
+            margin-left: $margin-unit * 2.5    
+
+@media screen and ( max-width: 1200px )
+    .check-group
+        justify-items: start
+
+.photos-container
+    display: grid
+    gap: $margin-unit
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    @include margin($vertical: 1, $horizontal: 0)
+
+    .photo,
+    .picker
+        @include shadow()
+        background-color: white
+        border-radius: $border-radius-unit
+        padding: 0
+        overflow: hidden
+        aspect-ratio: 2 / 1.2
+        position: relative
+        .photo__img
+            object-position: center
+            object-fit: cover
+            width: 100%
+            height: 100%
+            margin: 0
+            transition: 0.2s transform
+        .photo__delete
+            position: absolute
+            display: flex
+            align-items: center
+            justify-content: center
+            flex-flow: column nowrap
+            width: 100%
+            height: 100%
+            top: 0
+            background-color: transparentize($dark-color, 0.2)
+            opacity: 0
+            transition: 0.2s opacity
+            .photo__delete__icon
+                color: $red-color
+            .photo__delete__text
+                color: white
+                margin-top: math.div($margin-unit, 2)
+    
+    .photo:hover,
+    .picker:hover
+        @include shadow($vertical: 3, $blur: 6)
+        .photo__img
+            transform: scale(1.2)
+        .photo__delete
+            opacity: 1
+    
+    .picker
+        color: $primary-color
+        display: flex
+        flex-flow: column nowrap
+        align-items: center
+        justify-content: center
+        .picker__icon
+            transition: 0.2s transform, 0.2s margin-bottom
+        .picker__text
+            margin-top: math.div($margin-unit, 2)
+
+    .picker:hover
+        .picker__icon
+            transform: scale(2)
+            margin-bottom: math.div($margin-unit, 2)

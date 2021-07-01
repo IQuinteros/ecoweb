@@ -325,10 +325,10 @@ textarea {
 
 .check-group {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  justify-items: center;
 }
 .check-group .input-label {
-  width: 100%;
   position: relative;
   display: flex;
   align-items: center;
@@ -359,6 +359,89 @@ textarea {
 }
 .check-group .input-label .input-label__text {
   margin-left: 50px;
+}
+
+@media screen and (max-width: 1200px) {
+  .check-group {
+    justify-items: start;
+  }
+}
+.photos-container {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  margin: 20px 0px;
+}
+.photos-container .photo,
+.photos-container .picker {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25);
+  background-color: white;
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+  aspect-ratio: 2/1.2;
+  position: relative;
+}
+.photos-container .photo .photo__img,
+.photos-container .picker .photo__img {
+  object-position: center;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  transition: 0.2s transform;
+}
+.photos-container .photo .photo__delete,
+.photos-container .picker .photo__delete {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(0, 27, 46, 0.8);
+  opacity: 0;
+  transition: 0.2s opacity;
+}
+.photos-container .photo .photo__delete .photo__delete__icon,
+.photos-container .picker .photo__delete .photo__delete__icon {
+  color: #fe5f55;
+}
+.photos-container .photo .photo__delete .photo__delete__text,
+.photos-container .picker .photo__delete .photo__delete__text {
+  color: white;
+  margin-top: 10px;
+}
+.photos-container .photo:hover,
+.photos-container .picker:hover {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+}
+.photos-container .photo:hover .photo__img,
+.photos-container .picker:hover .photo__img {
+  transform: scale(1.2);
+}
+.photos-container .photo:hover .photo__delete,
+.photos-container .picker:hover .photo__delete {
+  opacity: 1;
+}
+.photos-container .picker {
+  color: #149911;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.photos-container .picker .picker__icon {
+  transition: 0.2s transform, 0.2s margin-bottom;
+}
+.photos-container .picker .picker__text {
+  margin-top: 10px;
+}
+.photos-container .picker:hover .picker__icon {
+  transform: scale(2);
+  margin-bottom: 10px;
 }
 
 .layout {
