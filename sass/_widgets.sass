@@ -38,6 +38,9 @@
     .card__content--unique
         font-size: 2.2rem
 
+    .card__subtitle
+        margin-top: $margin-unit
+
     .list-item
         border-radius: $border-radius-unit
         background-color: transparent
@@ -262,3 +265,36 @@ textarea
     color: white
     width: 50px
     height: 50px
+
+.check-group
+    display: grid
+    grid-template-columns: 1fr
+    .input-label
+        width: 100%
+        position: relative
+        display: flex
+        align-items: center
+        min-height: 40px
+        .checkbox
+            position: absolute
+            @include shadow()
+            vertical-align: middle
+            border: 1px solid #ddd
+            -webkit-appearance: none
+            border-radius: 50%
+            background-color: white
+            width: 35px
+            height: 35px
+            @include padding($horizontal: 0.5, $vertical: 0.5)
+        .checkmark
+            position: absolute
+            color: transparent
+            height: 25px
+            width: 25px
+            margin-left: 5px
+            transition: 0.15s color
+        .checkbox:checked ~ .checkmark
+            color: $primary-color
+        .input-label__text
+            margin-left: $margin-unit * 2.5
+        

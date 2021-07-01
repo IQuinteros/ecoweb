@@ -130,12 +130,14 @@
         
 @media screen and ( max-width: 400px )
     .leftbar
+        @include shadow($vertical: 3)
         @include padding($vertical: 0, $horizontal: 0)
         max-height: 100px
         position: fixed
         overflow: hidden
         right: 0
         left: 0
+        z-index: 20
         .leftbar__img
             align-self: flex-end 
             width: 40px
