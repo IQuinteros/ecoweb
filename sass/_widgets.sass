@@ -55,6 +55,7 @@
             @include shadow($vertical: 3)
             width: 80px
             height: 80px
+            min-height: 80px
             object-fit: cover
             border-radius: $border-radius-unit
         .list-item__content
@@ -101,7 +102,9 @@
             grid-template-columns: 1fr
             grid-template-rows: auto auto
             .list-item__img
-                width: 80%
+                width: 100%
+                height: auto
+                aspect-ratio: 2/0.9
             .list-item__content
                 .list-item__content__title
                     text-align: center
@@ -124,7 +127,9 @@
             grid-template-columns: 1fr
             grid-template-rows: auto auto
             .list-item__img
-                width: 80%
+                width: 100%
+                height: auto
+                aspect-ratio: 2/0.9
             .list-item__content
                 .list-item__content__title
                     text-align: center
@@ -147,7 +152,9 @@
             grid-template-columns: 1fr
             grid-template-rows: auto auto
             .list-item__img
-                width: 80%
+                width: 100%
+                height: auto
+                aspect-ratio: 2/0.9
             .list-item__content
                 .list-item__content__title
                     text-align: center
