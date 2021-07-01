@@ -185,10 +185,15 @@
 button
     font-family: $font-family
 
-.buttons
+.card__buttons
     display: grid
+    gap: $margin-unit
     margin-top: $margin-unit
     margin-bottom: math.div($margin-unit, 2)
+
+@media screen and ( min-width:  1080px)
+    .card__buttons
+        grid-template-columns: 1fr 1fr
 
 .btn
     text-align: start
@@ -201,6 +206,8 @@ button
 .btn.btn--primary
     @include shadow($vertical: 2)
     @include padding($vertical: 0.5)
+    background-color: $left-bar-color
+    color: white
     text-align: center
 .btn:hover
     @include shadow($vertical: 3, $blur: 10, $opacity: 0.6)
@@ -234,6 +241,20 @@ button
     width: 100%
     outline-color: $primary-color
     font-family: $font-family
+    margin-top: math.div($margin-unit, 2)
 
 ::placeholder
     color: adjust-color($dark-color, $alpha: -0.6)
+
+.floating-action-btn
+    @include shadow($vertical: 3)
+    position: fixed
+    bottom: 0
+    right: 0
+    margin-right: $margin-unit
+    margin-bottom: $margin-unit
+    background-color: $primary-color
+    border-radius: 50%
+    color: white
+    width: 50px
+    height: 50px
