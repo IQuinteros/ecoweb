@@ -202,3 +202,29 @@ button
     background-color: rgba(0, 0, 0, 0.1)
     height: 1px
     margin: math.div($margin-unit, 2) 0
+
+/* Inputs */
+.input-container
+    display: grid
+    gap: math.div($margin-unit, 2)
+    grid-template-columns: 1fr 45px
+    align-items: center
+    margin-top: $margin-unit
+
+    .input-container__button
+        @include shadow()
+        width: 45px
+        height: 45px
+        border-radius: 50%
+        background-color: $primary-color
+        color: white
+
+.input
+    @include shadow()
+    @include padding($vertical: 0.5, $horizontal: 0.5)
+    border-radius: math.div($border-radius-unit, 2)
+    width: 100%
+    outline-color: $primary-color
+    font-family: $font-family
+::placeholder
+    color: adjust-color($dark-color, $alpha: -0.6)

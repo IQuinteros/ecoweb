@@ -57,6 +57,36 @@ button.chat-list__item:hover
     .chat-list__item__status
         @include shadow($vertical: 3)
 
+.message
+    @include shadow()
+    @include padding($horizontal: 0.5, $vertical: 0.5)
+    @include margin($vertical: 0.5, $horizontal: 0)
+    margin-right: $margin-unit
+    border-radius: math.div($border-radius-unit, 2)
+    background-color: white
+    text-align: start
+
+.message.message--owner
+    margin-right: 0
+    margin-left: $margin-unit
+
+@media screen and ( min-width: 1300px )
+    .main
+        .chat-main-container
+            grid-template-columns: 0.8fr 1fr
+
+.chat-messages
+    display: flex
+    flex-flow: column nowrap
+    .chat-messages__purchase-id
+        font-size: 1.4rem
+    .chat-messages__list
+        display: flex
+        flex-flow: column nowrap
+        max-height: 60vh
+        overflow: auto
+        width: 100%
+
 div.chat-list__item
     grid-template-areas: "image ." "image ."
     grid-template-columns: auto 1fr
