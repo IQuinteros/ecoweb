@@ -85,3 +85,43 @@
 
 .card.article
     padding: 0
+
+.main__article
+    display: grid
+    gap: math.div($margin-unit, 2)
+    align-items: center
+    grid-template-areas: "image" "title" "price" "subtitle" "eco"
+    grid-template-columns: 1fr
+    .main__article__img
+        @include shadow($vertical: 2)
+        width: 80px
+        height: 80px
+        border-radius: $border-radius-unit
+        grid-area: image
+        margin: 0 auto
+    .main__article__title
+        grid-area: title
+        align-self: flex-end
+        text-align: center
+    .main__article__subtitle
+        grid-area: subtitle
+        align-self: flex-start
+        text-align: center
+    .main__article__price
+        grid-area: price
+        align-self: center
+        text-align: center
+    .ecoindicator
+        grid-area: eco
+        margin: 0 auto
+
+@media screen and ( min-width:  500px)
+    .main__article
+        grid-template-areas: "image title eco" "image price ." "image subtitle ."
+        grid-template-columns: 80px 1fr auto
+        .main__article__title
+            text-align: start
+        .main__article__subtitle
+            text-align: start
+        .main__article__price
+            text-align: start

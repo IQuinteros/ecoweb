@@ -844,6 +844,56 @@ textarea {
   padding: 0;
 }
 
+.main__article {
+  display: grid;
+  gap: 10px;
+  align-items: center;
+  grid-template-areas: "image" "title" "price" "subtitle" "eco";
+  grid-template-columns: 1fr;
+}
+.main__article .main__article__img {
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  grid-area: image;
+  margin: 0 auto;
+}
+.main__article .main__article__title {
+  grid-area: title;
+  align-self: flex-end;
+  text-align: center;
+}
+.main__article .main__article__subtitle {
+  grid-area: subtitle;
+  align-self: flex-start;
+  text-align: center;
+}
+.main__article .main__article__price {
+  grid-area: price;
+  align-self: center;
+  text-align: center;
+}
+.main__article .ecoindicator {
+  grid-area: eco;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 500px) {
+  .main__article {
+    grid-template-areas: "image title eco" "image price ." "image subtitle .";
+    grid-template-columns: 80px 1fr auto;
+  }
+  .main__article .main__article__title {
+    text-align: start;
+  }
+  .main__article .main__article__subtitle {
+    text-align: start;
+  }
+  .main__article .main__article__price {
+    text-align: start;
+  }
+}
 .chat {
   background-color: white;
   color: #001b2e;
