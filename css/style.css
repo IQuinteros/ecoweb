@@ -879,6 +879,26 @@ div.chat-list__item {
   color: gray;
 }
 
+.main__profile {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+  color: #001b2e;
+}
+.main__profile .main__profile__img {
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+}
+.main__profile .main__profile__subtitle {
+  font-weight: 400;
+}
+.main__profile .main__profile__btn {
+  background-color: transparent;
+  color: #149911;
+}
+
 * {
   border: 0;
   margin: 0;
