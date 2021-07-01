@@ -185,6 +185,11 @@
 button
     font-family: $font-family
 
+.buttons
+    display: grid
+    margin-top: $margin-unit
+    margin-bottom: math.div($margin-unit, 2)
+
 .btn
     text-align: start
     font-family: $font-family
@@ -193,6 +198,10 @@ button
 .btn.btn--red
     background-color: $red-color
     color: white
+.btn.btn--primary
+    @include shadow($vertical: 2)
+    @include padding($vertical: 0.5)
+    text-align: center
 .btn:hover
     @include shadow($vertical: 3, $blur: 10, $opacity: 0.6)
 
@@ -205,10 +214,6 @@ button
 
 /* Inputs */
 .input-container
-    display: grid
-    gap: math.div($margin-unit, 2)
-    grid-template-columns: 1fr 45px
-    align-items: center
     margin-top: $margin-unit
 
     .input-container__button
@@ -219,6 +224,9 @@ button
         background-color: $primary-color
         color: white
 
+.input-label
+    margin-top: $margin-unit
+
 .input
     @include shadow()
     @include padding($vertical: 0.5, $horizontal: 0.5)
@@ -226,5 +234,6 @@ button
     width: 100%
     outline-color: $primary-color
     font-family: $font-family
+
 ::placeholder
     color: adjust-color($dark-color, $alpha: -0.6)

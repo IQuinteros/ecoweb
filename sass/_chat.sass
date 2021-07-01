@@ -87,6 +87,11 @@ button.chat-list__item:hover
         overflow: auto
         width: 100%
 
+.input-container.chat__input
+    display: grid
+    gap: math.div($margin-unit, 2)
+    grid-template-columns: 1fr 45px
+    align-items: center
 div.chat-list__item
     grid-template-areas: "image ." "image ."
     grid-template-columns: auto 1fr
