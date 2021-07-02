@@ -2,13 +2,26 @@
  if(isset($_POST['submit'])){        
      $email =$_POST['email'];
      $passwords=$_POST['passwords'];
-     require_once __DIR__.('/api/query/store.php');
-     $storeConnection = new Store();
-     $login_store = $storeConnection->login($email, $passwords);
-        $_SESSION["id"] = $login_store->id;
-        print ( $_SESSION["id"]);
-    }
-?>
+     require_once __DIR__.('/php/utils/auth_util.php');
+     echo AuthUtil::login($email,$passwords)? "verdadero":"false"; 
+     AuthUtil::getStoreSession();
+      if(AuthUtil::getStoreSession() !=null){
+          echo AuthUtil::getStoreSession()->public_name;
+          $x=true;
+
+      }else{
+          echo "no esta iniciada la secion";
+      }?>
+       <script>
+ x =<?php  $x?>;
+ if(  x != null){
+ var page="home.php";
+ }else{if(x == null
+ ){
+    var page="login.php"
+ }} </script>
+      <?php
+    }?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,29 +32,19 @@
 </head>
 <body>
 <?php
-session_start();
+
 ini_set('display_errors', 1);
 error_reporting(~0);
 require_once('include.php');
  ?>
- <script>
- x =<?php  $_SESSION["id"]?>;
- if(  x != null){
- var page="home.php";
- }else{if(x == null
- ){
-    var page="login.php"
- }} 
- </script>
 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" id="login_store">
         <label for="email">Correo</label>
         <input type="text" id="email" name="email" placeholder="ingrese email"><br><br>
         <label for="passwords">contraseña </label>
         <input type="text" id="passwords" name="passwords" placeholder="ingrese contraseña"><br><br>
-        <a href="<script type='text/javascript'> document.write(page); </script>" value="ir"> <button onclick="sendData(login_store)" value="login" name="submit"
-        <?php             
-        ?>
-       >login</button></a>
+        
+        
+        <button onclick="location.href=''+<script type='text/javascript'> document.write(page); </script>+''" value="submit" name="submit">login</button>
       </form>
 </body>
 </html>
