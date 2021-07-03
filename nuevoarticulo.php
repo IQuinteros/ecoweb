@@ -58,7 +58,8 @@ require_once __DIR__.('/api/query/article_form.php');
 $article_formConnection = new article_form();
 require_once __DIR__.('/api/query/category.php');
 $categoryConnection = new category();
-$idStore = $_SESSION["id"]; 
+session_start();
+$_SESSION["id"]; 
 $general_detail="";
  ?>
  <script>
@@ -138,6 +139,6 @@ $general_detail="";
 </form><br><br>
 <label for="recycled_prod_detail">¿puede dar mas detalle?:</label>
         <input type="text" id="recycled_prod_detail" name="recycled_prod_detail"><br><br>
-        <button onclick="sendData(insert_article,insert_article_form)" value="nuevo producto" name="submit">nuevo producto</button>
+        <button onclick="sendData(insert_article,insert_article_form)" value="submit" name="submit">nuevo producto</button>
 </body>
 </html>

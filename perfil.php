@@ -1,15 +1,22 @@
 <?php 
+ini_set('display_errors', 1);
+error_reporting(~0);
+session_start();
+$_SESSION["id"];
+require_once __DIR__.('/api/query/district.php');
+$districtConnection = new district();
  if(isset($_POST['submit'])){
+    require_once __DIR__.('/api/query/profile.php');
+    $profileConnection = new profile();    
+    require_once('include.php');
      $email =$_POST['email'];
      $contact_number=$_POST['contact_number'];
       $location=$_POST['location'];
      $district=$_POST['district'];
      $id=$_SESSION["id"];
      $selec_profile=$profileConnection->select_profile(json_decode(json_encode(array("email"=>$email))));
-     $id_profile=$selec_profile[0]->id;
-     $object = json_decode(json_encode(array("email"=>$email,"contact_number"=>$contact_number,"location" => $location,"district"=>$district,"id"=>$id_profile)));
-   $update_profile=$profileConnection->update_profile($object);
- }
+     $id_profile=$selec_profile[0]->id;     
+     $update_profile=$profileConnection->update_profile(null, null, $email, $contact_number, null, $location, $district_id, $id); }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,18 +27,6 @@
     <title>Document</title>
 </head>
 <body>
-<?php
-ini_set('display_errors', 1);
-error_reporting(~0);
-require_once __DIR__.('/api/query/profile.php');
-$profileConnection = new profile();
-require_once('include.php');
-require_once __DIR__.('/api/query/district.php');
-$districtConnection = new district();
-session_start();
-$_SESSION["id"];
-
- ?>
 <ul>
 <li><a href="home.php">home</a></li>
 <li><a href="pedidos.php">pedidos</a><li>
