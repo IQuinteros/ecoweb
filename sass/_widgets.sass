@@ -385,3 +385,9 @@ textarea
         .picker__icon
             transform: scale(2)
             margin-bottom: math.div($margin-unit, 2)
+
+.hover--card
+    transition: box-shadow 0.1s, transform 0.1s
+.hover--card:hover
+    @include shadow($blur: 30)
+     

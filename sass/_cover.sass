@@ -13,7 +13,7 @@
     top: 0
     right: 0
     left: 0
-    z-index: 100
+    z-index: 5000
     a
         font-family: $font-family
         color: white
@@ -70,6 +70,8 @@
                 width: 80%
                 order: 2
                 max-width: 330px
+            .main__article__img:hover
+                @include shadow($blur: 30)
             .main__article__title
                 color: $primary-dark-color
                 order: 1
@@ -155,6 +157,7 @@
         grid-template-columns: 1fr
         gap: $margin-unit
         justify-items: center
+        font-size: 1.4rem
         @include margin($vertical: 1, $horizontal: 0)
         ul
             display: grid
@@ -175,11 +178,18 @@
             @include padding($vertical: 0.5)
             background-color: $primary-color
             color: white
+            font-size: 1.4rem
     .divider
         background-color: white
     .footer__text
         font-size: 1.0rem
         margin-top: $margin-unit
+
+@media screen and ( min-width: 540px )
+    .footer
+        .footer__content
+            grid-template-columns: 1fr 1fr
+            align-items: center
 
 body
     position: relative
