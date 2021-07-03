@@ -38,9 +38,10 @@ require_once('include.php');
   <table>
      <?php      
      session_start();
-    $id = $_SESSION["id"];      
+    $id = $_SESSION["id"];   
+    echo "Store id: ".$id;   
 
-     $object = json_decode(json_encode(array("store_id" => $id)));
+     $object = json_decode(json_encode(array("id_store" => $id)));
      
       $article = $articleConnection->select_article($object); 
       foreach($article as $value){                                           
