@@ -40,7 +40,9 @@ $chat =$_SESSION["chat"]
         $_SESSION["chat"]=$value->id;
         $profile = $profileConnection->select_profile(json_decode(json_encode(array("id" => $value->purchase-> profile_id))));
          if(count($profile) > 0){      ?> <a  href="Chats.php">><?php
-            ?><li></li><?php   echo $profile->name.$profile->last_name;    ?> </a><?php        
+            ?><li></li>
+            <?php   echo $profile[0]->name;
+            $profile[0]->last_name;    ?> </a><?php        
           }
        }  
               ?>
