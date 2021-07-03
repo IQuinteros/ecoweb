@@ -5,15 +5,82 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoApp</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/mainstyle.css">
 </head>
 <body>
-   <button type="button" onclick="window.open('login.html')">
-    login vendedor
 
-</button>
-<button type="button" onclick="window.open('register.php')">
-    register vendedor
-</button>
+    <header class="appbar">
+        <a class="appbar__title" href="index.html">ECOmercio</a>
+        <nav class="appbar__nav">
+            <ul>
+                <li><a href="#">Descarga Android</a></li>
+                <li><a href="#">Vende con nosotros</a></li>
+            </ul>
+        </nav>
+        <button class="appbar__profile">
+            <span class="material-icons material-icons-outlined">account_circle</span>
+        </button>
+    </header>
+
+    <main class="main">
+        <div class="main__container">
+            <article class="main__article">
+                <img class="main__article__img" src="assets/img/screen3.png" alt="">
+                <h1 class="main__article__title">Encuentra los productos ecológicos que tu y el medio ambiente necesitan</h1>
+            </article>
+            <article class="main__article">
+                <img class="main__article__img" src="assets/img/screen2.png" alt="">
+                <h1 class="main__article__title card">Revisa y compara precios y valoraciones de otras personas</h1>
+            </article>
+            <article class="main__article">
+                <img class="main__article__img" src="assets/img/screen4.png" alt="">
+                <h1 class="main__article__title card">Comunícate y pregunta a los mismos vendedores por un producto</h1>
+            </article>
+
+            <article class="card main__card">
+                <h2 class="main__card__header">Sabrás cómo estás aportando al medio ambiente al comprar en ECOmercio</h2>
+                <span class="main__card__icon material-icons material-icons-outlined">eco</span>
+                <h1 class="main__card__title">Reduce ya tu impacto ambiental comprando con nuestra app ECOmercio</h1>
+                <button class="main__card__img">
+                    <img  src="assets/img/google-play-badge.png" alt="">
+                </button>
+            </article>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="main__container">
+            <h1>¿Quieres vender productos amigables en nuestra plataforma?</h1>
+            <div class="footer__content">
+                <ul>
+                    <li>
+                        <span class="footer__content__icon main__card__icon material-icons material-icons-outlined">eco</span>
+                        <span>Obtén estadística de tus clientes</span>
+                    </li>
+                    <li>
+                        <span class="footer__content__icon main__card__icon material-icons material-icons-outlined">eco</span>
+                        <span>Revisa cuánto estás vendiendo</span>
+                    </li>
+                    <li>
+                        <span class="footer__content__icon main__card__icon material-icons material-icons-outlined">eco</span>
+                        <span>Publica tus artículos rápidamente</span>
+                    </li>
+                    <li>
+                        <span class="footer__content__icon main__card__icon material-icons material-icons-outlined">eco</span>
+                        <span>Interactúa con tus clientes</span>
+                    </li>
+                </ul>
+                <button class="btn btn--footer">Envía tu solicitud aquí</button>
+            </div>
+            <hr class="divider">
+            <h3 class="footer__text">Somos ECOmercio, tu app de compras amigables</h3>
+        </div>
+    </footer>
   
 </body>
 </html>

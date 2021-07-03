@@ -1,0 +1,137 @@
+@use 'sass:math'
+    
+.appbar
+    @include shadow($vertical: 3)
+    @include padding($vertical: 0.5, $horizontal: 1)
+    background-color: $left-bar-color
+    font-size: 1.4rem
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+    justify-content: space-between
+    position: fixed
+    right: 0
+    left: 0
+    a
+        font-family: $font-family
+        color: white
+
+    .appbar__title
+        font-weight: 600
+        font-size: 1.6rem
+
+    .appbar__nav
+        display: none
+        ul
+            display: flex
+            flex-flow: row nowrap
+            li
+                list-style: none
+
+    .appbar__profile
+        background-color: transparent
+        color: white
+        padding: 0
+    
+@media screen and ( min-width:  500px)
+    .appbar
+        .appbar__nav
+            display: block
+            ul
+                flex-flow: row nowrap
+                li
+                    margin-left: $margin-unit
+        .appbar__profile
+            display: none
+
+.main
+    width: 100vw
+    min-height: 100vh
+    padding-top: $margin-unit * 3
+    .main__container
+        @include padding()
+        margin: 0 auto
+        max-width: 1400px
+        display: grid
+        grid-template-columns: 1fr
+        gap: $margin-unit
+        .main__article
+            display: grid
+            grid-template-columns: 1fr
+            justify-items: center
+            gap: $margin-unit
+            .main__article__img
+                @include shadow($blur: 5)
+                border-radius: $border-radius-unit
+                width: 80%
+                order: 2
+            .main__article__title
+                color: $dark-color
+                order: 1
+                text-align: center
+                font-family: $font-family
+            .card.main__article__title
+                border-radius: 0
+                color: $primary-dark-color
+        
+        .main__card
+            border-radius: 0
+            display: grid
+            grid-template-columns: 1fr
+            gap: math.div($margin-unit, 2)
+            justify-content: center
+            text-align: center
+            position: relative
+            padding-bottom: $padding-unit * 2
+            .main__card__img
+                background-color: transparent
+                height: 60px
+                width: 100%
+                position: absolute
+                left: 0
+                right: 0
+                bottom: -30px
+                padding: 0
+                img
+                    height: 60px
+                    width: 100%
+                    object-fit: contain
+.footer
+    @include shadow($vertical: -3)
+    @include padding()
+    background-color: $blue-color
+    color: white
+    width: 100%
+    min-height: 80px
+    margin-top: $margin-unit
+    text-align: center
+
+    .footer__content
+        display: grid
+        grid-template-columns: 1fr
+        gap: $margin-unit
+        justify-items: center
+        @include margin($vertical: 1, $horizontal: 0)
+        ul
+            display: grid
+            grid-template-columns: 1fr
+            gap: math.div($margin-unit, 3)
+            padding: 0
+            li
+                align-items: center
+                display: flex
+                flex-flow: row nowrap
+                list-style: none
+                text-align: start
+        .footer__content__icon
+            color: $primary-color
+        .btn--footer
+            @include shadow()
+            @include padding($vertical: 0.5)
+            background-color: $primary-color
+            color: white
+    .divider
+        background-color: white
+    .footer__text
+        font-size: 1.0rem
+        margin-top: $margin-unit
