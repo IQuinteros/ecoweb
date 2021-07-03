@@ -44,7 +44,7 @@ items.foreach(el => {
         console.log('X' + xRotation);
         
         /* Generate string for CSS transform property */
-        const string = 'perspective(500px) scale(1.0) rotateX(' + xRotation.toFixed(2) + 'deg) rotateY(' + yRotation.toFixed(2) + 'deg)'
+        const string = 'perspective(500px) scale(1.02) rotateX(' + xRotation.toFixed(2) + 'deg) rotateY(' + yRotation.toFixed(2) + 'deg)'
         
         /* Apply the calculated transformation */
         el.style.transform = string
