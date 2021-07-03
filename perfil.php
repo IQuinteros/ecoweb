@@ -20,13 +20,13 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(~0);
-require_once __DIR__.('api/query/profile.php');
+require_once __DIR__.('/api/query/profile.php');
 $profileConnection = new profile();
-require_once __DIR__.('include.php');
-require_once __DIR__.('api/query/district.php');
+require_once('include.php');
+require_once __DIR__.('/api/query/district.php');
 $districtConnection = new district();
 session_start();
-$_SESSION["id"] = $store->id;
+$_SESSION["id"];
 
  ?>
 <ul>
@@ -62,9 +62,9 @@ $_SESSION["id"] = $store->id;
        <button onclick="sendData(update_profile)" value="guardar cambios" name="submit"
         <?php         
         
-   //         if(isset($store)){
-      //
-       // }
+            if(isset($store)){
+      
+       }
         ?>
        >guardar cambios</button>
       </form>
