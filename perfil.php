@@ -5,7 +5,10 @@
       $location=$_POST['location'];
      $district=$_POST['district'];
      $id=$_SESSION["id"];
-   $update_profile=$profileConnection->update_profile(null,null,$email,$contact_number,null,$location,$district,$id);
+     $selec_profile=$profileConnection->select_profile(json_decode(json_encode(array("email"=>$email))));
+     $id_profile=$selec_profile[0]->id;
+     $object = json_decode(json_encode(array("email"=>$email,"contact_number"=>$contact_number,"location" => $location,"district"=>$district,"id"=>$id_profile)));
+   $update_profile=$profileConnection->update_profile($object);
  }
 ?>
 <!DOCTYPE html>
