@@ -266,6 +266,7 @@ button {
 }
 .btn {
   text-align: start;
+  font-size: 1.4rem;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   cursor: pointer;
   transition: 0.2s background-color, 0.3s color, 0.3s box-shadow;
@@ -279,7 +280,7 @@ button {
 .btn.btn--primary {
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
   padding: 10px 20px;
-  background-color: #008b72;
+  background-color: #149911;
   color: white;
   text-align: center;
 }
@@ -316,6 +317,7 @@ textarea {
 
 .input-label {
   margin-top: 20px;
+  font-size: 1.4rem;
 }
 
 .input {
@@ -533,6 +535,8 @@ textarea {
   width: 100vw;
   min-height: 100vh;
   padding-top: 60px;
+  padding-bottom: 20px;
+  position: relative;
 }
 .main .main__container {
   padding: 20px 20px;
@@ -593,7 +597,31 @@ textarea {
   width: 100%;
   object-fit: contain;
 }
+.main .main__title {
+  color: #256d1b;
+  text-align: center;
+  font-size: 3rem;
+}
+.main .main__subtitle {
+  color: #149911;
+  text-align: center;
+}
 
+@media screen and (min-width: 700px) {
+  .main .main__container.main__container--doublecol {
+    grid-template-columns: 1fr 1fr;
+  }
+  .main .main__container.main__container--doublecol .main__title,
+.main .main__container.main__container--doublecol .main__subtitle {
+    grid-column: span 2;
+  }
+  .main .main__container.main__container--doublecol .btn--submit {
+    grid-column: span 2;
+    width: 50%;
+    justify-self: center;
+    margin-top: 20px;
+  }
+}
 @media screen and (min-width: 850px) {
   .main .main__container .main__article {
     grid-template-areas: "img title";
@@ -647,7 +675,6 @@ textarea {
   color: white;
   width: 100%;
   min-height: 80px;
-  margin-top: 20px;
   text-align: center;
 }
 .footer .footer__content {
@@ -686,7 +713,7 @@ textarea {
   background-color: white;
 }
 .footer .footer__text {
-  font-size: 1rem;
+  font-size: 1.3rem;
   margin-top: 20px;
 }
 
@@ -704,7 +731,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 40vh;
+  top: 30vh;
   bottom: 0;
   z-index: -5;
   overflow: hidden;

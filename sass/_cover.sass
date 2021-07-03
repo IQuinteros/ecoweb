@@ -52,6 +52,8 @@
     width: 100vw
     min-height: 100vh
     padding-top: $margin-unit * 3
+    padding-bottom: $margin-unit
+    position: relative
     .main__container
         @include padding()
         margin: 0 auto
@@ -104,6 +106,26 @@
                     height: 60px
                     width: 100%
                     object-fit: contain
+    .main__title
+        color: $primary-dark-color
+        text-align: center
+        font-size: 3rem
+    .main__subtitle
+        color: $primary-color
+        text-align: center
+
+@media screen and ( min-width:  700px)
+    .main     
+        .main__container.main__container--doublecol
+            grid-template-columns: 1fr 1fr
+            .main__title,
+            .main__subtitle
+                grid-column: span 2
+            .btn--submit
+                grid-column: span 2
+                width: 50%
+                justify-self: center
+                margin-top: $margin-unit
 
 @media screen and ( min-width:  850px)
     .main
@@ -151,7 +173,6 @@
     color: white
     width: 100%
     min-height: 80px
-    margin-top: $margin-unit
     text-align: center
 
     .footer__content
@@ -184,7 +205,7 @@
     .divider
         background-color: white
     .footer__text
-        font-size: 1.0rem
+        font-size: 1.3rem
         margin-top: $margin-unit
 
 @media screen and ( min-width: 540px )
@@ -200,7 +221,7 @@ body
     position: absolute
     left: 0
     right: 0
-    top: 40vh
+    top: 30vh
     bottom: 0
     z-index: -5
     overflow: hidden
