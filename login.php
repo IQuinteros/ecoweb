@@ -1,8 +1,10 @@
 <?php 
+require_once __DIR__.('/php/utils/auth_util.php');
+echo AuthUtil::getStoreSession()? "Sesión iniciada" : "No iniciada";
  if(isset($_POST['submit'])){        
      $email =$_POST['email'];
      $passwords=$_POST['passwords'];
-     require_once __DIR__.('/php/utils/auth_util.php');
+     
      echo AuthUtil::login($email,$passwords)? "verdadero":"false"; 
      AuthUtil::getStoreSession();
       if(AuthUtil::getStoreSession() !=null){
