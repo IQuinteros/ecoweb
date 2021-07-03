@@ -488,7 +488,8 @@ textarea {
   top: 0;
   right: 0;
   left: 0;
-  z-index: 5000;
+  z-index: 1000;
+  transform: translateZ(3000px);
 }
 .appbar a {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
@@ -703,7 +704,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 60vh;
+  top: 40vh;
   bottom: 0;
   z-index: -5;
   overflow: hidden;
