@@ -1,54 +1,4 @@
 <?php 
- if(isset($_POST['submit'])){
-
-    $recycled_mats=$_POST['recycled_mats'];
-    $recycled_mats_detail=$_POST['recycled_mats_detail'];
-    $reuse_tips=$_POST['reuse_tips'];
-    $recycled_prod=$_POST['recycled_prod'];
-    $recycled_prod_detail=$_POST['recycled_prod_detail'];    
-    $article_form->recycled_mats=$recycled_mats;
-    $article_form->recycled_mats_detail=$recycled_mats_detail;
-    $article_form->reuse_tips=$reuse_tips;
-    $article_form->recycled_prod=$recycled_prod;
-    $article_form->recycled_prod_detail=$recycled_prod_detail;
-    $article_form->general_detail=$general_detail;
-
-    
-    
-    $insert_article_form=$article_formConnection->insert_article_form($article_form);
-    return array($re, $user_id);
-    $insert_article[1];
-
-    $title =$_POST['title'];
-    $description=$_POST['description'];
-    $price=$_POST['price'];
-    $stock=$_POST['stock'];
-    $category_id=$_POST['category_id'];
-    $article->title=$title;
-    $article->description=$description;
-    $article->price=$price;
-    $article->stock=$stock;
-    $article->category_id=$category_id;
-    $article->store_id=$idStore;
-
-     
-     $article->article_form_id=$insert_article[1];
-     $insert_article=$articleConnection->insert_article($article);
-
-     
-     
- }
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nuevo producto</title>
-</head>
-<body>
-<?php
 ini_set('display_errors', 1);
 error_reporting(~0);
 require_once('include.php');
@@ -61,7 +11,45 @@ $categoryConnection = new category();
 session_start();
 $_SESSION["id"]; 
 $general_detail="";
- ?>
+ if(isset($_POST['submit'])){
+    $recycled_mats=$_POST['recycled_mats'];
+    $recycled_mats_detail=$_POST['recycled_mats_detail'];
+    $reuse_tips=$_POST['reuse_tips'];
+    $recycled_prod=$_POST['recycled_prod'];
+    $recycled_prod_detail=$_POST['recycled_prod_detail'];  
+    $article_form =(json_decode(json_encode(array("recycled_mats" =>$recycled_mats,"recycled_mats_detail"=>$recycled_mats_detail,"reuse_tips"=>$reuse_tips,"recycled_prod"=>$recycled_prod,
+     "recycled_prod_detail"=>$recycled_prod_detail))));
+    
+    $insert_article_form=$article_formConnection->insert_article_form($article_form);
+    return array($re, $user_id);
+    $insert_article[1];
+    $title =$_POST['title'];
+    $description=$_POST['description'];
+    $price=$_POST['price'];
+    $stock=$_POST['stock'];
+    $category_id=$_POST['category_id'];
+    $article->title=$title;
+    $article->description=$description;
+    $article->price=$price;
+    $article->stock=$stock;
+    $article->category_id=$category_id;
+    $store_id=$_SESSION["id"];     
+     
+     $article_form_id=$insert_article[1];
+     $article=(json_decode(json_encode(array("title" =>$title,"description"=>$description,"price"=>$price,"stock"=>$stock,"category_id"=>$category_id,"store_id"=>$store_id,
+     "article_form_id"=>$article_form_id))));
+     $insert_article=$articleConnection->insert_article($article);
+ }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nuevo producto</title>
+</head>
+<body>
  <script>
     function validar(form){
         let elements = form.elements;
