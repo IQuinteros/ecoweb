@@ -16,7 +16,7 @@ $districtConnection = new district();
      $id=$_SESSION["id"];
      $selec_profile=$profileConnection->select_profile(json_decode(json_encode(array("email"=>$email))));
      $id_profile=$selec_profile[0]->id;     
-     $update_profile=$profileConnection->update_profile(null, null, $email, $contact_number, null, $location, $district_id, $id); }
+     $update_profile=$profileConnection->update_profile(null, null, $email, $contact_number, null, $location, $district, $id_profile); }
 ?>
 <!DOCTYPE html>
 <html lang="en">
