@@ -6,30 +6,30 @@ $_SESSION["id"];
 require_once __DIR__.('/api/query/district.php');
 $districtConnection = new district();
 require_once __DIR__.('/api/query/store.php');
-$storetConnection = new store();
- if(isset($_POST['submit'])){
-    require_once __DIR__.('/api/query/profile.php');
-    $profileConnection = new profile();    
+require_once __DIR__.('/api/query/profile.php');
+    $profileConnection = new profile();
+$storeConnection = new store();
+
+ if(isset($_POST['submit'])){        
     require_once('include.php');
      $email =$_POST['email'];
      $contact_number=$_POST['contact_number'];
       $location=$_POST['location'];
      $district=$_POST['district'];
      $id=$_SESSION["id"];
-     $selec_store=$storeConnection->select_store(json_decode(json_encode(array("id"=>$id))));
-     $rut=$selec_store[0]->rut;
-     $rut_cd=$selec_store[0]->rut_cd;
-     $selec_profile=$profileConnection->select_profile(json_decode(json_encode(array("rut"=>$rut,"rut_cd"=>$rut_cd))));
-     $id_profile=$selec_profile[0]->id;
+     $select_store=$storeConnection->select_store(json_decode(json_encode(array("id"=>$id))));
      if($email==null || $email="")
-         $email=$selec_profile[0]->email;
+      $email=$select_store[0]->email;
     if($contact_number==null || $contact_number="")
-    $contact_number=$selec_profile[0]->contact_number;
+    $contact_number=$select_store[0]->contact_number;
     if($location==null || $location="")
-    $location=$selec_profile[0]->location;
+    $location=$select_store[0]->location;
     if($district==null || $district=0)
-    $district=$selec_profile[0]->district;
-     $update_profile=$profileConnection->update_profile(null, null, $email, $contact_number, null, $location, $district, $id_profile); }
+    $district=$select_store[0]->district_id;
+    $update_store=json_decode(json_encode(array("email"=>$email,"contact_number"=>$contact_number,"location"=>$location,"district_id"=>$district,"id"=>$id)));
+    
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +40,11 @@ $storetConnection = new store();
     <title>Document</title>
 </head>
 <body>
+<?php 
+function sendData($storeConnection,$update_store){
+    $storeConnection->update_store($update_store);
+}
+?>
 <ul>
 <li><a href="home.php">home</a></li>
 <li><a href="pedidos.php">pedidos</a><li>
@@ -70,13 +75,8 @@ $storetConnection = new store();
                ?>           
            </option>
        </select>
-       <button onclick="sendData(update_profile)" value="guardar cambios" name="submit"
-        <?php         
+       <button onclick="sendData($storeConnection,$update_store)" value="submit" name="submit"
         
-            if(isset($store)){
-      
-       }
-        ?>
        >guardar cambios</button>
       </form>
 </body>
