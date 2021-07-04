@@ -18,16 +18,15 @@ $storeConnection = new store();
      $district=$_POST['district'];
      $id=$_SESSION["id"];
      $select_store=$storeConnection->select_store(json_decode(json_encode(array("id"=>$id))));
-     if($email==null || $email="")
+     if(empty($email))
       $email=$select_store[0]->email;
-    if($contact_number==null || $contact_number="")
+    if(empty($contact_number))
     $contact_number=$select_store[0]->contact_number;
-    if($location==null || $location="")
+    if(empty($location))
     $location=$select_store[0]->location;
-    if($district==null || $district=0)
+    if(empty($district))
     $district=$select_store[0]->district_id;
-    $update_store=json_decode(json_encode(array("email"=>$email,"contact_number"=>$contact_number,"location"=>$location,"district_id"=>$district,"id"=>$id)));
-    
+    $update_store=json_decode(json_encode(array("email"=>$email,"contact_number"=>$contact_number,"location"=>$location,"district_id"=>$district,"id"=>$id)));    
     }
     
 ?>
@@ -75,8 +74,7 @@ function sendData($storeConnection,$update_store){
                ?>           
            </option>
        </select>
-       <button onclick="sendData($storeConnection,$update_store)" value="submit" name="submit"
-        
+       <button onclick="sendData($storeConnection,$update_store)" value="submit" name="submit"        
        >guardar cambios</button>
       </form>
 </body>
