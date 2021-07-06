@@ -18,6 +18,10 @@ require_once __DIR__.('/api/query/chat.php');
 $chatConnection = new chat();
 require_once __DIR__.('/api/query/profile.php');
 $profileConnection = new profile();
+require_once __DIR__.('/api/query/article_purchase.php');
+$article_purchaseConnection = new article_purchase();
+require_once __DIR__.('/api/query/article.php');
+$articleConnection = new article();
 require_once  ('include.php');
 session_start();
 $id = $_SESSION["id"]; 
@@ -39,6 +43,9 @@ $_SESSION["id_chat"];
      $chat = $chatConnection->select_chat($object);
       foreach($chat as $value){        
         $profile = $profileConnection->select_profile(json_decode(json_encode(array("id" => $value->purchase-> profile_id))));
+        $articleid=$article_purchaseConnection->select_article_purchase(json_decode(json_encode(array("store_id" => $id,"purchase_id"=>$value->purchase->id))));
+        $article=$articleConnection->select_article((json_decode(json_encode(array("id" => $articleid[0]->article_id)))));
+        echo $articleid[0]->title;
          if(count($profile) > 0){      ?>  
          
             <?php
