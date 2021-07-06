@@ -13,5 +13,8 @@ class Store_model{
     public string $creation_date;
     public string $last_update_date;
     public int $district_id;
-    public string $photo_url;
+    public ?string $district_name;
+    public ?string $photo_url;
+
+    public ?array $opinions;
 }

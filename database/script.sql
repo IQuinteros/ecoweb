@@ -37,15 +37,15 @@ CREATE TABLE `profile` (
 CREATE TABLE history(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    article_id int,
-    user_id int,
+    deleted bit not null,
+    article_id int not null,
+    user_id int not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE history_detail(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
-    deleted bit not null,
     history_id int not null,
     PRIMARY KEY (id),
     UNIQUE KEY(history_id)
@@ -57,8 +57,8 @@ CREATE TABLE opinion (
     title varchar(50) not null,
     content varchar(250) not null,
     creation_date timestamp not null,
-    article_id int,
-    profile_id int,
+    article_id int not null,
+    profile_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -100,8 +100,8 @@ CREATE TABLE message(
     id int not null AUTO_INCREMENT,
     message varchar(255) not null,
     creation_date timestamp not null,
-    chat_id int,
-    owner varchar(15),
+    chat_id int not null,
+    from_store bit not null,
     PRIMARY KEY (id)
 );
 
@@ -109,9 +109,10 @@ CREATE TABLE chat(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     closed bit not null,
-    last_seen_date datetime not null,
+    last_seen_date timestamp not null,
     profile_id int,
     store_id int,
+    purchase_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -119,9 +120,8 @@ CREATE TABLE purchase(
     id int not null AUTO_INCREMENT,
     total int not null,
     creation_date timestamp not null,
-    profile_id int,
-    info_purchase_id int,
-    chat_id int,
+    profile_id int not null,
+    info_purchase_id int not null,
     PRIMARY KEY (id)
 );
 
@@ -142,7 +142,7 @@ CREATE TABLE article(
 
 CREATE TABLE photo(
     id int not null AUTO_INCREMENT,
-    photo blob not null,
+    photo varchar(255) not null,
     article_id int not null,
     PRIMARY KEY (id)
 );
@@ -184,11 +184,11 @@ CREATE TABLE article_form(
     id int not null AUTO_INCREMENT,
     creation_date timestamp not null,
     last_update_date timestamp not null,
-    recycled_mats varchar(10) not null,
+    recycled_mats varchar(100) not null,
     recycled_mats_detail varchar(255),
     general_detail text,
     reuse_tips text,
-    recycled_prod varchar(10) not null,
+    recycled_prod varchar(100) not null,
     recycled_prod_detail varchar(255),
     PRIMARY KEY (id)
 );
@@ -216,11 +216,6 @@ CREATE TABLE article_purchase(
 ALTER TABLE search
     ADD CONSTRAINT search_user_FK
     FOREIGN KEY(user_id) REFERENCES `user`(id)
-;
-
-ALTER TABLE `user`
-    ADD CONSTRAINT user_profile_FK
-    FOREIGN KEY(profile_id) REFERENCES `profile`(id)
 ;
 
 ALTER TABLE `profile`
@@ -255,12 +250,12 @@ ALTER TABLE question
     ADD CONSTRAINT question_profile_FK
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT question_article_FK
-    FOREIGN KEY(article_id) REFERENCES article(id),
+    FOREIGN KEY(article_id) REFERENCES article(id)
 ;
 
 ALTER TABLE answer
     ADD CONSTRAINT answer_question_FK
-    FOREIGN KEY(question_id) REFERENCES `question`(id),
+    FOREIGN KEY(question_id) REFERENCES `question`(id)
 ;
 
 ALTER TABLE favorite
@@ -280,15 +275,15 @@ ALTER TABLE chat
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT chat_store_FK
     FOREIGN KEY(store_id) REFERENCES store(id),
+    ADD CONSTRAINT chat_purchase_FK
+    FOREIGN KEY(purchase_id) REFERENCES purchase(id)
 ;
 
 ALTER TABLE purchase
     ADD CONSTRAINT purchase_profile_FK
     FOREIGN KEY(profile_id) REFERENCES `profile`(id),
     ADD CONSTRAINT purchase_info_purchase_FK
-    FOREIGN KEY(info_purchase_id) REFERENCES info_purchase(id),
-    ADD CONSTRAINT purchase_chat_FK
-    FOREIGN KEY(chat_id) REFERENCES chat(id)
+    FOREIGN KEY(info_purchase_id) REFERENCES info_purchase(id)
 ;
 
 ALTER TABLE article
@@ -319,8 +314,6 @@ ALTER TABLE article_purchase
     FOREIGN KEY(store_id) REFERENCES store(id)
 ;
 
-ALTER TABLE `user` ADD COLUMN lastConnectionDate datetime not null;
-
 ALTER TABLE store ADD COLUMN photo_url varchar(255);
 
 ALTER TABLE article ADD COLUMN past_price int;
@@ -342,8 +335,8 @@ GRANT USAGE ON *.* TO 'registered'@'localhost';
 GRANT UPDATE, INSERT ON TABLE `user` TO 'users'@'localhost';
 GRANT INSERT ON TABLE `search` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `profile` TO 'users'@'localhost';
-GRANT SELECT, INSERT ON TABLE `history` TO 'users'@'localhost';
-GRANT SELECT, UPDATE, INSERT ON TABLE `history_detail` TO 'users'@'localhost';
+GRANT SELECT, INSERT, DELETE ON TABLE `history` TO 'users'@'localhost';
+GRANT SELECT, INSERT ON TABLE `history_detail` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `opinion` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `question` TO 'users'@'localhost';
 GRANT SELECT ON TABLE `answer` TO 'users'@'localhost';
@@ -379,14 +372,14 @@ GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `store` TO 'shop'@'localhost';
 GRANT SELECT, UPDATE ON TABLE `user` TO 'registered'@'localhost';
 GRANT INSERT ON TABLE `search` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `profile` TO 'registered'@'localhost';
-GRANT SELECT, INSERT ON TABLE `history` TO 'registered'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON TABLE `history_detail` TO 'registered'@'localhost';
+GRANT SELECT, INSERT, DELETE ON TABLE `history` TO 'registered'@'localhost';
+GRANT SELECT, INSERT ON TABLE `history_detail` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `opinion` TO 'registered'@'localhost';
 GRANT SELECT, UPDATE, DELETE, INSERT ON TABLE `question` TO 'registered'@'localhost';
 GRANT SELECT ON TABLE `answer` TO 'registered'@'localhost';
 GRANT SELECT, INSERT, DELETE ON TABLE `favorite` TO 'registered'@'localhost';
 GRANT SELECT ON TABLE `district` TO 'registered'@'localhost';
-GRANT SELECT, INSERT ON TABLE `message` TO 'registered'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON TABLE `message` TO 'registered'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON TABLE `chat` TO 'registered'@'localhost';
 GRANT SELECT, INSERT ON TABLE `purchase` TO 'registered'@'localhost';
 GRANT SELECT, INSERT ON TABLE `info_purchase` TO 'registered'@'localhost';

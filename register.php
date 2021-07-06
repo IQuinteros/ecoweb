@@ -22,9 +22,9 @@ $districtConnection = new district();
  ?>
 
         <form action="api/requests/example.php" method="POST">
-        <label for="Pname"> public name:</label>
+        <label for="Pname"> nombre publico:</label>
         <input type="text" id="Pname" name="Pname"><br><br>
-        <label for="description">description:</label>
+        <label for="description">descripcion:</label>
         <input type="text" id="description" name="description"><br><br>
         <label for="email">email:</label>
         <input type="text" id="email" name="email"><br><br>
@@ -32,7 +32,7 @@ $districtConnection = new district();
         <input type="text" id="contact_number" name="contact_number"><br><br>
         <label for="location">direccion:</label>
         <input type="text" id="location" name="location"><br><br>
-        <label for="passwords">passwords:</label>
+        <label for="passwords">contraseña:</label>
         <input type="text" id="passwords" name="passwords"><br><br>
         <label for="rut">rut:</label>
         <input type="text" id="rut" name="rut">
@@ -48,16 +48,29 @@ $districtConnection = new district();
                ?>           
            </option>
        </select>
-        <input type="submit" value="registar"/>
-        <button onclick="sendData(insert_store)" value="login" name="submit"
-        <?php         
         
-   //         if(isset($store)){
-      //
-       // }
-        ?>
+        <button  value="submit" name="submit"
+        
        >registar</button>
+       <?php         
+        
+        if(isset($_POST['submit'])){
+            $Pname =$_POST['Pname'];
+            $description=$_POST['description'];
+             $email=$_POST['email'];
+            $contact_number=$_POST['contact_number'];
+            $location=$_POST['location'];
+            $passwords=$_POST['passwords'];
+            $rut=$_POST['rut'];
+            $rut_cd=$_POST['rut_cd'];
+            $district=$_POST['district']; 
+            $enabled=true;
+            $store= (json_decode(json_encode(array("public_name" =>$Pname,"description"=>$description,"email"=>$email,"contact_number"=>$contact_number,
+             "location"=>$location,"passwords"=>$passwords,"rut"=>$rut,"rut_cd"=>$rut_cd,"district_id"=>$district_id,"enabled"=>$enabled))));
+            $profileConnection->insert_store($store);
+        }
+        ?>
       </form>
 
-
+ <body>
 </html>

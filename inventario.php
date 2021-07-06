@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,10 +11,16 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(~0);
-require_once('api/query/article.php');
+require_once __DIR__.('/api/query/article.php');
 $articleConnection = new article();
-require_once('api/query/store.php');
+require_once __DIR__.('/api/query/article_form.php');
+$article_fromConnection = new article_form();
+require_once __DIR__.('/api/query/store.php');
 $storeConnection = new Store();
+require_once __DIR__.('/api/query/history.php');
+$historyConnection = new history();
+require_once __DIR__.('/api/query/opinion.php');
+$opinionConection = new opinion();
 
 require_once('include.php');
 
@@ -29,17 +36,38 @@ require_once('include.php');
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
   <table>
-     <?php 
-      $id = $_SESSION["id"];
-      
-      $storeConnection->select_store($id, null, null);
+     <?php      
+     session_start();
+    $id = $_SESSION["id"];   
+    echo "Store id: ".$id;   
 
-      $article = $articleConnection->select_article(null);
-      //isset($store)
-      foreach($article as $value){                                            
-           echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
+     $object = json_decode(json_encode(array("id_store" => $id)));
+     
+      $article = $articleConnection->select_article($object); 
+      foreach($article as $value){                                           
+           echo "".$value->title?> <li></li><?php echo " ".$value->description?><li></li><?php echo " precio :".$value->price ?><li></li><?php echo "disponible :".$value->stock."";
+           ?><li></li>
+           <?php echo "material : ".$value->form->recycled_mats ?><li></li><?php "producion : ".$value->form->recycled_prod."";
+          $history=$historyConnection->select_history($value->id);
+          $cont=0;
+          foreach($history as $val){
+            $cont =$cont+1;
+          }          
+          echo "
+          visualisaciones :".$cont;
+      $con=0;
+      $add=0;
+      $opinion=$opinionConection->select_opinion(null,$value->id);
+      foreach($opinion as $va){
+        $add=$va->rating+$add;
+        $con =$con+1;
       }
+      $star=$add/$con; ?><li></li><?php
+      echo " estrellas :".$star;?><li></li><?php
+    }
      ?>
   </table>
+  <ul>
+<li><a href="nuevoarticulo.php">nuevo articulo</a></li></ul> 
 </body>
 </html>

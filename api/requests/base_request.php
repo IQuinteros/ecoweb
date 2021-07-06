@@ -1,7 +1,7 @@
 <?php
 
-ini_set('display_errors', 1);
-error_reporting(~0);
+//ini_set('display_errors', 1);
+error_reporting(0);
 
 header('Content-Type: application/json');
 
@@ -29,7 +29,10 @@ $json = file_get_contents('php://input');
 // Converts it into a PHP object
 $data = json_decode($json);
 
-if(count($_POST) > 0){
-    $data = json_decode(json_encode($_POST), FALSE);
+if(count($_REQUEST) > 0){
+    $data = json_decode(json_encode($_REQUEST), FALSE);
 }
 
+if(!isset($data->C8AEA) || $data->C8AEA != 'iyinF635EHL7SF8cmYY6rR9en4uRQjA1'){
+    send_response(false, null, 'Not authorized');
+}

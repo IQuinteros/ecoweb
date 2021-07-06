@@ -10,10 +10,19 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(~0);
-require_once('api/query/store.php');
+require_once __DIR__.('/api/query/store.php');
 $storeConnection = new Store();
-//require_once('api/query/message.php');
-//$messageConnection = new message();
+require_once __DIR__.('/api/query/message.php');
+$messageConnection = new message();
+require_once __DIR__.('/api/query/chat.php');
+$chatConnection = new chat();
+require_once __DIR__.('/api/query/profile.php');
+$profileConnection = new profile();
+require_once  ('include.php');
+session_start();
+$id = $_SESSION["id"]; 
+$_SESSION["profile"];
+$_SESSION["id_chat"];
 ?>
 <ul>
 <li><a href="home.php">home</a></li>
@@ -25,14 +34,62 @@ $storeConnection = new Store();
 <li><a href="reportes.php">reportes</a><li>
 <li><a href="perfil.php">perfil</a><li>
 </ul> 
-<table>
-     <?php 
-    //  $article = $articleConnection->select_message(null);
-      //isset($store)
-     // foreach($message as $value){                                            
-      //     echo "<option value='".$value->title."'>".$value->description.$value->price.$value->stock."</option>";
-    // }
-     ?>
-  </table>
+<?php 
+    $object = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $id)));
+     $chat = $chatConnection->select_chat($object);
+      foreach($chat as $value){        
+        $profile = $profileConnection->select_profile(json_decode(json_encode(array("id" => $value->purchase-> profile_id))));
+         if(count($profile) > 0){      ?>  
+         
+            <?php
+            ?><li></li>
+            <?php   echo $profile[0]->name;
+            $profile[0]->last_name;   
+          }   ?> 
+        
+          <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?> method="POST">    
+          <input type="hidden" name="id_profile" value=<?php $profile[0]->id ?> />
+          <input type="hidden" name="id_chat" value=<?php $value->id ?> />     
+              <input type="submit" name="chat" value="chat">
+          </form>><?php  if(isset($_POST['chat'])){ 
+         $_SESSION["profile"]=$_POST['id_profile'];
+         $_SESSION["id_chat"]=$_POST['id_chat'];
+        
+        }
+       }
+              ?>
+              
+   <div id="contenedor">
+         <div id="caja-chat">
+              <div>
+              
+                   <div id="datos-chat">
+                   <span><?php   $profileConnection->select_profile(json_decode(json_encode(array("id" =>$_SESSION["profile"]))));
+                   echo $profile[0]->name;
+            $profile[0]->last_name." : ";    ?> </span>
+                   <span><?php $message=$messageConnection->select_message(json_decode(json_encode(array("chat_id" => $_SESSION["id_chat"]))));
+                   foreach($message as $val){
+                       echo $val->message." ";
+                       echo $val->creation_date;?><li></li>
+                    <?php
+                   }
+                   ?></span>
+                  </div>
+             </div>
+         </div>
+         <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?> method="POST" action="Chats.php">
+         <textarea  name="message" placeholder="mensaje"></textarea>
+         <input type="submit" name="enviar" value="enviar">
+         </form>
+         <?php 
+       if(isset($_POST['enviar'])){ 
+         
+         
+
+        $messageConnection->insert_message(json_decode(json_encode(array("message"=>$message,"chat_id"=>$_SESSION["id_chat"]))));
+        
+        }?>
+     </div>
+     
 </body>
 </html>

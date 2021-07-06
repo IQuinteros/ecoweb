@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.('/../Connection.php');
+require_once __DIR__.('/opinion.php');
 require_once __DIR__.('/../models/store_model.php');
 class Store extends Connection{
     public function insert_store($object){
@@ -130,18 +131,40 @@ class Store extends Connection{
           die();
         }
     }
-    public function select_store($id, $public_name, $email){
+    public function select_store($object){
       $this->connection_hosting();
-      $sql="SELECT `id`, `public_name`, `description`, `email`, `contact_number`, `location`, `rut`, `rut_cd`, 
-      `enabled`, `creation_date`, `last_update_date`, `district_id`, `photo_url` 
-      FROM `store` WHERE `id`=:id OR `public_name` LIKE :public_name OR `email` LIKE :email";
+      $sql="SELECT store.`id`, `public_name`, `description`, `email`, `contact_number`, `location`, `rut`, `rut_cd`, 
+      `enabled`, `creation_date`, `last_update_date`, `district_id`, `photo_url`, district.`name` AS district_name 
+      FROM `store` JOIN district ON store.`district_id` = district.`id`";
+
+      $haveWHERE = false;
+
+      // Check for id
+      if(!is_null($object) && isset($object->id)){
+        $sql = $sql." WHERE store.id=:id";
+        $haveWHERE = true;
+      }
+      // Check for name
+      if(!is_null($object) && isset($object->public_name)){
+      $sql = $sql.($haveWHERE? " AND " : " WHERE ")."`public_name` LIKE :public_name";
+      }
+      if(!is_null($object) && isset($object->email)){
+        $sql = $sql.($haveWHERE? " AND " : " WHERE ")."`email` LIKE :email";
+      }
+      $sql = $sql.";";
 
       try{
         $resultado=$this->pdo->prepare($sql);
         
-        $resultado->bindParam(':id', $id, PDO::PARAM_INT);
-        $resultado->bindParam(':public_name', '%'.$public_name.'%', PDO::PARAM_STR);
-        $resultado->bindParam(':email', '%'.$email.'%', PDO::PARAM_STR);
+        if(isset($object->id)){
+          $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+        }
+        if(isset($object->public_name)){
+        $resultado->bindParam(':public_name', '%'.$object->public_name.'%', PDO::PARAM_STR);
+        }
+        if(isset($object->email)){
+        $resultado->bindParam(':email', '%'.$object->email.'%', PDO::PARAM_STR);
+        }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_tiendas = array();
@@ -160,10 +183,16 @@ class Store extends Connection{
           $tiendas->creation_date=$data[$i]["creation_date"];
           $tiendas->last_update_date=$data[$i]["last_update_date"];
           $tiendas->district_id=$data[$i]["district_id"];
+          $tiendas->district_name=$data[$i]["district_name"];
           $tiendas->photo_url=$data[$i]["photo_url"];
+
+          $storeIdObject = json_decode(json_encode(array("store_id" => $tiendas->id)));
+          $opinionConnection = new Opinion();
+          $opinions = $opinionConnection->select_opinion($storeIdObject);
+          $tiendas->opinions = $opinions;
+
           array_push($lista_tiendas, $tiendas);
         }
-
         $this->pdo = null;
         
         return $lista_tiendas;
@@ -176,16 +205,17 @@ class Store extends Connection{
     }
     public function login($email, $pass){
       $this->connection_hosting();
-      $sql="SELECT `email`, `passwords` FROM `store` WHERE `email`=:email AND `passwords`=PASSWORD(:password)";
+      $sql="SELECT `id`, `email`, `passwords` FROM `store` WHERE `email`=:email AND `passwords`=PASSWORD(:passwords)";
       try{
         $resultado=$this->pdo->prepare($sql);
         $resultado->bindParam(':email', $email, PDO::PARAM_STR);
-        $resultado->bindParam(':public_name', $pass, PDO::PARAM_STR);
+        $resultado->bindParam(':passwords', $pass, PDO::PARAM_STR);
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_login = array();
         for($i = 0; $i < count($data); $i++){
           $tiendas =new Store_model();
+          $tiendas->id=$data[$i]["id"];
           $tiendas->email=$data[$i]["email"];
           $tiendas->passwords=$data[$i]["passwords"];
           array_push($lista_login, $tiendas);
