@@ -1,9 +1,9 @@
-
 <?php
 
 require_once __DIR__.('/../base_view.php');
 require_once __DIR__.('/../../utils/enum.php');
 require_once __DIR__.('/../../../api/models/store_model.php');
+require_once __DIR__.('/../../utils/auth_util.php');
 
 final class AppBarSelected extends Enum {
     public const HOME = 0;
@@ -29,7 +29,8 @@ class AppBarView extends BaseView{
     public function __construct(AppBarSelected $selected = null)
     {
         $this->selected = AppBarSelected::emptyEnum($selected);
-        
+        $this->store = AuthUtil::getStoreSession();
+
         parent::__construct();
     }
 
@@ -47,42 +48,42 @@ class AppBarView extends BaseView{
                     <span class="material-icons material-icons-outlined">menu</span>
                     <span class="nav__list__item__text">Menu</span>
                 </a>
-                <img class="leftbar__img" src="https://source.unsplash.com/random" alt="">
+                <img class="leftbar__img" src="<?=$this->store->photo_url ?? '' ?>" alt="">
             </div>
-            <h1 class="leftbar__title">Empresa HH</h1>
+            <h1 class="leftbar__title"><?=$this->store->public_name ?? 'Indeterminado' ?></h1>
             <p class="leftbar__date">Lunes 15 de Abril de 2021</p>
 
             <nav class="leftbar__nav nav">
                 <ul class="nav__list">
-                    <a href="dashboard.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::HOME)?>">
+                    <a href="dashboard.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::HOME)?>">
                         <span class="material-icons material-icons-outlined">home</span>
                         <span class="nav__list__item__text">Home</span>
                     </a>
-                    <a href="purchases.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::PURCHASES)?>">
+                    <a href="purchases.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::PURCHASES)?>">
                         <span class="material-icons material-icons-outlined">shopping_cart</span>
                         <span class="nav__list__item__text">Pedidos</span>
                     </a>
-                    <a href="chat.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::CHATS)?>">
+                    <a href="chat.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::CHATS)?>">
                         <span class="material-icons material-icons-outlined">chat_bubble_outline</span>
                         <span class="nav__list__item__text">Chats</span>
                     </a>
-                    <a href="questions.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::QUESTIONS)?>">
+                    <a href="questions.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::QUESTIONS)?>">
                         <span class="material-icons material-icons-outlined">live_help</span>
                         <span class="nav__list__item__text">Preguntas</span>
                     </a>
-                    <a href="rating.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::RATING)?>">
+                    <a href="rating.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::RATING)?>">
                         <span class="material-icons material-icons-outlined">star_outline</span>
                         <span class="nav__list__item__text">Valoraciones</span>
                     </a>
-                    <a href="inventory.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::INVENTORY)?>">
+                    <a href="inventory.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::INVENTORY)?>">
                         <span class="material-icons material-icons-outlined">inventory_2</span>
                         <span class="nav__list__item__text">Inventario</span>
                     </a>
-                    <a href="reports.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::REPORTS)?>">
+                    <a href="reports.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::REPORTS)?>">
                         <span class="material-icons material-icons-outlined">timeline</span>
                         <span class="nav__list__item__text">Reportes</span>
                     </a>
-                    <a href="profile.html" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::PROFILE)?>">
+                    <a href="profile.php" class="nav__list__item <?=$this->getSelectedClass(AppBarSelected::PROFILE)?>">
                         <span class="material-icons material-icons-outlined">admin_panel_settings</span>
                         <span class="nav__list__item__text">Perfil</span>
                     </a>

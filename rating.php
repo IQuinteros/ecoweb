@@ -1,10 +1,15 @@
+<?php
+require_once __DIR__.('/php/views/dashboard/appbar.php');
+require_once __DIR__.('/php/views/dashboard/header.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purchases</title>
+    <title>Rating</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -16,6 +21,8 @@
 <body>
     
 <div class="layout">
+
+    <?= new AppBarView(new AppBarSelected(AppBarSelected::RATING)) ?>
 
     <aside id="appbar" class="leftbar">
         <div class="leftbar__appbar">
@@ -34,7 +41,7 @@
                     <span class="material-icons material-icons-outlined">home</span>
                     <span class="nav__list__item__text">Home</span>
                 </a>
-                <a href="purchases.html" class="nav__list__item nav__list__item--selected">
+                <a href="purchases.html" class="nav__list__item">
                     <span class="material-icons material-icons-outlined">shopping_cart</span>
                     <span class="nav__list__item__text">Pedidos</span>
                 </a>
@@ -46,7 +53,7 @@
                     <span class="material-icons material-icons-outlined">live_help</span>
                     <span class="nav__list__item__text">Preguntas</span>
                 </a>
-                <a href="rating.html" class="nav__list__item">
+                <a href="rating.html" class="nav__list__item nav__list__item--selected">
                     <span class="material-icons material-icons-outlined">star_outline</span>
                     <span class="nav__list__item__text">Valoraciones</span>
                 </a>
@@ -72,68 +79,38 @@
 
     <main class="main">
         <header class="main__header">
-            <h1 class="header__title">Pedidos</h1>
-            <h2 class="header__subtitle header__subtitle--topright">8 pedidos hoy</h2>
+            <h1 class="header__title">Valoraciones a tus productos</h1>
+            <h2 class="header__subtitle header__subtitle--bottomleft">88 valoraciones positivas en total</h2>
+            <h2 class="header__subtitle header__subtitle--topright">88 nuevas valoraciones hoy</h2>
+            <h2 class="header__subtitle header__subtitle--bottomright">150 valoraciones en total</h2>
         </header>
         
         <div class="main__container unique">
-            <article class="card card--purchase">
-                <div class="purchase-list">
-                    <h1>Pedido # 2031516</h1>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/1" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
+            <article class="card">
+                <button class="list-item">
+                    <img class="list-item__img" src="https://source.unsplash.com/random/1" alt="image">
+                    <div class="list-item__content">
+                        <div class="list-item__content__row">
+                            <a class="list-item__content__title" href="#">Nombre del producto completo</a>
+                            <p>Hoy</p>
+                        </div>
+                        <div class="list-item__content__row">
+                            <p class="w300">Nombre y apellido</p>
+                            <div class="stars">
+                                <span class="material-icons star--active">star</span>
+                                <span class="material-icons star--active">star</span>
+                                <span class="material-icons star--active">star</span>
+                                <span class="material-icons star--active">star</span>
+                                <span class="material-icons star--inactive">star</span>
+                            </div>
+                        </div>
+                        <div class="list-item__content__row">
+                            <p>Excelente producto</p>
+                            <a href="#">Ver comentario</a>
+                        </div>
                     </div>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/2" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
-                    </div>
-                </div>
-                <div class="purchase-info">
-                    <div class="purchase-info__header">
-                        <p>Lunes 16 de Marzo de 2021</p>
-                        <p>Hace 2 días</p>
-                    </div>
-                    <h2>Datos del cliente</h2>
-                    <span><b>Nombre: </b>Nombre y apellido</span>
-                    <span><b>Dirección: </b>Dirección completa del cliente con muchas palabras</span>
-                    <span><b>Teléfono: </b>+569 12345678</span>
-
-                    <a href="#">Ir al chat</a>
-
-                    <p>Total: $450.000</p>
-                </div>
-            </article>
-            <article class="card card--purchase">
-                <div class="purchase-list">
-                    <h1>Pedido # 2031516</h1>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/1" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
-                    </div>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/2" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
-                    </div>
-                </div>
-                <div class="purchase-info">
-                    <div class="purchase-info__header">
-                        <p>Lunes 16 de Marzo de 2021</p>
-                        <p>Hace 2 días</p>
-                    </div>
-                    <h2>Datos del cliente</h2>
-                    <span><b>Nombre: </b>Nombre y apellido</span>
-                    <span><b>Dirección: </b>Dirección completa del cliente con muchas palabras</span>
-                    <span><b>Teléfono: </b>+569 12345678</span>
-
-                    <a href="#">Ir al chat</a>
-
-                    <p>Total: $450.000</p>
-                </div>
+                </button>
+                <hr class="divider">
             </article>
         </div>
         <aside class="buttons">

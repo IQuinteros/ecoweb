@@ -1,10 +1,15 @@
+<?php
+require_once __DIR__.('/php/views/dashboard/appbar.php');
+require_once __DIR__.('/php/views/dashboard/header.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar producto</title>
+    <title>Nuevo producto</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
@@ -17,83 +22,19 @@
     
 <div class="layout">
 
-    <aside id="appbar" class="leftbar">
-        <div class="leftbar__appbar">
-            <a href="#" class="leftbar__menu" onclick="toggleMenu()">
-                <span class="material-icons material-icons-outlined">menu</span>
-                <span class="nav__list__item__text">Menu</span>
-            </a>
-            <img class="leftbar__img" src="https://source.unsplash.com/random" alt="">
-        </div>
-        <h1 class="leftbar__title">Empresa HH</h1>
-        <p class="leftbar__date">Lunes 15 de Abril de 2021</p>
-
-        <nav class="leftbar__nav nav">
-            <ul class="nav__list">
-                <a href="dashboard.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">home</span>
-                    <span class="nav__list__item__text">Home</span>
-                </a>
-                <a href="purchases.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">shopping_cart</span>
-                    <span class="nav__list__item__text">Pedidos</span>
-                </a>
-                <a href="chat.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">chat_bubble_outline</span>
-                    <span class="nav__list__item__text">Chats</span>
-                </a>
-                <a href="questions.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">live_help</span>
-                    <span class="nav__list__item__text">Preguntas</span>
-                </a>
-                <a href="rating.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">star_outline</span>
-                    <span class="nav__list__item__text">Valoraciones</span>
-                </a>
-                <a href="inventory.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">inventory_2</span>
-                    <span class="nav__list__item__text">Inventario</span>
-                </a>
-                <a href="reports.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">timeline</span>
-                    <span class="nav__list__item__text">Reportes</span>
-                </a>
-                <a href="profile.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">admin_panel_settings</span>
-                    <span class="nav__list__item__text">Perfil</span>
-                </a>
-                <a href="#" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">logout</span>
-                    <span class="nav__list__item__text">Cerrar sesión</span>
-                </a>
-            </ul>
-        </nav>
-    </aside>
+    <?= new AppBarView(new AppBarSelected(AppBarSelected::NONE)) ?>
 
     <main class="main">
         <header class="main__header">
-            <h1 class="header__title">Edición de producto</h1>
-            <h2 class="header__subtitle header__subtitle--topright">Publicado</h2>
+            <h1 class="header__title">Nuevo producto</h1>
         </header>
         
         <div class="main__container unique">
-            <div class="main__article">
-                <img class="main__article__img" src="https://source.unsplash.com/random/2" alt="">
-                <h1 class="main__article__title">Empresa HH</h1>
-                <h2 class="main__article__price">$ 450.000</h2>
-                <h2 class="main__article__subtitle">5 en stock</h2>
-                <div class="ecoindicator">
-                    <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                    <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                    <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                </div>
-            </div>
             <article class="card">
-                <h1>Modifica datos</h1>
                 <div class="input-container">
                     <label class="input-label">
-                        Descripción
-                        <input class="input" type="text" placeholder="Ingrese la descripción">
+                        Nombre de producto completo
+                        <input class="input" type="text" placeholder="Ingrese el nombre">
                     </label>
                 </div>
                 <div class="input-container">
@@ -105,6 +46,12 @@
                             <option value="alimentos">Alimentos</option>
                             <option value="alimentos">Vestimenta</option>
                         </select>
+                    </label>
+                </div>
+                <div class="input-container">
+                    <label class="input-label">
+                        Descripción
+                        <input class="input" type="text" placeholder="Ingrese una descripción para sus clientes">
                     </label>
                 </div>
                 <div class="input-container">
@@ -146,6 +93,64 @@
                         <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
                         <span class="picker__text">Subir nueva imagen</span>
                     </button>
+                </div>
+
+                <h1>Destaca lo ecológico de tu producto</h1>
+
+                <h3 class="card__subtitle">¿Se emplearon materiales reciclados y/o reutilizados para desarrollar tu producto?</h3>
+
+                <div class="check-group">
+                    <label class="input-label">
+                        <input class="checkbox" type="checkbox">
+                        <span class="material-icons material-icons-outlined checkmark">done</span>
+                        <span class="input-label__text">Totalmente</span> 
+                    </label>
+                    <label class="input-label">
+                        <input class="checkbox" type="checkbox">
+                        <span class="material-icons material-icons-outlined checkmark">done</span>
+                        <span class="input-label__text">Parcialmente</span> 
+                    </label>
+                    <label class="input-label">
+                        <input class="checkbox" type="checkbox">
+                        <span class="material-icons material-icons-outlined checkmark">done</span>
+                        <span class="input-label__text">Ninguno</span> 
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input class="input" type="text" placeholder="Da más detalles a tus clientes">
+                </div>
+
+                <h3 class="card__subtitle">¿En qué se puede reutilizar tu producto?</h3>
+
+                <div class="input-container">
+                    <label class="input-label">
+                        <textarea class="input" placeholder="Da tips a tus clientes sobre cómo pueden reutilizar tu producto o envoltorio para evitar que lo desechen"></textarea>
+                    </label>
+                </div>
+
+                <h3 class="card__subtitle">¿El producto se puede reciclar?</h3>
+
+                <div class="check-group">
+                    <label class="input-label">
+                        <input class="checkbox" type="checkbox">
+                        <span class="material-icons material-icons-outlined checkmark">done</span>
+                        <span class="input-label__text">Totalmente</span> 
+                    </label>
+                    <label class="input-label">
+                        <input class="checkbox" type="checkbox">
+                        <span class="material-icons material-icons-outlined checkmark">done</span>
+                        <span class="input-label__text">Parcialmente</span> 
+                    </label>
+                    <label class="input-label">
+                        <input class="checkbox" type="checkbox">
+                        <span class="material-icons material-icons-outlined checkmark">done</span>
+                        <span class="input-label__text">Ninguno</span> 
+                    </label>
+                </div>
+
+                <div class="input-container">
+                    <input class="input" type="text" placeholder="Da más detalles a tus clientes">
                 </div>
 
                 <div class="card__buttons">

@@ -1,7 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
+require_once __DIR__.('/php/views/dashboard/header.php');
 ?>
 
 <!DOCTYPE html>
@@ -26,9 +25,7 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
     <?= new AppBarView(new AppBarSelected(AppBarSelected::HOME)) ?>
 
     <main class="main">
-        <header class="main__header">
-            <h1 class="header__title">Dashboard</h1>
-        </header>
+        <?= new HeaderView("Dashboard") ?>
         
         <div class="main__container">
             <article class="card">

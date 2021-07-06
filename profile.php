@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__.('/php/views/dashboard/appbar.php');
+require_once __DIR__.('/php/views/dashboard/header.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,58 +22,7 @@
     
 <div class="layout">
 
-    <aside id="appbar" class="leftbar">
-        <div class="leftbar__appbar">
-            <a href="#" class="leftbar__menu" onclick="toggleMenu()">
-                <span class="material-icons material-icons-outlined">menu</span>
-                <span class="nav__list__item__text">Menu</span>
-            </a>
-            <img class="leftbar__img" src="https://source.unsplash.com/random" alt="">
-        </div>
-        <h1 class="leftbar__title">Empresa HH</h1>
-        <p class="leftbar__date">Lunes 15 de Abril de 2021</p>
-
-        <nav class="leftbar__nav nav">
-            <ul class="nav__list">
-                <a href="dashboard.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">home</span>
-                    <span class="nav__list__item__text">Home</span>
-                </a>
-                <a href="purchases.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">shopping_cart</span>
-                    <span class="nav__list__item__text">Pedidos</span>
-                </a>
-                <a href="chat.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">chat_bubble_outline</span>
-                    <span class="nav__list__item__text">Chats</span>
-                </a>
-                <a href="questions.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">live_help</span>
-                    <span class="nav__list__item__text">Preguntas</span>
-                </a>
-                <a href="rating.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">star_outline</span>
-                    <span class="nav__list__item__text">Valoraciones</span>
-                </a>
-                <a href="inventory.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">inventory_2</span>
-                    <span class="nav__list__item__text">Inventario</span>
-                </a>
-                <a href="reports.html" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">timeline</span>
-                    <span class="nav__list__item__text">Reportes</span>
-                </a>
-                <a href="profile.html" class="nav__list__item nav__list__item--selected">
-                    <span class="material-icons material-icons-outlined">admin_panel_settings</span>
-                    <span class="nav__list__item__text">Perfil</span>
-                </a>
-                <a href="#" class="nav__list__item">
-                    <span class="material-icons material-icons-outlined">logout</span>
-                    <span class="nav__list__item__text">Cerrar sesión</span>
-                </a>
-            </ul>
-        </nav>
-    </aside>
+    <?= new AppBarView(new AppBarSelected(AppBarSelected::PROFILE)) ?>
 
     <main class="main">
         <header class="main__header">
