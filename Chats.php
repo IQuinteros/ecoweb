@@ -58,7 +58,9 @@ $_SESSION["id_chat"];
           <input type="hidden" name="id_profile" value=<?php $profile[0]->id ?> />
           <input type="hidden" name="id_chat" value=<?php $value->id ?> />     
               <input type="submit" name="chat" value="chat">
-          </form>><?php  if(isset($_POST['chat'])){ 
+          </form>>
+          <?php 
+           if(isset($_POST['chat'])){ 
          $_SESSION["profile"]=$_POST['id_profile'];
          $_SESSION["id_chat"]=$_POST['id_chat'];
         
@@ -71,10 +73,13 @@ $_SESSION["id_chat"];
               <div>
               
                    <div id="datos-chat">
-                   <span><?php   $profileConnection->select_profile(json_decode(json_encode(array("id" =>$_SESSION["profile"]))));
+                   <span><?php
+                      $profileConnection->select_profile(json_decode(json_encode(array("id" =>$_SESSION["profile"]))));
                    echo $profile[0]->name;
-            $profile[0]->last_name." : ";    ?> </span>
-                   <span><?php $message=$messageConnection->select_message(json_decode(json_encode(array("chat_id" => $_SESSION["id_chat"]))));
+            $profile[0]->last_name." : ";    ?> 
+            </span>
+                   <span><?php 
+                   $message=$messageConnection->select_message(json_decode(json_encode(array("chat_id" => $_SESSION["id_chat"]))));
                    foreach($message as $val){
                        echo $val->message." ";
                        echo $val->creation_date;?><li></li>
@@ -85,15 +90,15 @@ $_SESSION["id_chat"];
              </div>
          </div>
          <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?> method="POST" action="Chats.php">
-         <textarea  name="message" placeholder="mensaje"></textarea>
+         <textarea  name="messa" placeholder="mensaje" id="messa"></textarea>
          <input type="submit" name="enviar" value="enviar">
          </form>
          <?php 
        if(isset($_POST['enviar'])){ 
-         
+        $messa=$_POST['messa'];
          
 
-        $messageConnection->insert_message(json_decode(json_encode(array("message"=>$message,"chat_id"=>$_SESSION["id_chat"]))));
+        $messageConnection->insert_message(json_decode(json_encode(array("message"=>$messa,"chat_id"=>$_SESSION["id_chat"]))));
         
         }?>
      </div>
