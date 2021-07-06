@@ -11,6 +11,8 @@ class AuthUtil{
         session_destroy();
         session_start();
 
+        if(!isset($email) || !isset($password)) return false;
+
         $storeConnection = new Store();
         $login_store = $storeConnection->login($email, $password);
 

@@ -87,7 +87,7 @@ class AppBarView extends BaseView{
                         <span class="material-icons material-icons-outlined">admin_panel_settings</span>
                         <span class="nav__list__item__text">Perfil</span>
                     </a>
-                    <a href="#" class="nav__list__item">
+                    <a href="logout.php" class="nav__list__item">
                         <span class="material-icons material-icons-outlined">logout</span>
                         <span class="nav__list__item__text">Cerrar sesión</span>
                     </a>
