@@ -25,11 +25,7 @@ require_once __DIR__.('/php/views/dashboard/header.php');
     <?= new AppBarView(new AppBarSelected(AppBarSelected::INVENTORY)) ?>
 
     <main class="main">
-        <header class="main__header">
-            <h1 class="header__title">Inventario</h1>
-            <h2 class="header__subtitle header__subtitle--topright">50 artículos publicados</h2>
-            <h2 class="header__subtitle header__subtitle--bottomright">5 artículos desactivados</h2>
-        </header>
+        <?= new HeaderView("Inventario", null, "50 artículos publicados", "5 artículos desactivados") ?>
         
         <div class="main__container unique">
             <article class="card">

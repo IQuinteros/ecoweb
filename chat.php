@@ -25,10 +25,7 @@ require_once __DIR__.('/php/views/dashboard/header.php');
     <?= new AppBarView(new AppBarSelected(AppBarSelected::CHATS)) ?>
 
     <main class="main">
-        <header class="main__header">
-            <h1 class="header__title">Chats</h1>
-            <h2 class="header__subtitle header__subtitle--topright">12 nuevos mensajes</h2>
-        </header>
+        <?= new HeaderView("Chats", null, "12 nuevos mensajes") ?>
         
         <div class="main__container chat-main-container">
             <article class="card chat-list">

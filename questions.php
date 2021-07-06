@@ -25,11 +25,7 @@ require_once __DIR__.('/php/views/dashboard/header.php');
     <?= new AppBarView(new AppBarSelected(AppBarSelected::QUESTIONS)) ?>
 
     <main class="main">
-        <header class="main__header">
-            <h1 class="header__title">Preguntas</h1>
-            <h2 class="header__subtitle header__subtitle--bottomleft">58 preguntas sin responder</h2>
-            <h2 class="header__subtitle header__subtitle--bottomright">100 preguntas en total</h2>
-        </header>
+        <?= new HeaderView("Preguntas", "58 preguntas sin responder", null, "100 preguntas en total") ?>
         
         <div class="main__container unique">
             <article class="card">

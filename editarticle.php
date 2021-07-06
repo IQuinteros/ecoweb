@@ -25,10 +25,7 @@ require_once __DIR__.('/php/views/dashboard/header.php');
     <?= new AppBarView(new AppBarSelected(AppBarSelected::NONE)) ?>
 
     <main class="main">
-        <header class="main__header">
-            <h1 class="header__title">Edición de producto</h1>
-            <h2 class="header__subtitle header__subtitle--topright">Publicado</h2>
-        </header>
+        <?= new HeaderView("Edición de producto", null, "Publicado") ?>
         
         <div class="main__container unique">
             <div class="main__article">

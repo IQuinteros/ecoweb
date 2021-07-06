@@ -25,10 +25,7 @@ require_once __DIR__.('/php/views/dashboard/header.php');
     <?= new AppBarView(new AppBarSelected(AppBarSelected::PROFILE)) ?>
 
     <main class="main">
-        <header class="main__header">
-            <h1 class="header__title">Perfil</h1>
-            <h2 class="header__subtitle header__subtitle--topright">8 pedidos hoy</h2>
-        </header>
+        <?= new HeaderView("Perfil") ?>
         
         <div class="main__container unique">
             <div class="main__profile">
