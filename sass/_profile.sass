@@ -1,0 +1,39 @@
+.main__profile
+    display: grid
+    gap: $margin-unit
+    justify-items: center
+    color: $dark-color
+    .main__profile__img
+        @include shadow($vertical: 3)
+        border-radius: 50%
+        object-fit: cover
+        width: 120px
+        height: 120px
+    .main__profile__subtitle
+        font-weight: 400
+    .main__profile__btn
+        background-color: transparent
+        color: $primary-color
+        cursor: pointer
+
+@media screen and ( min-width: 580px )
+    .main__profile
+        align-items: center
+        grid-template-areas: "img title edit" "img subtitle subtitle"
+        grid-template-columns: 120px 1fr auto
+        margin: 0 $margin-unit
+        .main__profile__img
+            grid-area: img
+            justify-self: start
+        .main__profile__title
+            grid-area: title
+            justify-self: start
+            align-self: flex-end
+        .main__profile__subtitle
+            grid-area: subtitle
+            justify-self: start
+            align-self: flex-start
+        .main__profile__btn
+            grid-area: edit
+            align-self: flex-end
+            justify-self: end

@@ -1,0 +1,246 @@
+@use 'sass:math'
+    
+.appbar
+    @include shadow($vertical: 3)
+    @include padding($vertical: 0.5, $horizontal: 1)
+    background-color: $left-bar-color
+    font-size: 1.4rem
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+    justify-content: space-between
+    position: fixed
+    top: 0
+    right: 0
+    left: 0
+    z-index: 1000
+    transform: translateZ(3000px)
+
+    a
+        font-family: $font-family
+        color: white
+
+    .appbar__title
+        font-weight: 600
+        font-size: 1.6rem
+
+    .appbar__nav
+        display: none
+        ul
+            display: flex
+            flex-flow: row nowrap
+            li
+                list-style: none
+
+    .appbar__profile
+        background-color: transparent
+        color: white
+        padding: 0
+    
+@media screen and ( min-width:  500px)
+    .appbar
+        .appbar__nav
+            display: block
+            ul
+                flex-flow: row nowrap
+                li
+                    margin-left: $margin-unit
+        .appbar__profile
+            display: none
+
+.main
+    width: 100vw
+    min-height: 100vh
+    padding-top: $margin-unit * 3
+    padding-bottom: $margin-unit
+    position: relative
+    .main__container
+        @include padding()
+        margin: 0 auto
+        max-width: 1000px
+        display: grid
+        grid-template-columns: 1fr
+        gap: $margin-unit
+        .main__article
+            display: grid
+            position: relative
+            grid-template-columns: 1fr
+            
+            justify-items: center
+            gap: $margin-unit
+            .main__article__img
+                @include shadow($blur: 5)
+                border-radius: $border-radius-unit
+                width: 80%
+                order: 2
+                max-width: 330px
+            .main__article__img:hover
+                @include shadow($blur: 30)
+            .main__article__title
+                color: $primary-dark-color
+                order: 1
+                text-align: center
+                font-family: $font-family
+            .card.main__article__title
+                border-radius: 0
+        
+        .main__card
+            border-radius: 0
+            display: grid
+            grid-template-columns: 1fr
+            gap: math.div($margin-unit, 2)
+            justify-content: center
+            text-align: center
+            position: relative
+            padding-bottom: $padding-unit * 2
+            .main__card__img
+                background-color: transparent
+                height: 60px
+                width: 100%
+                position: absolute
+                left: 0
+                right: 0
+                bottom: -30px
+                padding: 0
+                img
+                    height: 60px
+                    width: 100%
+                    object-fit: contain
+    .main__title
+        color: $primary-dark-color
+        text-align: center
+        font-size: 3rem
+    .main__subtitle
+        color: $primary-color
+        text-align: center
+
+@media screen and ( min-width:  700px)
+    .main     
+        .main__container.main__container--doublecol
+            grid-template-columns: 1fr 1fr
+            .main__title,
+            .main__subtitle
+                grid-column: span 2
+            .btn--submit
+                grid-column: span 2
+                width: 50%
+                justify-self: center
+                margin-top: $margin-unit
+
+@media screen and ( min-width:  850px)
+    .main
+        .main__container
+            .main__article
+                grid-template-areas: "img title"
+                grid-template-columns: minmax(max-content, 250px) 2fr
+                .main__article__img
+                    position: absolute
+                    width: 100%
+                    grid-area: img
+                .main__article__title
+                    font-size: 2rem
+                    grid-area: title
+                    width: 100%
+            .main__article:nth-child(1)
+                padding-bottom: $margin-unit * 25
+                .main__article__title
+                    margin-top: $margin-unit * 2
+            .main__article:nth-child(2)
+                gap: 0
+                padding-bottom: $margin-unit * 12
+                .main__article__title
+                    margin-top: $margin-unit * 2
+                .main__article__img
+                    top: $margin-unit * -18
+            .main__article:nth-child(3)
+                gap: 0
+                padding-bottom: $margin-unit * 18
+                .main__article__title
+                    margin-top: $margin-unit * 2
+                .main__article__img
+                    top: $margin-unit * -8
+
+            .main__article:nth-child(2n)
+                grid-template-areas: "title img"
+                grid-template-columns: 2fr minmax(max-content, 250px)
+
+    
+
+.footer
+    @include shadow($vertical: -3)
+    @include padding()
+    background-color: $blue-color
+    color: white
+    width: 100%
+    min-height: 80px
+    text-align: center
+
+    .footer__content
+        display: grid
+        grid-template-columns: 1fr
+        gap: $margin-unit
+        justify-items: center
+        font-size: 1.4rem
+        @include margin($vertical: 1, $horizontal: 0)
+        ul
+            display: grid
+            grid-template-columns: 1fr
+            gap: math.div($margin-unit, 3)
+            padding: 0
+            li
+                align-items: center
+                display: flex
+                flex-flow: row nowrap
+                list-style: none
+                text-align: start
+        .footer__content__icon
+            color: $primary-color
+            margin-right: math.div($margin-unit, 2)
+        .btn--footer
+            @include shadow()
+            @include padding($vertical: 0.5)
+            background-color: $primary-color
+            color: white
+            font-size: 1.4rem
+    .divider
+        background-color: white
+    .footer__text
+        font-size: 1.3rem
+        margin-top: $margin-unit
+
+@media screen and ( min-width: 540px )
+    .footer
+        .footer__content
+            grid-template-columns: 1fr 1fr
+            align-items: center
+
+body
+    position: relative
+
+.background
+    position: absolute
+    left: 0
+    right: 0
+    top: 30vh
+    bottom: 0
+    z-index: -5
+    overflow: hidden
+    .background__wave
+        margin: 0
+        padding: 0
+        path
+            fill: transparentize($primary-light-color, 0.2) 
+        
+    .background__fill
+        margin: 0
+        margin-top: -5px
+        padding: 0
+        height: 100%
+        background-color: transparentize($primary-light-color, 0.2) 
+.background.inside  
+    top: 50%
+    .background__wave
+        path
+            fill: $primary-dark-color
+    .background__fill
+        background-color: $primary-dark-color

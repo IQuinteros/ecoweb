@@ -1,0 +1,395 @@
+@use "sass:math"
+    
+* 
+    border: 0
+    margin: 0
+    box-sizing: border-box
+
+html
+    font-size: 62.5%
+    font-family: $font-family
+
+a
+    text-decoration: none
+    color: $primary-color
+
+/* Card */
+
+.card
+    @include shadow($blur: 6)
+    @include padding($vertical: 0.6)
+    
+    background-color: $light-color
+    border-radius: $border-radius-unit
+    color: $primary-dark-color
+
+    .card__header
+        display: inline-flex
+        flex-flow: row wrap
+        justify-content: space-between
+        margin-bottom: math.div($margin-unit, 2)
+        margin-left: -$margin-unit
+        margin-top: - math.div($margin-unit, 3)
+        padding-right: $padding-unit
+        padding-bottom: math.div($padding-unit, 3)
+        width: calc(100% + 40px)
+        @include shadow($vertical: 2, $blur: 2, $opacity: 0.05)
+        
+
+    .card__title
+        font-size: 1.6rem
+        margin-left: $margin-unit
+        margin-top: math.div($margin-unit, 3)
+
+    .card__redirect
+        @include goToLink()    
+        font-size: 1.4rem
+        justify-self: end  
+        margin-left: $margin-unit
+        margin-top: math.div($margin-unit, 3)
+
+    .card__content--unique
+        font-size: 2.2rem
+
+    .card__subtitle
+        margin-top: $margin-unit
+
+    .list-item
+        border-radius: $border-radius-unit
+        background-color: transparent
+        display: grid
+        grid-template-rows: 1fr
+        grid-template-columns: auto 1fr
+        gap: math.div($margin-unit, 2)
+        @include padding($vertical: 0.5, $horizontal: 0.5)
+        width: 100%
+        height: 100%
+        .list-item__img
+            @include shadow($vertical: 3)
+            width: 80px
+            height: 80px
+            min-height: 80px
+            object-fit: cover
+            border-radius: $border-radius-unit
+        .list-item__content
+            display: flex
+            flex-flow: column nowrap
+            height: 100%
+            .list-item__content__title
+                text-align: start
+                font-size: 1.6rem
+                font-weight: 500
+            .list-item__content__row
+                justify-self: center
+                display: grid
+                grid-template-columns: 1fr 1fr
+                flex-grow: 1
+                justify-content: space-between
+                justify-items: start
+                align-items: center
+                a:nth-child(n),
+                p:nth-child(n),
+                div:nth-child(n)
+                    justify-self: start
+                    text-align: start
+                a:nth-child(2n),
+                p:nth-child(2n),
+                div:nth-child(2n)
+                    justify-self: end
+                    text-align: end
+            .list-item__content__row:nth-child(2n)
+                margin: math.div($margin-unit, 3) 0
+            a
+                color: $primary-color
+                text-decoration: none
+            .star--active
+                color: $accent-color
+            .star--inactive
+                color: gray
+
+// Optimize
+@media screen and ( min-width:  901px) and (max-width: 1040px)
+    .card
+        .list-item
+            justify-items: center
+            grid-template-columns: 1fr
+            grid-template-rows: auto auto
+            .list-item__img
+                width: 100%
+                height: auto
+                aspect-ratio: 2/0.9
+            .list-item__content
+                .list-item__content__title
+                    text-align: center
+                display: grid
+                grid-template-columns: 1fr
+                gap: math.div($margin-unit, 2)
+                .list-item__content__row
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    a:nth-child(n),
+                    p:nth-child(n),
+                    div:nth-child(n)
+                        justify-self: center
+                        text-align: center
+// Optimize
+@media screen and ( min-width:  681px) and (max-width: 810px)
+    .card
+        .list-item
+            justify-items: center
+            grid-template-columns: 1fr
+            grid-template-rows: auto auto
+            .list-item__img
+                width: 100%
+                height: auto
+                aspect-ratio: 2/0.9
+            .list-item__content
+                .list-item__content__title
+                    text-align: center
+                display: grid
+                grid-template-columns: 1fr
+                gap: math.div($margin-unit, 2)
+                .list-item__content__row
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    a:nth-child(n),
+                    p:nth-child(n),
+                    div:nth-child(n)
+                        justify-self: center
+                        text-align: center
+// Optimize
+@media screen and (max-width: 590px)
+    .card
+        .list-item
+            justify-items: center
+            grid-template-columns: 1fr
+            grid-template-rows: auto auto
+            .list-item__img
+                width: 100%
+                height: auto
+                aspect-ratio: 2/0.9
+            .list-item__content
+                .list-item__content__title
+                    text-align: center
+                display: grid
+                grid-template-columns: 1fr
+                gap: math.div($margin-unit, 2)
+                .list-item__content__row
+                    grid-template-columns: 1fr
+                    grid-template-rows: 1fr 1fr
+                    a:nth-child(n),
+                    p:nth-child(n),
+                    div:nth-child(n)
+                        justify-self: center
+                        text-align: center
+            
+
+@media screen and ( min-width:  901px)
+    .card__chart
+        width: 100%
+        max-width: 100%
+
+@media screen and ( min-width:  680px) and (max-width: 900px)
+    .card__chart
+        width: calc(100vw - 350px)
+        max-width: calc(100vw - 350px)
+
+@media screen and ( min-width:  401px) and (max-width: 679px)
+    .card__chart
+        width: calc(100vw - 160px)
+        max-width: calc(100vw - 160px)
+    
+@media screen and ( max-width:  400px)
+    .card__chart
+        width: calc(100vw - 80px)
+        max-width: calc(100vw - 80px)
+
+/* Right bar */
+button
+    font-family: $font-family
+
+.card__buttons
+    display: grid
+    gap: $margin-unit
+    margin-top: $margin-unit
+    margin-bottom: math.div($margin-unit, 2)
+
+@media screen and ( min-width:  1080px)
+    .card__buttons
+        grid-template-columns: 1fr 1fr
+
+.btn
+    text-align: start
+    font-size: 1.4rem
+    font-family: $font-family
+    cursor: pointer
+    transition: 0.2s background-color, 0.3s color, 0.3s box-shadow
+.btn.btn--red
+    background-color: $red-color
+    color: white
+.btn.btn--primary
+    @include shadow($vertical: 2)
+    @include padding($vertical: 0.5)
+    background-color: $primary-color
+    color: white
+    text-align: center
+.btn:hover
+    @include shadow($vertical: 3, $blur: 10, $opacity: 0.6)
+
+.divider
+    width: 100%
+    border: none
+    background-color: rgba(0, 0, 0, 0.1)
+    height: 1px
+    margin: math.div($margin-unit, 2) 0
+
+/* Inputs */
+.input-container
+    margin-top: $margin-unit
+
+    .input-container__button
+        @include shadow()
+        width: 45px
+        height: 45px
+        border-radius: 50%
+        background-color: $primary-color
+        color: white
+
+textarea
+    resize: vertical
+    min-height: 80px
+
+.input-label
+    margin-top: $margin-unit
+    font-size: 1.4rem
+
+.input
+    @include shadow()
+    @include padding($vertical: 0.5, $horizontal: 0.5)
+    border-radius: math.div($border-radius-unit, 2)
+    width: 100%
+    outline-color: $primary-color
+    font-family: $font-family
+    margin-top: math.div($margin-unit, 2)
+
+::placeholder
+    color: adjust-color($dark-color, $alpha: -0.6)
+
+.floating-action-btn
+    @include shadow($vertical: 3)
+    position: fixed
+    bottom: 0
+    right: 0
+    margin-right: $margin-unit
+    margin-bottom: $margin-unit
+    background-color: $primary-color
+    border-radius: 50%
+    color: white
+    width: 50px
+    height: 50px
+
+.check-group
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+    justify-items: center
+    .input-label
+        position: relative
+        display: flex
+        align-items: center
+        min-height: 40px
+        .checkbox
+            position: absolute
+            @include shadow()
+            vertical-align: middle
+            border: 1px solid #ddd
+            -webkit-appearance: none
+            border-radius: 50%
+            background-color: white
+            width: 35px
+            height: 35px
+            @include padding($horizontal: 0.5, $vertical: 0.5)
+        .checkmark
+            position: absolute
+            color: transparent
+            height: 25px
+            width: 25px
+            margin-left: 5px
+            transition: 0.15s color
+        .checkbox:checked ~ .checkmark
+            color: $primary-color
+        .input-label__text
+            margin-left: $margin-unit * 2.5    
+
+@media screen and ( max-width: 1200px )
+    .check-group
+        justify-items: start
+
+.photos-container
+    display: grid
+    gap: $margin-unit
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    @include margin($vertical: 1, $horizontal: 0)
+
+    .photo,
+    .picker
+        @include shadow()
+        background-color: white
+        border-radius: $border-radius-unit
+        padding: 0
+        overflow: hidden
+        aspect-ratio: 2 / 1.2
+        position: relative
+        .photo__img
+            object-position: center
+            object-fit: cover
+            width: 100%
+            height: 100%
+            margin: 0
+            transition: 0.2s transform
+        .photo__delete
+            position: absolute
+            display: flex
+            align-items: center
+            justify-content: center
+            flex-flow: column nowrap
+            width: 100%
+            height: 100%
+            top: 0
+            background-color: transparentize($dark-color, 0.2)
+            opacity: 0
+            transition: 0.2s opacity
+            .photo__delete__icon
+                color: $red-color
+            .photo__delete__text
+                color: white
+                margin-top: math.div($margin-unit, 2)
+    
+    .photo:hover,
+    .picker:hover
+        @include shadow($vertical: 3, $blur: 6)
+        .photo__img
+            transform: scale(1.2)
+        .photo__delete
+            opacity: 1
+    
+    .picker
+        color: $primary-color
+        display: flex
+        flex-flow: column nowrap
+        align-items: center
+        justify-content: center
+        .picker__icon
+            transition: 0.2s transform, 0.2s margin-bottom
+        .picker__text
+            margin-top: math.div($margin-unit, 2)
+
+    .picker:hover
+        .picker__icon
+            transform: scale(2)
+            margin-bottom: math.div($margin-unit, 2)
+
+.hover--card
+    transition: box-shadow 0.1s, transform 0.1s
+.hover--card:hover
+    @include shadow($blur: 30)
+     
