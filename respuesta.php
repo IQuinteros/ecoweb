@@ -1,12 +1,3 @@
-<?php 
- if(isset($_POST['submit'])){
-     $answer =$_POST['anwer'];
-     $objet->answer=$answer;
-     $objet->quesotin_id=$id_question;
-
-   $insert_answer=$answerConnection->insert_answer($objet);
- }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,8 +29,16 @@ $answerConnection= new answer();
        <label for="anwer">respuesta:</label>
        <textarea name="anwer" placeholder="mensaje" id="anwer" ></textarea>
        
-      <button onclick="sendData(insert_answer)" value="enviar respuesta" name="submit"    
+      <button  value="submit" name="submit"    
       >enviar respuesta</button>
      </form>
+     <?php 
+ if(isset($_POST['submit'])){
+     $answer =$_POST['anwer'];    
+     $objet=(json_decode(json_encode(array("answer"=>$answer,"id_question"=>$id_question))));
+
+   $insert_answer=$answerConnection->insert_answer($objet);
+ }
+?>
 </body>
 </html>

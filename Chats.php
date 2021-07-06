@@ -21,7 +21,8 @@ $profileConnection = new profile();
 require_once  ('include.php');
 session_start();
 $id = $_SESSION["id"]; 
-$chat =$_SESSION["chat"]
+$_SESSION["profile"];
+$_SESSION["id_chat"];
 ?>
 <ul>
 <li><a href="home.php">home</a></li>
@@ -36,32 +37,58 @@ $chat =$_SESSION["chat"]
 <?php 
     $object = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $id)));
      $chat = $chatConnection->select_chat($object);
-      foreach($chat as $value){
-        $_SESSION["chat"]=$value->id;
+      foreach($chat as $value){        
         $profile = $profileConnection->select_profile(json_decode(json_encode(array("id" => $value->purchase-> profile_id))));
-         if(count($profile) > 0){      ?> <a  href="Chats.php">><?php
+         if(count($profile) > 0){      ?>  
+         
+            <?php
             ?><li></li>
             <?php   echo $profile[0]->name;
-            $profile[0]->last_name;    ?> </a><?php        
-          }
-       }  
+            $profile[0]->last_name;   
+          }   ?> 
+        
+          <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?> method="POST">    
+          <input type="hidden" name="id_profile" value=<?php $profile[0]->id ?> />
+          <input type="hidden" name="id_chat" value=<?php $value->id ?> />     
+              <input type="submit" name="chat" value="chat">
+          </form>><?php  if(isset($_POST['chat'])){ 
+         $_SESSION["profile"]=$_POST['id_profile'];
+         $_SESSION["id_chat"]=$_POST['id_chat'];
+        
+        }
+       }
               ?>
               
    <div id="contenedor">
          <div id="caja-chat">
-              <div id="chat">
+              <div>
               
                    <div id="datos-chat">
-                   <span>nombre</span>
-                   <span>mensaje</span>
-                   <span>hora</span>
+                   <span><?php   $profileConnection->select_profile(json_decode(json_encode(array("id" =>$_SESSION["profile"]))));
+                   echo $profile[0]->name;
+            $profile[0]->last_name." : ";    ?> </span>
+                   <span><?php $message=$messageConnection->select_message(json_decode(json_encode(array("chat_id" => $_SESSION["id_chat"]))));
+                   foreach($message as $val){
+                       echo $val->message." ";
+                       echo $val->creation_date;?><li></li>
+                    <?php
+                   }
+                   ?></span>
                   </div>
              </div>
          </div>
-         <form method="POST" action="Chats.php">
-         <textarea  name="mensaje" placeholder="mensaje"></textarea>
+         <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?> method="POST" action="Chats.php">
+         <textarea  name="message" placeholder="mensaje"></textarea>
          <input type="submit" name="enviar" value="enviar">
          </form>
+         <?php 
+       if(isset($_POST['enviar'])){ 
+         
+         
+
+        $messageConnection->insert_message(json_decode(json_encode(array("message"=>$message,"chat_id"=>$_SESSION["id_chat"]))));
+        
+        }?>
      </div>
      
 </body>

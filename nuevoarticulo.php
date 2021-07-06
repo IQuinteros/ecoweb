@@ -10,36 +10,7 @@ require_once __DIR__.('/api/query/category.php');
 $categoryConnection = new category();
 session_start();
 $_SESSION["id"]; 
-$general_detail="";
- if(isset($_POST['submit'])){
-    $recycled_mats=$_POST['recycled_mats'];
-    $recycled_mats_detail=$_POST['recycled_mats_detail'];
-    $reuse_tips=$_POST['reuse_tips'];
-    $recycled_prod=$_POST['recycled_prod'];
-    $recycled_prod_detail=$_POST['recycled_prod_detail'];  
-    $article_form =(json_decode(json_encode(array("recycled_mats" =>$recycled_mats,"recycled_mats_detail"=>$recycled_mats_detail,"reuse_tips"=>$reuse_tips,"recycled_prod"=>$recycled_prod,
-     "recycled_prod_detail"=>$recycled_prod_detail))));
-    
-    $insert_article_form=$article_formConnection->insert_article_form($article_form);
-    return array($re, $user_id);
-    $insert_article[1];
-    $title =$_POST['title'];
-    $description=$_POST['description'];
-    $price=$_POST['price'];
-    $stock=$_POST['stock'];
-    $category_id=$_POST['category_id'];
-    $article->title=$title;
-    $article->description=$description;
-    $article->price=$price;
-    $article->stock=$stock;
-    $article->category_id=$category_id;
-    $store_id=$_SESSION["id"];     
-     
-     $article_form_id=$insert_article[1];
-     $article=(json_decode(json_encode(array("title" =>$title,"description"=>$description,"price"=>$price,"stock"=>$stock,"category_id"=>$category_id,"store_id"=>$store_id,
-     "article_form_id"=>$article_form_id))));
-     $insert_article=$articleConnection->insert_article($article);
- }
+$general_detail=""; 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,6 +98,31 @@ $general_detail="";
 </form><br><br>
 <label for="recycled_prod_detail">¿puede dar mas detalle?:</label>
         <input type="text" id="recycled_prod_detail" name="recycled_prod_detail"><br><br>
-        <button onclick="$insert_article,$insert_article_form" value="submit" name="submit">nuevo producto</button>
+        <button value="submit" name="submit">nuevo producto</button>
+        <?php 
+        if(isset($_POST['submit'])){
+            $recycled_mats=$_POST['recycled_mats'];
+            $recycled_mats_detail=$_POST['recycled_mats_detail'];
+            $reuse_tips=$_POST['reuse_tips'];
+            $recycled_prod=$_POST['recycled_prod'];
+            $recycled_prod_detail=$_POST['recycled_prod_detail'];  
+            $article_form =(json_decode(json_encode(array("recycled_mats" =>$recycled_mats,"recycled_mats_detail"=>$recycled_mats_detail,"reuse_tips"=>$reuse_tips,"recycled_prod"=>$recycled_prod,
+             "recycled_prod_detail"=>$recycled_prod_detail))));
+            
+            $insert_article_form=$article_formConnection->insert_article_form($article_form);
+            return array($re, $user_id);
+            $insert_article[1];
+            $title =$_POST['title'];
+            $description=$_POST['description'];
+            $price=$_POST['price'];
+            $stock=$_POST['stock'];
+            $category_id=$_POST['category_id'];            
+            $store_id=$_SESSION["id"];     
+             
+             $article_form_id=$insert_article[1];
+             $article=(json_decode(json_encode(array("title" =>$title,"description"=>$description,"price"=>$price,"stock"=>$stock,"category_id"=>$category_id,"store_id"=>$store_id,
+             "article_form_id"=>$article_form_id))));
+             $articleConnection->insert_article($article);
+         }?>
 </body>
 </html>

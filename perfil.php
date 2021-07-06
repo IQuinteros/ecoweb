@@ -9,25 +9,8 @@ require_once __DIR__.('/api/query/store.php');
 require_once __DIR__.('/api/query/profile.php');
     $profileConnection = new profile();
 $storeConnection = new store();
-
- if(isset($_POST['submit'])){        
-    require_once('include.php');
-     $email =$_POST['email'];
-     $contact_number=$_POST['contact_number'];
-      $location=$_POST['location'];
-     $district=$_POST['district'];
-     $id=$_SESSION["id"];
-     $select_store=$storeConnection->select_store(json_decode(json_encode(array("id"=>$id))));
-     if(empty($email))
-      $email=$select_store[0]->email;
-    if(empty($contact_number))
-    $contact_number=$select_store[0]->contact_number;
-    if(empty($location))
-    $location=$select_store[0]->location;
-    if(empty($district))
-    $district=$select_store[0]->district_id;
-    $update_store=json_decode(json_encode(array("email"=>$email,"contact_number"=>$contact_number,"location"=>$location,"district_id"=>$district,"id"=>$id)));    
-    }
+require_once('include.php');
+ 
     
 ?>
 <!DOCTYPE html>
@@ -39,11 +22,6 @@ $storeConnection = new store();
     <title>Document</title>
 </head>
 <body>
-<?php 
-function sendData($storeConnection,$update_store){
-    $storeConnection->update_store($update_store);
-}
-?>
 <ul>
 <li><a href="home.php">home</a></li>
 <li><a href="pedidos.php">pedidos</a><li>
@@ -71,11 +49,30 @@ function sendData($storeConnection,$update_store){
                 foreach($distritos as $value){                                                 
                     echo "<option value='".$value->id."'>".$value->name."</option>";
                 }
-               ?>           
+               ?>
            </option>
        </select>
-       <button onclick="sendData($storeConnection,$update_store)" value="submit" name="submit"        
+       <button value="submit" name="submit"        
        >guardar cambios</button>
+       <?php 
+       if(isset($_POST['submit'])){        
+         $email =$_POST['email'];
+         $contact_number=$_POST['contact_number'];
+          $location=$_POST['location'];
+         $district=$_POST['district'];
+         $id=$_SESSION["id"];
+         $select_store=$storeConnection->select_store(json_decode(json_encode(array("id"=>$id))));
+         if(empty($email))
+          $email=$select_store[0]->email;
+        if(empty($contact_number))
+        $contact_number=$select_store[0]->contact_number;
+        if(empty($location))
+        $location=$select_store[0]->location;
+        if(empty($district))
+        $district=$select_store[0]->district_id;
+        $update_store=json_decode(json_encode(array("email"=>$email,"contact_number"=>$contact_number,"location"=>$location,"district_id"=>$district,"id"=>$id)));    
+        $storeConnection->update_store($update_store);
+        }?>
       </form>
 </body>
 </html>

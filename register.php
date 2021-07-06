@@ -1,27 +1,3 @@
-<?php 
- if(isset($_POST['submit'])){
-     $Pname =$_POST['Pname'];
-     $description=$_POST['description'];
-      $email=$_POST['email'];
-     $contact_number=$_POST['contact_number'];
-     $location=$_POST['location'];
-     $passwords=$_POST['passwords'];
-     $rut=$_POST['rut'];
-     $rut_cd=$_POST['rut_cd'];
-     $district=$_POST['district'];     
-     $store->public_name=$Pname;
-     $store->description=$description;
-     $store->email=$email;
-     $store->contact_number=$contact_number;
-     $store->location=$location;
-     $store->passwords=$passwords;
-     $store->rut=$rut;
-     $store->rut_cd=$rut_cd;
-     $store->district_id=$district;
-     $store->enabled=true;
-     $insert_store=$profileConnection->insert_store($store);
- }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,14 +49,27 @@ $districtConnection = new district();
            </option>
        </select>
         
-        <button onclick="sendData(insert_store)" value="registro" name="submit"
-        <?php         
+        <button  value="submit" name="submit"
         
-          if(isset($store)){
-      
-       }
-        ?>
        >registar</button>
+       <?php         
+        
+        if(isset($_POST['submit'])){
+            $Pname =$_POST['Pname'];
+            $description=$_POST['description'];
+             $email=$_POST['email'];
+            $contact_number=$_POST['contact_number'];
+            $location=$_POST['location'];
+            $passwords=$_POST['passwords'];
+            $rut=$_POST['rut'];
+            $rut_cd=$_POST['rut_cd'];
+            $district=$_POST['district']; 
+            $enabled=true;
+            $store= (json_decode(json_encode(array("public_name" =>$Pname,"description"=>$description,"email"=>$email,"contact_number"=>$contact_number,
+             "location"=>$location,"passwords"=>$passwords,"rut"=>$rut,"rut_cd"=>$rut_cd,"district_id"=>$district_id,"enabled"=>$enabled))));
+            $profileConnection->insert_store($store);
+        }
+        ?>
       </form>
 
  <body>
