@@ -4,4 +4,6 @@ class Search_model{
     public string $search_text;
     public string $search_date;
     public int $user_id;
+    
+    public ?int $contador;
 }

@@ -173,4 +173,44 @@ class Article_purchase extends Connection{
             die();
         }
     }
+    public function report_most_selled($object){
+        $this->connection_hosting();
+        $sql="SELECT COUNT(`article_id`) AS `contador`, `article_id` FROM `article_purchase`";
+
+        if($this->pdo == null)
+        {
+          echo 'PDO NULL';
+          return;
+        }
+        $haveWHERE = false;
+        if(!is_null($object) && isset($object->store_id)){
+            $sql = $sql." WHERE `store_id`=:store_id";
+            $haveWHERE = true;
+        }
+        $sql=$sql." GROUP BY `article_id` ORDER BY `contador` DESC";
+        $sql=$sql.";";
+        try{
+            $resultado=$this->pdo->prepare($sql);
+            if(isset($object->store_id)){
+                $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+            }
+            $resultado->execute();
+            $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+            $lista_a_purchase = array();
+            for($i = 0; $i < count($data); $i++){
+                $article_p =new Article_purchase_model();
+                $article_p->contador=$data[$i]["contador"];
+                $article_p->article_id=$data[$i]["article_id"];
+                array_push($lista_a_purchase, $article_p);
+            }
+        
+            $this->pdo = null;
+              
+            return $lista_a_purchase;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+        }
+    }
 }

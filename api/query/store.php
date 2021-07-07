@@ -231,4 +231,43 @@ class Store extends Connection{
       }
       
     }
+  public function report_registered_stores($object){
+    $this->connection_hosting();
+    $sql="SELECT COUNT(`id`) AS `contador` FROM `store`";
+
+    $haveWHERE = false;
+    //id check
+    if(!is_null($object) && isset($object->id)){
+      $sql = $sql." WHERE id=:id";
+      $haveWHERE = true;
+    }
+    $sql = $sql.";";
+
+    try{
+      $resultado=$this->pdo->prepapre($sql);
+
+      if(isset($object->id)){
+        $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+      }
+
+      $resultado->execute();
+      $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+      $lista_tiendas = array();
+
+      for($i = 0; $i < count($data); $i++){
+        $tiendas =new Store_model();
+        $tiendas->contador = $data[$i]["contador"];
+        array_push($lista_tiendas, $tiendas);
+      }
+
+      $this->pdo = null;
+      
+      return $lista_tiendas;
+
+    }catch(PDOException $e){
+      echo $e->getMessage();
+      return $e;
+      die();
+    }
+  }
 }

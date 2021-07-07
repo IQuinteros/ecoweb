@@ -17,4 +17,6 @@ class Store_model{
     public ?string $photo_url;
 
     public ?array $opinions;
+    
+    public ?int $contador;
 }
