@@ -48,23 +48,7 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
                     </div>
                 </button>
                 <hr class="divider">
-                <button class="list-item">
-                    <img class="list-item__img" src="https://source.unsplash.com/random/1" alt="image">
-                    <div class="list-item__content">
-                        <div class="list-item__content__row">
-                            <a class="list-item__content__title" href="#">Nombre del producto completo</a>
-                            <p>Hoy</p>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p class="w300">Nombre y apellido</p>
-                            <p class="w300">Ya respondido</p>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p>¿Cuál es la pregunta que estoy preguntando?</p>
-                            <a href="#">Ver respuesta</a>
-                        </div>
-                    </div>
-                </button>
+                
                 <hr class="divider">
             </article>
         </div>
