@@ -21,4 +21,25 @@ class ArticleEcoIndicator{
 
 class ArticleRating{
 
+    public ?array $opinions;
+
+    public function __construct(Article_model $article)
+    {
+        if($article == null) return;
+        if($article->opinions == null) return;
+
+        $this->opinions = $article->opinions;
+    }
+
+    public function getAvgRating() : float{
+        if(!isset($this->opinions)) return 0;
+        if($this->opinions == null) return 0;
+
+        $sum = 0.0;
+        foreach ($this->opinions as $value) {
+            $sum += $value->rating;
+        }
+
+        return $sum / count($this->opinions);
+    }
 }

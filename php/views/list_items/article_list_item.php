@@ -2,6 +2,8 @@
 require_once __DIR__.('/../base_view.php');
 require_once __DIR__.('/../../../api/models/article_model.php');
 require_once __DIR__.('/../../utils/article_util.php');
+require_once __DIR__.('/../../views/article/rating.php');
+require_once __DIR__.('/../../views/article/ecoindicator.php');
 
 class ArticleListItemView extends BaseView{
 
@@ -15,32 +17,21 @@ class ArticleListItemView extends BaseView{
     protected function htmlContent()
     {  
         ob_start();
-        $ecoIndicator = new ArticleEcoIndicator($this->article);
         ?>
         <button class="list-item">
             <img class="list-item__img" src="<?= $this->article->photos[0]->photo ?? '' ?>" alt="image">
             <div class="list-item__content">
                 <div class="list-item__content__row">
                     <a class="list-item__content__title" href="editarticle.php"><?= $this->article->title ?></a>
-                    <p>Publicado</p>
+                    <p><?= $this->article->enabled? 'Publicado' : 'Desactivado' ?></p>
                 </div>
                 <div class="list-item__content__row">
                     <p class="w300">$<?= $this->article->price ?></p>
-                    <div class="ecoindicator ecoindicator--linear">
-                        <?php if($ecoIndicator->hasReuseTips){?><div class="ecoindicator__circle ecoindicator__circle--yellow"></div><?php }?>
-                        <?php if($ecoIndicator->hasRecycledMaterials){?><div class="ecoindicator__circle ecoindicator__circle--blue"></div><?php }?>
-                        <?php if($ecoIndicator->isRecyclable){?><div class="ecoindicator__circle ecoindicator__circle--green"></div><?php }?>                        
-                    </div>
+                    <?= new EcoIndicatorView(new ArticleEcoIndicator($this->article), true) ?>
                 </div>
                 <div class="list-item__content__row">
                     <p>2531 visualizaciones</p>
-                    <div class="stars">
-                        <span class="material-icons star--active">star</span>
-                        <span class="material-icons star--active">star</span>
-                        <span class="material-icons star--active">star</span>
-                        <span class="material-icons star--active">star</span>
-                        <span class="material-icons star--inactive">star</span>
-                    </div>
+                    <?= new RatingView(new ArticleRating($this->article)) ?>
                 </div>
             </div>
         </button>
