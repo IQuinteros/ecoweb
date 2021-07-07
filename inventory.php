@@ -44,8 +44,8 @@ $articleConnection = new Article();
                 foreach($articles as $value){
                 ?>
                 <?= new ArticleListItemView($value) ?>
-                <?php } ?>
                 <hr class="divider">
+                <?php } ?>
             </article>
         </div>
         <?= new AsideButtonsView() ?>

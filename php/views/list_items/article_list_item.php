@@ -19,7 +19,7 @@ class ArticleListItemView extends BaseView{
         ob_start();
         ?>
         <button class="list-item">
-            <img class="list-item__img" src="<?= $this->article->photos[0]->photo ?? '' ?>" alt="image">
+            <img class="list-item__img" src="<?= $this->article->photos[0]->photo ?? 'assets/img/no-image-bg.png' ?>" alt="image">
             <div class="list-item__content">
                 <div class="list-item__content__row">
                     <a class="list-item__content__title" href="editarticle.php"><?= $this->article->title ?></a>

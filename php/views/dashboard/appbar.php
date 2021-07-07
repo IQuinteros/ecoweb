@@ -48,7 +48,7 @@ class AppBarView extends BaseView{
                     <span class="material-icons material-icons-outlined">menu</span>
                     <span class="nav__list__item__text">Menu</span>
                 </a>
-                <img class="leftbar__img" src="<?=$this->store->photo_url ?? '' ?>" alt="">
+                <img class="leftbar__img" src="<?=$this->store->photo_url ?? 'assets/img/no-image-bg.png' ?>" alt="">
             </div>
             <h1 class="leftbar__title"><?=$this->store->public_name ?? 'Indeterminado' ?></h1>
             <p class="leftbar__date"><?//Lunes 15 de Abril de 2021?><?= date("D d M Y")?></p>
