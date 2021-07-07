@@ -15,5 +15,5 @@ class Profiles{
     public ?int $district_id;
     public int $user_id;
     
-    public ?int $contador;
+
 }

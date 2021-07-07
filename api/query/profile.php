@@ -303,9 +303,8 @@ class Profile extends Connection{
         $lista_profiles = array();
 
         for($i = 0; $i < count($data); $i++){
-          $profiles =new Profiles();
-          $profiles->contador = $data[$i]["contador"];
-          array_push($lista_profiles, $profiles);
+          $contador = $data[$i]["contador"];
+          array_push($lista_profiles, $contador);
         }
 
         $this->pdo = null;
@@ -342,9 +341,8 @@ class Profile extends Connection{
         $lista_profiles = array();
 
         for($i = 0; $i < count($data); $i++){
-          $profiles =new Profiles();
-          $profiles->contador = $data[$i]["contador"];
-          array_push($lista_profiles, $profiles);
+          $contador = $data[$i]["contador"];
+          array_push($lista_profiles, $contador);
         }
 
         $this->pdo = null;

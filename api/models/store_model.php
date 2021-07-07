@@ -18,5 +18,4 @@ class Store_model{
 
     public ?array $opinions;
     
-    public ?int $contador;
 }

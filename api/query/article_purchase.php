@@ -198,10 +198,10 @@ class Article_purchase extends Connection{
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_a_purchase = array();
             for($i = 0; $i < count($data); $i++){
-                $article_p =new Article_purchase_model();
-                $article_p->contador=$data[$i]["contador"];
-                $article_p->article_id=$data[$i]["article_id"];
-                array_push($lista_a_purchase, $article_p);
+                $array = array();
+                $array["contador"]=$data[$i]["contador"];
+                $array["article_id"]=$data[$i]["article_id"];
+                array_push($lista_a_purchase, $array);
             }
         
             $this->pdo = null;

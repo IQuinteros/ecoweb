@@ -255,9 +255,8 @@ class Store extends Connection{
       $lista_tiendas = array();
 
       for($i = 0; $i < count($data); $i++){
-        $tiendas =new Store_model();
-        $tiendas->contador = $data[$i]["contador"];
-        array_push($lista_tiendas, $tiendas);
+        $contador = $data[$i]["contador"];
+        array_push($lista_tiendas, $contador);
       }
 
       $this->pdo = null;

@@ -113,10 +113,10 @@ class Search extends Connection{
       $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
       $lista_busqueda= array();
       for($i = 0; $i < count($data); $i++){
-        $search =new Search_model();
-        $search->contador=$data[$i]["contador"];
-        $search->search_text=$data[$i]["search_text"];
-        array_push($lista_busqueda, $search);
+        $array = array();
+        $array["contador"]=$data[$i]["contador"];
+        $array["search_text"]=$data[$i]["search_text"];
+        array_push($lista_busqueda, $array);
       }
       $this->pdo = null;
       return $lista_busqueda;
