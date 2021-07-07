@@ -3,6 +3,11 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/inputs/district_input.php');
+require_once __DIR__.('/php/views/inputs/text_input.php');
+require_once __DIR__.('/php/utils/auth_util.php');
+
+$store = AuthUtil::getStoreSession();
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +36,9 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
         
         <div class="main__container unique">
             <div class="main__profile">
-                <img class="main__profile__img" src="https://source.unsplash.com/random/2" alt="">
-                <h1 class="main__profile__title">Empresa HH</h1>
-                <h2 class="main__profile__subtitle">Ingresa una glosa</h2>
+                <img class="main__profile__img" src="<?$store->photo_url ?? ''?>" alt="">
+                <h1 class="main__profile__title"><?= $store != null? $store->public_name : 'Indeterminado'?></h1>
+                <h2 class="main__profile__subtitle"><?= $store != null? $store->description : 'Sin descripción'?></h2>
                 <button class="main__profile__btn">
                     <span class="material-icons material-icons-outlined">edit</span>
                 </button>
@@ -41,30 +46,10 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
             <article class="card profile__data">
                 <h1>Modifica datos</h1>
 
-                <div class="input-container">
-                    <label class="input-label">
-                        Comuna
-                        <input class="input" type="text" placeholder="Ingrese la comuna">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Dirección
-                        <input class="input" type="text" placeholder="Ingrese la dirección">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Email
-                        <input class="input" type="text" placeholder="Ingrese el email">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Número de contacto
-                        <input class="input" type="text" placeholder="Ingrese el número de contacto">
-                    </label>
-                </div>
+                <?= new DistrictInputView($store->district_id) ?>
+                <?= new TextInputView('Dirección', 'location', 'location', 'Ingrese la dirección', $store->location) ?>
+                <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', $store->email) ?>
+                <?= new TextInputView('Número de contacto', 'contact', 'contact', 'Ingrese el número de contacto', $store->contact_number) ?>
 
                 <div class="card__buttons">
                     <button class="btn btn--primary">Guardar cambios</button>

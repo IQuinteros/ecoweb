@@ -51,7 +51,7 @@ class AppBarView extends BaseView{
                 <img class="leftbar__img" src="<?=$this->store->photo_url ?? '' ?>" alt="">
             </div>
             <h1 class="leftbar__title"><?=$this->store->public_name ?? 'Indeterminado' ?></h1>
-            <p class="leftbar__date">Lunes 15 de Abril de 2021</p>
+            <p class="leftbar__date"><?//Lunes 15 de Abril de 2021?><?= date("D d M Y")?></p>
 
             <nav class="leftbar__nav nav">
                 <ul class="nav__list">
