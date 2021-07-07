@@ -157,24 +157,7 @@ require_once __DIR__.('/php/views/dashboard/header.php');
                 </div>
             </article>
         </div>
-        <aside class="buttons">
-            <button class="card btn btn--red">
-                <h1>Pedidos</h1>
-                <p>50 nuevos pedidos</p>
-            </button>
-            <button class="card btn">
-                <h1>Chats</h1>
-                <p>Sin nuevos mensajes</p>
-            </button>
-            <button class="card btn">
-                <h1>Preguntas</h1>
-                <p>Sin nuevas preguntas</p>
-            </button>
-            <button class="card btn btn--red">
-                <h1>Valoraciones</h1>
-                <p>50 nuevas opiniones</p>
-            </button>
-        </aside>
+        <?= new AsideButtonsView() ?>
     </main>
 
     <footer class="footer">

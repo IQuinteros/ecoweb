@@ -1,7 +1,5 @@
 <?php
 require_once __DIR__.('/../base_view.php');
-require_once __DIR__.('/../../../api/models/store_model.php');
-require_once __DIR__.('/../../utils/auth_util.php');
 
 class HeaderView extends BaseView{
 
