@@ -31,7 +31,7 @@ class ArticleListItemView extends BaseView{
                 </div>
                 <div class="list-item__content__row">
                     <p>2531 visualizaciones</p>
-                    <?= new RatingView(new ArticleRating($this->article)) ?>
+                    <?= new RatingView((new ArticleRating($this->article))->getAvgRating()) ?>
                 </div>
             </div>
         </button>

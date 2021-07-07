@@ -4,24 +4,23 @@ require_once __DIR__.('/../../utils/article_util.php');
 
 class RatingView extends BaseView{
 
-    private ArticleRating $articleRating;
+    private float $avgRating;
 
-    public function __construct(ArticleRating $articleRating){
-        $this->articleRating = $articleRating;
+    public function __construct(float $avgRating){
+        $this->avgRating = $avgRating;
         parent::__construct();
     }
 
     protected function htmlContent()
     {  
         ob_start();
-        $avg = $this->articleRating->getAvgRating();
         ?>
         <div class="stars">
-            <?= $this->getStar($avg, 0, 1) ?>
-            <?= $this->getStar($avg, 1, 2) ?>
-            <?= $this->getStar($avg, 2, 3) ?>
-            <?= $this->getStar($avg, 3, 4) ?>
-            <?= $this->getStar($avg, 4, 5) ?>
+            <?= $this->getStar($this->avgRating, 0, 1) ?>
+            <?= $this->getStar($this->avgRating, 1, 2) ?>
+            <?= $this->getStar($this->avgRating, 2, 3) ?>
+            <?= $this->getStar($this->avgRating, 3, 4) ?>
+            <?= $this->getStar($this->avgRating, 4, 5) ?>
         </div>
         <?php
         return ob_get_clean();

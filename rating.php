@@ -3,7 +3,22 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/api/query/article.php');
+require_once __DIR__.('/php/views/list_items/opinion_list_item.php');
 
+$articleConnection = new Article();
+$store = AuthUtil::getStoreSession();
+
+$storeObject = json_decode(json_encode(array("store_id" => $store->id)));
+$articles = $articleConnection->select_article($storeObject);
+
+$opinions = array_reduce($articles, function($acc, $value){ 
+    return array_merge($acc, $value->opinions); 
+}, array());
+
+$positiveOpinions = array_filter($opinions, function($value, $key){
+    return $value->rating >= 4;
+}, ARRAY_FILTER_USE_BOTH);
 
 ?>
 
@@ -31,37 +46,21 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
     <main class="main">
         <?= new HeaderView(
             "Valoraciones a tus productos", 
-            "88 valoraciones positivas en total", 
+            count($positiveOpinions)." valoraciones positivas en total", 
             "88 nuevas valoraciones hoy", 
-            "150 valoraciones en total"
+            count($opinions)." valoraciones en total"
         ) ?>
         
         <div class="main__container unique">
             <article class="card">
-                <button class="list-item">
-                    <img class="list-item__img" src="https://source.unsplash.com/random/1" alt="image">
-                    <div class="list-item__content">
-                        <div class="list-item__content__row">
-                            <a class="list-item__content__title" href="#">Nombre del producto completo</a>
-                            <p>Hoy</p>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p class="w300">Nombre y apellido</p>
-                            <div class="stars">
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--inactive">star</span>
-                            </div>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p>Excelente producto</p>
-                            <a href="#">Ver comentario</a>
-                        </div>
-                    </div>
-                </button>
-                <hr class="divider">
+                <?php foreach($articles as $articleRef) {?>
+                    <?php foreach($articleRef->opinions as $opinionRef) {?>
+                    
+                        <?= new OpinionListItemView($opinionRef, $articleRef)?>
+                        <hr class="divider">
+
+                    <?php } ?>
+                <?php } ?>
             </article>
         </div>
         <?= new AsideButtonsView() ?>
