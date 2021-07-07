@@ -27,7 +27,7 @@ class OpinionListItemView extends BaseView{
                     <p><?= $this->opinion->creation_date ?></p>
                 </div>
                 <div class="list-item__content__row">
-                    <p class="w300"><?= $this->opinion->profile_id ?></p>
+                    <p class="w300"><?= $this->opinion->profile_name ?></p>
                     <?= new RatingView($this->opinion->rating)?>
                 </div>
                 <div class="list-item__content__row">

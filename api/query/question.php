@@ -53,7 +53,7 @@ class Question extends Connection{
       article.title as article_title
       FROM `question`
       JOIN `article` ON question.article_id = article.id
-      JOIN `profile` ON question.profile_id = profile.id";
+      LEFT JOIN `profile` ON question.profile_id = profile.id";
       $haveWHERE = false;
 
       // Check for id
