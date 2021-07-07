@@ -3,6 +3,10 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/api/query/chat.php');
+
+$chatConnection = new chat();
+$chat = new Chat_model();
 ?>
 
 <!DOCTYPE html>
@@ -56,47 +60,16 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
                 <div class="chat-list__item">
                     <img src="https://source.unsplash.com/random/2" alt="">
                     <h1>Juan Pedro</h1>
-                    <p class="chat-messages__purchase-id">#000052</p>
+                    <p class="chat-messages__purchase-id">#<?= $chat->purchase_id ?? 'Inválido'?></p>
                 </div>
                 <hr class="divider">
 
                 <div class="chat-messages__list">
-                    <button class="message">
-                        <p>Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    </button>
-                    <button class="message message--owner">
-                        <p>Ok, en un momento se la enviamos</p>
-                    </button>
-                    <button class="message">
-                        <p>Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    </button>
-                    <button class="message message--owner">
-                        <p>Ok, en un momento se la enviamos</p>
-                    </button>
-                    <button class="message">
-                        <p>Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    </button>
-                    <button class="message message--owner">
-                        <p>Ok, en un momento se la enviamos</p>
-                    </button>
-                    <button class="message">
-                        <p>Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    </button>
-                    <button class="message message--owner">
-                        <p>Ok, en un momento se la enviamos</p>
-                    </button>
-                    <button class="message">
-                        <p>Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    </button>
-                    <button class="message message--owner">
-                        <p>Ok, en un momento se la enviamos</p>
-                    </button>
-                    <button class="message">
-                        <p>Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    </button>
-                    <button class="message message--owner">
-                        <p>Ok, en un momento se la enviamos</p>
-                    </button>
+                    <?php if(isset($chat->messages) && $chat->messages != null){?>
+                        <?php foreach($chat->messages as $message){ ?>
+                            <?= new MessageView($message->message, $message->from_store) ?>
+                        <?php } ?>
+                    <?php } ?>
                 </div>
                 
                 <div class="input-container chat__input">
