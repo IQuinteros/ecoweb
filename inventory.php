@@ -3,6 +3,13 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/utils/auth_util.php');
+require_once __DIR__.('/api/query/article.php');
+require_once __DIR__.('/php/views/list_items/article_list_item.php');
+
+$store = AuthUtil::getStoreSession();
+$articleConnection = new Article();
+
 ?>
 
 <!DOCTYPE html>
@@ -31,33 +38,13 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
         
         <div class="main__container unique">
             <article class="card">
-                <button class="list-item">
-                    <img class="list-item__img" src="https://source.unsplash.com/random/1" alt="image">
-                    <div class="list-item__content">
-                        <div class="list-item__content__row">
-                            <a class="list-item__content__title" href="editarticle.html">Nombre del producto completo</a>
-                            <p>Publicado</p>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p class="w300">$45.000</p>
-                            <div class="ecoindicator ecoindicator--linear">
-                                <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                                <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                                <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                            </div>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p>2531 visualizaciones</p>
-                            <div class="stars">
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--active">star</span>
-                                <span class="material-icons star--inactive">star</span>
-                            </div>
-                        </div>
-                    </div>
-                </button>
+                <?php
+                $storeObject = json_decode(json_encode(array("id_store" => $store->id)));
+                $articles = $articleConnection->select_article($storeObject); 
+                foreach($articles as $value){
+                ?>
+                <?= new ArticleListItemView($value) ?>
+                <?php } ?>
                 <hr class="divider">
             </article>
         </div>
