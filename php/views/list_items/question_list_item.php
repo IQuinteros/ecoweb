@@ -8,9 +8,11 @@ require_once __DIR__.('/../../views/article/ecoindicator.php');
 class QuestionListItemView extends BaseView{
 
     private Question_model $question;
+    private Article_model $article;
 
-    public function __construct(Question_model $question){
+    public function __construct(Question_model $question, Article_model $article){
         $this->question = $question;
+        $this->article = $article;
         parent::__construct();
     }
 
@@ -19,7 +21,7 @@ class QuestionListItemView extends BaseView{
         ob_start();
         ?>
         <button class="list-item">
-            <img class="list-item__img" src="https://source.unsplash.com/random/1" alt="image">
+            <img class="list-item__img" src="<?= $this->article->photos[0]->photo ?? 'assets/img/no-image-bg.png' ?>" alt="image">
             <div class="list-item__content">
                 <div class="list-item__content__row">
                     <a class="list-item__content__title" href="#"><?= $this->question->article_name ?></a>

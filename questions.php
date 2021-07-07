@@ -50,9 +50,13 @@ $questionsWithoutAnswer = array_filter(
         
         <div class="main__container unique">
             <article class="card">
-                <?php foreach($questions as $value){ ?>
-                    <?= new QuestionListItemView($value) ?>
-                    <hr class="divider">
+                <?php foreach($articles as $articleRef) {?>
+
+                    <?php foreach($articleRef->questions as $questionRef){ ?>
+                        <?= new QuestionListItemView($questionRef, $articleRef) ?>
+                        <hr class="divider">
+                    <?php } ?>
+
                 <?php } ?>
             </article>
         </div>
