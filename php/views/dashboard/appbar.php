@@ -100,4 +100,3 @@ class AppBarView extends BaseView{
 
 }
     
-?>

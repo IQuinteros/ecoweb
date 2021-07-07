@@ -40,5 +40,3 @@ class AsideButtonsView extends BaseView{
     }
 
 }
-    
-?>

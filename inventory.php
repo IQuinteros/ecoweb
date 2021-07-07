@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
+require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
+require_once __DIR__.('/php/views/dashboard/footer.php');
 ?>
 
 <!DOCTYPE html>
@@ -62,9 +64,7 @@ require_once __DIR__.('/php/views/dashboard/header.php');
         <?= new AsideButtonsView() ?>
     </main>
 
-    <footer class="footer">
-        <p>Somos ECOmercio, tu app de compras amigables</p>
-    </footer>
+    <?= new FooterView() ?>
 
 </div>
 

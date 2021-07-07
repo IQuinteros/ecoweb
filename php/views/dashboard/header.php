@@ -39,4 +39,3 @@ class HeaderView extends BaseView{
 
 }
     
-?>
