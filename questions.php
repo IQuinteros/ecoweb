@@ -3,6 +3,25 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/list_items/question_list_item.php');
+require_once __DIR__.('/api/query/article.php');
+
+$articleConnection = new Article();
+
+$storeObject = json_decode(json_encode(array("store_id" => $id)));
+$articles = $articleConnection->select_article($storeObject);
+$questions = array(); 
+
+foreach($articles as $value){
+    if($value->questions != null)
+    $questions = array_merge($questions, $value->questions);
+}
+
+$questionsWithoutAnswer = array_filter(
+    $questions, function($value, $key)  { return $value->answer == null; },
+    ARRAY_FILTER_USE_BOTH
+);
+
 ?>
 
 <!DOCTYPE html>
@@ -27,29 +46,14 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
     <?= new AppBarView(new AppBarSelected(AppBarSelected::QUESTIONS)) ?>
 
     <main class="main">
-        <?= new HeaderView("Preguntas", "58 preguntas sin responder", null, "100 preguntas en total") ?>
+        <?= new HeaderView("Preguntas", count($questionsWithoutAnswer)." preguntas sin responder", null, count($questions)." preguntas en total") ?>
         
         <div class="main__container unique">
             <article class="card">
-                <button class="list-item">
-                    <img class="list-item__img" src="https://source.unsplash.com/random/1" alt="image">
-                    <div class="list-item__content">
-                        <div class="list-item__content__row">
-                            <a class="list-item__content__title" href="#">Nombre del producto completo</a>
-                            <p>Hoy</p>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p class="w300">Nombre y apellido</p>
-                        </div>
-                        <div class="list-item__content__row">
-                            <p>¿Cuál es la pregunta que estoy preguntando?</p>
-                            <a href="#">Responder</a>
-                        </div>
-                    </div>
-                </button>
+                <?php foreach($questions as $value){ ?>
+                <?= new QuestionListItemView($value) ?>
                 <hr class="divider">
-                
-                <hr class="divider">
+                <?php } ?>
             </article>
         </div>
         <?= new AsideButtonsView() ?>

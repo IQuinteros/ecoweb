@@ -49,7 +49,11 @@ class Question extends Connection{
     }
     public function select_question($object){
       $this->connection_hosting();
-      $sql="SELECT * FROM `question`";
+      $sql="SELECT question.*, profile.name as profile_name, profile.last_name as profile_last_name,
+      article.title as article_title
+      FROM `question`
+      JOIN `article` ON question.article_id = article.id
+      JOIN `profile` ON question.profile_id = profile.id";
       $haveWHERE = false;
 
       // Check for id
@@ -83,6 +87,8 @@ class Question extends Connection{
         $questionn->creation_date=$data[$i]["creation_date"];
         $questionn->profile_id=$data[$i]["profile_id"];
         $questionn->article_id=$data[$i]["article_id"];
+        $questionn->profile_name=$data[$i]["profile_name"]." ".$data[$i]["profile_last_name"];
+        $questionn->article_name=$data[$i]["article_title"];
 
         $questionIdObject = json_decode(json_encode(array("question_id" => $questionn->id)));
         $answerConnection = new Answer();

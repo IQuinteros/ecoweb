@@ -25,4 +25,5 @@ class Article_model{
 
     public ?array $opinions;
     public ?array $photos;
+    public ?array $questions;
 }
