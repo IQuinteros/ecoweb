@@ -215,11 +215,13 @@ class Article_purchase extends Connection{
     }
     public function report_sells_by_months($object){
         $this->connection_hosting();
-        $sql="SELECT DISTINCT  `purchase_id`, purchase.`creation_date` FROM `article_purchase` 
+        $sql="SELECT DISTINCT COUNT(purchase_id) AS `contador`, MONTH(purchase.creation_date) as MONTH, 
+        YEAR(purchase.creation_date) as YEAR FROM `article_purchase` 
         INNER JOIN purchase ON article_purchase.`purchase_id`= purchase.`id` 
         INNER JOIN article ON article_purchase.`article_id`= article.`id` 
-        WHERE article.`store_id` =:store_id AND purchase.`creation_date` 
-        BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL - 6 MONTH) AND CURRENT_TIME()";
+        WHERE article.`store_id` = 1 AND purchase.`creation_date` 
+        BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL - 6 MONTH) AND CURRENT_TIME() 
+        GROUP BY YEAR(purchase.creation_date), MONTH(purchase.creation_date)";
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->store_id)){
@@ -230,8 +232,9 @@ class Article_purchase extends Connection{
             $lista_a_purchase = array();
             for($i = 0; $i < count($data); $i++){
                 $array = array();
-                $array["purchase_id"]=$data[$i]["purchase_id"];
-                $array["creation_date"]=$data[$i]["creation_date"];
+                $array["contador"]=$data[$i]["contador"];
+                $array["month"]=$data[$i]["MONTH"];
+                $array["year"]=$data[$i]["YEAR"];
                 array_push($lista_a_purchase, $array);
             }
         
