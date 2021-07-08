@@ -219,7 +219,7 @@ class Article_purchase extends Connection{
         YEAR(purchase.creation_date) as YEAR FROM `article_purchase` 
         INNER JOIN purchase ON article_purchase.`purchase_id`= purchase.`id` 
         INNER JOIN article ON article_purchase.`article_id`= article.`id` 
-        WHERE article.`store_id` = 1 AND purchase.`creation_date` 
+        WHERE article.`store_id` =:store_id AND purchase.`creation_date` 
         BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL - 6 MONTH) AND CURRENT_TIME() 
         GROUP BY YEAR(purchase.creation_date), MONTH(purchase.creation_date)";
         try{
