@@ -278,6 +278,84 @@ class Profile extends Connection{
           die();
         }
     }
+    public function report_user_resgistered($object){
+      $this->connection_hosting();
+      $sql="SELECT COUNT(`id`) AS `contador` FROM `profile`";
+
+      $haveWHERE = false;
+      //id check
+      if(!is_null($object) && isset($object->id)){
+        $sql = $sql." WHERE id=:id";
+        $haveWHERE = true;
+      }
+      
+      $sql = $sql.";";
+
+      try{
+        $resultado=$this->pdo->prepare($sql);
+
+        if(isset($object->id)){
+          $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
+        }
+
+        $resultado->execute();
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        $lista_profiles = array();
+
+        for($i = 0; $i < count($data); $i++){
+          $contador = $data[$i]["contador"];
+          array_push($lista_profiles, $contador);
+        }
+
+        $this->pdo = null;
+        
+        return $lista_profiles;
+
+      }catch(PDOException $e){
+        echo $e->getMessage();
+        return $e;
+        die();
+      }
+    }
+    public function report_user_resgistered_district($object){
+      $this->connection_hosting();
+      $sql="SELECT COUNT(`id`) AS `contador`, `district_id` FROM `profile`";
+      
+      $haveWHERE = false;
+      //id check
+      if(!is_null($object) && isset($object->district_id)){
+        $sql = $sql." WHERE district_id=:district_id";
+        $haveWHERE = true;
+      }
+      $sql = $sql." GROUP BY `district_id`";
+      $sql = $sql.";";
+
+      try{
+        $resultado=$this->pdo->prepare($sql);
+
+        if(isset($object->id)){
+          $resultado->bindParam(':district_id', $object->district_id, PDO::PARAM_INT);
+        }
+        
+        $resultado->execute();
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        $lista_profiles = array();
+
+        for($i = 0; $i < count($data); $i++){
+          $contador = $data[$i]["contador"];
+          array_push($lista_profiles, $contador);
+        }
+
+        $this->pdo = null;
+        
+        return $lista_profiles;
+
+      }catch(PDOException $e){
+        echo $e->getMessage();
+        return $e;
+        die();
+      }
+    }
 }
 
 ?>

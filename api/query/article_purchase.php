@@ -173,4 +173,75 @@ class Article_purchase extends Connection{
             die();
         }
     }
+    public function report_most_selled($object){
+        $this->connection_hosting();
+        $sql="SELECT COUNT(`article_id`) AS `contador`, `article_id` FROM `article_purchase`";
+
+        if($this->pdo == null)
+        {
+          echo 'PDO NULL';
+          return;
+        }
+        $haveWHERE = false;
+        if(!is_null($object) && isset($object->store_id)){
+            $sql = $sql." WHERE `store_id`=:store_id";
+            $haveWHERE = true;
+        }
+        $sql=$sql." GROUP BY `article_id` ORDER BY `contador` DESC";
+        $sql=$sql.";";
+        try{
+            $resultado=$this->pdo->prepare($sql);
+            if(isset($object->store_id)){
+                $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+            }
+            $resultado->execute();
+            $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+            $lista_a_purchase = array();
+            for($i = 0; $i < count($data); $i++){
+                $array = array();
+                $array["contador"]=$data[$i]["contador"];
+                $array["article_id"]=$data[$i]["article_id"];
+                array_push($lista_a_purchase, $array);
+            }
+        
+            $this->pdo = null;
+              
+            return $lista_a_purchase;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+        }
+    }
+    public function report_sells_by_months($object){
+        $this->connection_hosting();
+        $sql="SELECT DISTINCT  `purchase_id`, purchase.`creation_date` FROM `article_purchase` 
+        INNER JOIN purchase ON article_purchase.`purchase_id`= purchase.`id` 
+        INNER JOIN article ON article_purchase.`article_id`= article.`id` 
+        WHERE article.`store_id` =:store_id AND purchase.`creation_date` 
+        BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL - 6 MONTH) AND CURRENT_TIME()";
+        try{
+            $resultado=$this->pdo->prepare($sql);
+            if(isset($object->store_id)){
+                $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+            }
+            $resultado->execute();
+            $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+            $lista_a_purchase = array();
+            for($i = 0; $i < count($data); $i++){
+                $array = array();
+                $array["purchase_id"]=$data[$i]["purchase_id"];
+                $array["creation_date"]=$data[$i]["creation_date"];
+                array_push($lista_a_purchase, $array);
+            }
+        
+            $this->pdo = null;
+              
+            return $lista_a_purchase;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+        }
+    }
 }

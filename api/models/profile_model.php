@@ -14,4 +14,6 @@ class Profiles{
     public string $last_update_date;
     public ?int $district_id;
     public int $user_id;
+    
+
 }
