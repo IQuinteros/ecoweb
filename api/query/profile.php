@@ -292,7 +292,7 @@ class Profile extends Connection{
       $sql = $sql.";";
 
       try{
-        $resultado=$this->pdo->prepapre($sql);
+        $resultado=$this->pdo->prepare($sql);
 
         if(isset($object->id)){
           $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
@@ -319,7 +319,7 @@ class Profile extends Connection{
     }
     public function report_user_resgistered_district($object){
       $this->connection_hosting();
-      $sql="SELECT COUNT(`id`) AS `contador` FROM `profile`";
+      $sql="SELECT COUNT(`id`) AS `contador`, `district_id` FROM `profile`";
       
       $haveWHERE = false;
       //id check
@@ -327,10 +327,11 @@ class Profile extends Connection{
         $sql = $sql." WHERE district_id=:district_id";
         $haveWHERE = true;
       }
+      $sql = $sql." GROUP BY `district_id`";
       $sql = $sql.";";
 
       try{
-        $resultado=$this->pdo->prepapre($sql);
+        $resultado=$this->pdo->prepare($sql);
 
         if(isset($object->id)){
           $resultado->bindParam(':district_id', $object->district_id, PDO::PARAM_INT);

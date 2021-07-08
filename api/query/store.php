@@ -244,7 +244,7 @@ class Store extends Connection{
     $sql = $sql.";";
 
     try{
-      $resultado=$this->pdo->prepapre($sql);
+      $resultado=$this->pdo->prepare($sql);
 
       if(isset($object->id)){
         $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
