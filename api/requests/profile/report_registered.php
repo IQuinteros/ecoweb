@@ -3,7 +3,7 @@ require_once('../base_request.php');
 require_once('../../query/profile.php');
 $profiles = new Profile();
 // Assign result to variable
-$result = $profiles->report_user_resgistered($data);
+$result = $profiles->report_user_registered($data);
 
 if(is_null($result)){
     send_response(false, null, "Profile no encontrado"); 

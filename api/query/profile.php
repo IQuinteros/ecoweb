@@ -278,7 +278,7 @@ class Profile extends Connection{
           die();
         }
     }
-    public function report_user_resgistered($object){
+    public function report_user_registered($object){
       $this->connection_hosting();
       $sql="SELECT COUNT(`id`) AS `contador` FROM `profile`";
 
@@ -292,7 +292,7 @@ class Profile extends Connection{
       $sql = $sql.";";
 
       try{
-        $resultado=$this->pdo->prepapre($sql);
+        $resultado=$this->pdo->prepare($sql);
 
         if(isset($object->id)){
           $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
@@ -317,7 +317,7 @@ class Profile extends Connection{
         die();
       }
     }
-    public function report_user_resgistered_district($object){
+    public function report_user_registered_district($object){
       $this->connection_hosting();
       $sql="SELECT COUNT(`id`) AS `contador` FROM `profile`";
       
@@ -330,7 +330,7 @@ class Profile extends Connection{
       $sql = $sql.";";
 
       try{
-        $resultado=$this->pdo->prepapre($sql);
+        $resultado=$this->pdo->prepare($sql);
 
         if(isset($object->id)){
           $resultado->bindParam(':district_id', $object->district_id, PDO::PARAM_INT);

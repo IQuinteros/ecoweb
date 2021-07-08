@@ -3,6 +3,16 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/chart/chart.php');
+require_once __DIR__.('/api/query/profile.php');
+require_once __DIR__.('/api/query/store.php');
+
+$profileConnection = new Profile();
+$registeredUsers = $profileConnection->report_user_registered(null);
+
+$storeConnection = new Store();
+$registeredStores = $storeConnection->report_registered_stores(null);
+
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +52,7 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
                 <div class="card__header">
                     <h1 class="card__title">Usuarios registrados</h1>
                 </div>
-                <h1 class="card__content card__content--unique">1.568</h1>
+                <h1 class="card__content card__content--unique"><?= $registeredUsers[0] ?? '0'?></h1>
             </article>
             <article class="card">
                 <div class="card__header">
@@ -54,14 +64,14 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
                 <div class="card__header">
                     <h1 class="card__title">Tiendas registradas</h1>
                 </div>
-                <h1 class="card__content card__content--unique">20</h1>
+                <h1 class="card__content card__content--unique"><?= $registeredStores[0] ?? '0'?></h1>
             </article>
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Usuarios registrados por comuna</h1> 
                 </div>
                 <div class="card__chart">
-                    <canvas class="chart" id="myChart"></canvas>
+                    <?= new ChartView("Usuarios registrados por comuna", ["hi", "hi2"], "districtChart")?>
                 </div>
             </article>
             <article class="card">
