@@ -66,7 +66,9 @@ class Purchase extends Connection{
     }
     public function select_purchase($object){
         $this->connection_hosting();
-        $sql="SELECT * FROM `purchase`";
+        $sql="SELECT purchase.*, profile.name as profile_name, profile.last_name as profile_last_name 
+        FROM `purchase`
+        LEFT JOIN profile ON purchase.profile_id = profile.id";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -75,17 +77,17 @@ class Purchase extends Connection{
         $haveWHERE = false;
         // Check for id
         if(!is_null($object) && isset($object->id)){
-            $sql = $sql." WHERE id=:id";
+            $sql = $sql." WHERE purchase.id=:id";
             $haveWHERE = true;
         }
         // Check for profile_id
         if(!is_null($object) && isset($object->profile_id)){
-            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."profile_id=:profile_id";
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."purchase.profile_id=:profile_id";
             $haveWHERE = true;
         }
         // Check for profile_id
         if(!is_null($object) && isset($object->chat_id)){
-            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."chat_id=:chat_id";
+            $sql = $sql.($haveWHERE? " AND " : " WHERE ")."purchase.chat_id=:chat_id";
             $haveWHERE = true;
         }
         $sql = $sql." ORDER BY creation_date DESC";
@@ -111,6 +113,7 @@ class Purchase extends Connection{
                 $purchase->creation_date=$data[$i]["creation_date"];
                 $purchase->profile_id=$data[$i]["profile_id"];
                 $purchase->info_purchase_id=$data[$i]["info_purchase_id"];
+                $purchase->profile_name=$data[$i]["profile_name"]." ".$data[$i]["profile_last_name"];
 
                 $infoPurchaseIdObject = json_decode(json_encode(array("id" => $purchase->info_purchase_id)));
                 $infoPurchaseConnection = new Info_purchase();
@@ -124,7 +127,7 @@ class Purchase extends Connection{
 
                 array_push($lista_purchase, $purchase);
             }
-        
+
             $this->pdo = null;
               
             return $lista_purchase;

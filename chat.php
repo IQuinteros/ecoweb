@@ -3,10 +3,20 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/chat/message.php');
+require_once __DIR__.('/php/views/chat/chat_item.php');
+require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/api/query/chat.php');
+require_once __DIR__.('/api/query/profile.php');
 
-$chatConnection = new chat();
+$store = AuthUtil::getStoreSession();
+$chatConnection = new Chat();
+
+$storeObject = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $store->id)));
+$chats = $chatConnection->select_chat($storeObject);
+
 $chat = new Chat_model();
+
 ?>
 
 <!DOCTYPE html>
@@ -31,30 +41,14 @@ $chat = new Chat_model();
     <?= new AppBarView(new AppBarSelected(AppBarSelected::CHATS)) ?>
 
     <main class="main">
-        <?= new HeaderView("Chats", null, "12 nuevos mensajes") ?>
+        <?= new HeaderView("Chats", null, count($chats)." nuevos mensajes") ?>
         
         <div class="main__container chat-main-container">
             <article class="card chat-list">
-                <button class="chat-list__item">
-                    <img src="https://source.unsplash.com/random/2" alt="">
-                    <h1>Juan Pedro</h1>
-                    <p>Hola! Sabes que necesito que</p>
-                    <div class="chat-list__item__status"></div>
-                </button>
-                <hr class="divider">
-                <button class="chat-list__item">
-                    <img src="https://source.unsplash.com/random/2" alt="">
-                    <h1>Juan Pedro</h1>
-                    <p>Hola! Sabes que necesito que</p>
-                    <div class="chat-list__item__status"></div>
-                </button>
-                <hr class="divider">
-                <button class="chat-list__item">
-                    <img src="https://source.unsplash.com/random/2" alt="">
-                    <h1>Juan Pedro</h1>
-                    <p>Hola! Sabes que necesito que</p>
-                    <div class="chat-list__item__status"></div>
-                </button>
+                <?php foreach($chats as $chatRef){?>
+                    <?= new ChatItemView($chatRef)?>
+                    <hr class="divider">
+                <?php } ?>
             </article>
             <article class="card chat-messages">
                 <div class="chat-list__item">

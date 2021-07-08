@@ -71,7 +71,9 @@ class Chat extends Connection{
     }
     public function select_chat($object){
         $this->connection_hosting();
-        $sql="SELECT chat.* FROM `chat` INNER JOIN purchase ON chat.purchase_id = purchase.id";
+        $sql="SELECT chat.*
+        FROM `chat` 
+        INNER JOIN purchase ON chat.purchase_id = purchase.id";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
