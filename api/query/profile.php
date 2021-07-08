@@ -356,6 +356,45 @@ class Profile extends Connection{
         die();
       }
     }
+    public function report_user_resgistered_ages($object){
+      $this->connection_hosting();
+      $sql="SELECT profile.rango AS Rango, COUNT(*) AS `contador` FROM (SELECT CASE 
+      WHEN `birthday` BETWEEN DATE_ADD(DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL - 17 YEAR), INTERVAL -11 MONTH), INTERVAL - 30 DAY) 
+      AND CURRENT_DATE() THEN '0-18' 
+      WHEN `birthday` BETWEEN DATE_ADD(DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL - 30 YEAR), INTERVAL -11 MONTH), INTERVAL - 30 DAY) 
+      AND DATE_ADD(CURRENT_DATE(), INTERVAL - 18 YEAR) THEN '18-30' 
+      WHEN `birthday` BETWEEN DATE_ADD(DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL - 45 YEAR), INTERVAL -11 MONTH), INTERVAL - 30 DAY) 
+      AND DATE_ADD(CURRENT_DATE(), INTERVAL - 31 YEAR) THEN '31-45' 
+      WHEN `birthday` BETWEEN DATE_ADD(DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL - 61 YEAR), INTERVAL -11 MONTH), INTERVAL - 30 DAY) 
+      AND DATE_ADD(CURRENT_DATE(), INTERVAL - 45 YEAR) THEN '46-60' 
+      WHEN `birthday` BETWEEN DATE_ADD(DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL - 120 YEAR), INTERVAL -11 MONTH), INTERVAL - 30 DAY) 
+      AND DATE_ADD(CURRENT_DATE(), INTERVAL - 60 YEAR) THEN '60+' 
+      ELSE 'Error' END AS rango FROM `profile`) `profile` GROUP BY profile.rango";
+      
+
+      try{
+        $resultado=$this->pdo->prepare($sql);
+        $resultado->execute();
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        $lista_profiles = array();
+
+        for($i = 0; $i < count($data); $i++){
+          $array = array();
+          $array["rango"] = $data[$i]["Rango"];
+          $array["contador"]=$data[$i]["contador"];
+          array_push($lista_profiles, $array);
+        }
+
+        $this->pdo = null;
+        
+        return $lista_profiles;
+
+      }catch(PDOException $e){
+        echo $e->getMessage();
+        return $e;
+        die();
+      }
+    }
 }
 
 ?>
