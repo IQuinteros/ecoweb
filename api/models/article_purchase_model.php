@@ -17,4 +17,5 @@ class Article_purchase_model{
 
     public ?Article_model $article;
     public ?Store_model $store;
+
 }

@@ -102,5 +102,29 @@ class Search extends Connection{
             die();
           }
   }
+  public function report_search(){
+    $this->connection_hosting();
+    $sql="SELECT COUNT(`search_text`) AS `contador`, `search_text` FROM `search` 
+    GROUP BY `search_text` ORDER BY `contador` DESC;";
+
+    try{
+      $resultado=$this->pdo->prepare($sql);
+      $re=$resultado->excecute();
+      $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+      $lista_busqueda= array();
+      for($i = 0; $i < count($data); $i++){
+        $array = array();
+        $array["contador"]=$data[$i]["contador"];
+        $array["search_text"]=$data[$i]["search_text"];
+        array_push($lista_busqueda, $array);
+      }
+      $this->pdo = null;
+      return $lista_busqueda;
+    }catch(PDOException $e){
+      echo $e->getMessage();
+      return $e;
+      die();
+    }
+  }
 }
 ?>
