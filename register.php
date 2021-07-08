@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 </head>
+
 <body>
-<?php
-ini_set('display_errors', 1);
-error_reporting(~0);
+    <?php
+    ini_set('display_errors', 1);
+    error_reporting(~0);
 
-require_once('api/query/store.php');
-$storeConnection = new Store();
+    require_once('api/query/store.php');
+    $storeConnection = new Store();
 
-require_once('include.php');
+    require_once('include.php');
 
-require_once('api/query/district.php');
-$districtConnection = new district();
+    require_once('api/query/district.php');
+    $districtConnection = new district();
 
- ?>
+    ?>
 
-        <form action="api/requests/example.php" method="POST">
+    <form action="api/requests/example.php" method="POST">
         <label for="Pname"> nombre publico:</label>
         <input type="text" id="Pname" name="Pname"><br><br>
         <label for="description">descripcion:</label>
@@ -37,40 +39,41 @@ $districtConnection = new district();
         <label for="rut">rut:</label>
         <input type="text" id="rut" name="rut">
         <label for="rut_cd">rut cd:</label>
-        <input type="text" id="rut_cd" name="rut_cd"><br><br>   
-       <select id="district" name="district">
-           <option>
-               <?php 
+        <input type="text" id="rut_cd" name="rut_cd"><br><br>
+        <select id="district" name="district">
+            <option>
+                <?php
                 $distritos = $districtConnection->select(null);
-                foreach($distritos as $value){                                                 
-                    echo "<option value='".$value->id."'>".$value->name."</option>";
+                foreach ($distritos as $value) {
+                    echo "<option value='" . $value->id . "'>" . $value->name . "</option>";
                 }
-               ?>           
-           </option>
-       </select>
-        
-        <button  value="submit" name="submit"
-        
-       >registar</button>
-       <?php         
-        
-        if(isset($_POST['submit'])){
-            $Pname =$_POST['Pname'];
-            $description=$_POST['description'];
-             $email=$_POST['email'];
-            $contact_number=$_POST['contact_number'];
-            $location=$_POST['location'];
-            $passwords=$_POST['passwords'];
-            $rut=$_POST['rut'];
-            $rut_cd=$_POST['rut_cd'];
-            $district=$_POST['district']; 
-            $enabled=true;
-            $store= (json_decode(json_encode(array("public_name" =>$Pname,"description"=>$description,"email"=>$email,"contact_number"=>$contact_number,
-             "location"=>$location,"passwords"=>$passwords,"rut"=>$rut,"rut_cd"=>$rut_cd,"district_id"=>$district_id,"enabled"=>$enabled))));
+                ?>
+            </option>
+        </select>
+
+        <button value="submit" name="submit">registar</button>
+        <?php
+
+        if (isset($_POST['submit'])) {
+            $Pname = $_POST['Pname'];
+            $description = $_POST['description'];
+            $email = $_POST['email'];
+            $contact_number = $_POST['contact_number'];
+            $location = $_POST['location'];
+            $passwords = $_POST['passwords'];
+            $rut = $_POST['rut'];
+            $rut_cd = $_POST['rut_cd'];
+            $district = $_POST['district'];
+            $enabled = true;
+            $store = (json_decode(json_encode(array(
+                "public_name" => $Pname, "description" => $description, "email" => $email, "contact_number" => $contact_number,
+                "location" => $location, "passwords" => $passwords, "rut" => $rut, "rut_cd" => $rut_cd, "district_id" => $district_id, "enabled" => $enabled
+            ))));
             $profileConnection->insert_store($store);
         }
         ?>
-      </form>
+    </form>
 
- <body>
+    <body>
+
 </html>
