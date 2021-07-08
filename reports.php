@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
@@ -6,12 +8,18 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/chart/chart.php');
 require_once __DIR__.('/api/query/profile.php');
 require_once __DIR__.('/api/query/store.php');
+require_once __DIR__.('/api/query/search.php');
 
 $profileConnection = new Profile();
 $registeredUsers = $profileConnection->report_user_registered(null);
+$usersPerDistricts = $profileConnection->report_user_registered_district(null);
 
 $storeConnection = new Store();
 $registeredStores = $storeConnection->report_registered_stores(null);
+
+$searchConnection = new Search();
+$mostSearch = $searchConnection->report_search();
+$mostSearch = array_slice($mostSearch, 0, 7);
 
 ?>
 
@@ -45,7 +53,12 @@ $registeredStores = $storeConnection->report_registered_stores(null);
                     <h1 class="card__title">Monto de ventas</h1> 
                 </div>
                 <div class="card__chart">
-                    <canvas class="chart" id="myChart"></canvas>
+                    <?= new ChartView(
+                        "Ventas", 
+                        "sellsChart",
+                        ["hi", "hi2"],
+                        [15, 30], 
+                    )?>
                 </div>
             </article>
             <article class="card">
@@ -71,7 +84,12 @@ $registeredStores = $storeConnection->report_registered_stores(null);
                     <h1 class="card__title">Usuarios registrados por comuna</h1> 
                 </div>
                 <div class="card__chart">
-                    <?= new ChartView("Usuarios registrados por comuna", ["hi", "hi2"], "districtChart")?>
+                    <?= new ChartView(
+                        "Usuarios", 
+                        "districtChart",
+                        ["hi", "hi2"],
+                        [15, 30], 
+                    )?>
                 </div>
             </article>
             <article class="card">
@@ -79,7 +97,12 @@ $registeredStores = $storeConnection->report_registered_stores(null);
                     <h1 class="card__title">Usuarios registrados por edad</h1> 
                 </div>
                 <div class="card__chart">
-                    <canvas class="chart" id="myChart"></canvas>
+                    <?= new ChartView(
+                        "Usuarios", 
+                        "ageChart",
+                        ["hi", "hi2"],
+                        [15, 30], 
+                    )?>
                 </div>
             </article>
             <article class="card">
@@ -87,7 +110,16 @@ $registeredStores = $storeConnection->report_registered_stores(null);
                     <h1 class="card__title">Lo que buscan los usuarios</h1> 
                 </div>
                 <div class="card__chart">
-                    <canvas class="chart" id="myChart"></canvas>
+                    <?= new ChartView(
+                        "Búsquedas", 
+                        "searchChart",
+                        array_map(function ($value){
+                            return $value["search_text"];
+                        }, $mostSearch),
+                        array_map(function ($value){
+                            return $value["contador"];
+                        }, $mostSearch), 
+                    )?>
                 </div>
             </article>
             <article class="card">

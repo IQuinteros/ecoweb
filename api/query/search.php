@@ -109,7 +109,7 @@ class Search extends Connection{
 
     try{
       $resultado=$this->pdo->prepare($sql);
-      $re=$resultado->excecute();
+      $re=$resultado->execute();
       $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
       $lista_busqueda= array();
       for($i = 0; $i < count($data); $i++){

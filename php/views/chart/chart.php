@@ -5,11 +5,13 @@ class ChartView extends BaseView{
 
     private string $id;
     private array $labels;
+    private array $values;
     private string $title;
 
-    public function __construct(string $title, array $labels = [], string $id = "myChart"){
+    public function __construct(string $title, string $id = "myChart", array $labels = [], array $values = []){
         $this->id = $id;
         $this->labels = $labels;
+        $this->values = $values;
         $this->title = $title;
         parent::__construct();
     }
@@ -22,12 +24,9 @@ class ChartView extends BaseView{
 
         <script>
         const labels<?= $this->id ?> = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
+            <?php foreach($this->labels as $label){ ?>
+                '<?= $label ?>',
+            <?php } ?>
         ];
         const data<?= $this->id ?> = {
             labels: labels<?= $this->id ?>,
@@ -35,13 +34,17 @@ class ChartView extends BaseView{
             label: '<?= $this->title ?>',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
+            data: [
+                <?php foreach($this->values as $value){ ?>
+                    <?= $value ?>,
+                <?php } ?>
+            ],
             }]
         };
 
         const config<?= $this->id ?> = {
             type: 'line',
-            data<?= $this->id ?>,
+            data: data<?= $this->id ?>,
             options: {
                 responsive: true,
                 maintainAspectRatio: true
