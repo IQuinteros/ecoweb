@@ -127,13 +127,13 @@ class Favorite extends Connection{
         $this->connection_hosting();
         $sql="SELECT COUNT(`article_id`) AS `contador`, `article_id` FROM `favorite` 
         INNER JOIN article ON favorite.`article_id` = article.`id` 
-        WHERE article.`store_id` =:store_id GROUP BY `article_id` ORDER BY `contador` DESC LIMIT 3";
+        WHERE article.`store_id` =:store_id GROUP BY `article_id` ORDER BY `contador` DESC LIMIT 4";
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->store_id)){
               $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
             }
-            $re=$resultado->excecute();
+            $re=$resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_favorite = array();
             
@@ -143,10 +143,26 @@ class Favorite extends Connection{
               $array["article_id"]=$data[$i]["article_id"];
               array_push($lista_favorite, $array);
             }
+
+            $articleIdObject = json_decode(json_encode(array("id_list" => array_map(function($value){
+                return $value["article_id"];
+            }, $lista_favorite))));
+            $articleConnection = new Article();
+            $articles = $articleConnection->select_article($articleIdObject);
+
+            $lastResult = array();
+            foreach($lista_favorite as $eachItem){
+                foreach($articles as $eachArticle){
+                    if($eachItem["article_id"] == $eachArticle->id){
+                        $eachItem["article"] = $eachArticle;
+                    }
+                }
+                array_push($lastResult, $eachItem);
+            }
       
             $this->pdo = null;
             
-            return $lista_favorite;
+            return $lastResult;
 
         }catch(PDOException $e){
             echo $e->getMessage();

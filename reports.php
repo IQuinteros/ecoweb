@@ -1,11 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/chart/chart.php');
+require_once __DIR__.('/php/views/article/article_card.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/php/utils/date_util.php');
 require_once __DIR__.('/api/query/profile.php');
@@ -13,6 +12,8 @@ require_once __DIR__.('/api/query/store.php');
 require_once __DIR__.('/api/query/search.php');
 require_once __DIR__.('/api/query/history_detail.php');
 require_once __DIR__.('/api/query/article_purchase.php');
+require_once __DIR__.('/api/query/favorite.php');
+require_once __DIR__.('/api/query/history.php');
 
 $store = AuthUtil::getStoreSession();
 $storeObj = json_decode(json_encode(array("store_id" => $store->id)));
@@ -20,18 +21,27 @@ $storeObj = json_decode(json_encode(array("store_id" => $store->id)));
 $profileConnection = new Profile();
 $registeredUsers = $profileConnection->report_user_registered(null);
 $usersPerDistricts = $profileConnection->report_user_registered_district(null);
+$usersPerAge = $profileConnection->report_user_resgistered_ages(null);
 
 $storeConnection = new Store();
 $registeredStores = $storeConnection->report_registered_stores(null);
 
 $articlePurchaseConnection = new Article_purchase();
 $sellsSummary = $articlePurchaseConnection->report_sells_by_months($storeObj);
+$articlesMostSelled = $articlePurchaseConnection->report_most_selled($storeObj);
+$articlesMostSelled = array_slice($articlesMostSelled, 0, 5);
 
 $historyDetailConnection = new History_detail();
 $visualizationsResult = $historyDetailConnection->report_most_visualized($storeObj);
 $totalVisualizations = array_reduce($visualizationsResult, function ($acc, $value){
     return $acc += $value["contador"];
 }, 0);
+
+$favoriteConnection = new Favorite();
+$mostFavorites = $favoriteConnection->report_favorite($storeObj);
+
+$historyConnection = new History();
+$mostVisited = $historyConnection->report_most_visited($storeObj);
 
 $searchConnection = new Search();
 $mostSearch = $searchConnection->report_search();
@@ -124,8 +134,12 @@ $mostSearch = array_slice($mostSearch, 0, 7);
                     <?= new ChartView(
                         "Usuarios", 
                         "ageChart",
-                        ["hi", "hi2"],
-                        [15, 30], 
+                        array_map(function ($value){
+                            return $value["rango"];
+                        }, $usersPerAge),
+                        array_map(function ($value){
+                            return $value["contador"];
+                        }, $usersPerAge), 
                     )?>
                 </div>
             </article>
@@ -150,115 +164,25 @@ $mostSearch = array_slice($mostSearch, 0, 7);
                 <div class="card__header">
                     <h1 class="card__title">Productos más vendidos</h1>
                 </div>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
+                <?php foreach($articlesMostSelled as $article){ ?>
+                    <?= isset($article["article"])? new ArticleCardView($article["article"]) : ''?>
+                <?php } ?>
             </article>
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Productos más visitados</h1>
                 </div>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
+                <?php foreach($mostVisited as $article){ ?>
+                    <?= isset($article["article"])? new ArticleCardView($article["article"]) : ''?>
+                <?php } ?>
             </article>
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Productos con más favoritos</h1>
                 </div>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
+                <?php foreach($mostFavorites as $article){ ?>
+                    <?= isset($article["article"])? new ArticleCardView($article["article"]) : ''?>
+                <?php } ?>
             </article>
         </div>
 

@@ -203,10 +203,26 @@ class Article_purchase extends Connection{
                 $array["article_id"]=$data[$i]["article_id"];
                 array_push($lista_a_purchase, $array);
             }
+
+            $articleIdObject = json_decode(json_encode(array("id_list" => array_map(function($value){
+                return $value["article_id"];
+            }, $lista_a_purchase))));
+            $articleConnection = new Article();
+            $articles = $articleConnection->select_article($articleIdObject);
+
+            $lastResult = array();
+            foreach($lista_a_purchase as $eachItem){
+                foreach($articles as $eachArticle){
+                    if($eachItem["article_id"] == $eachArticle->id){
+                        $eachItem["article"] = $eachArticle;
+                    }
+                }
+                array_push($lastResult, $eachItem);
+            }
         
             $this->pdo = null;
               
-            return $lista_a_purchase;
+            return $lastResult;
         }catch(PDOException $e){
             echo $e->getMessage();
             return $e;
