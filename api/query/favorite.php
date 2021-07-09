@@ -123,4 +123,35 @@ class Favorite extends Connection{
             die();
         }
     }
+    public function report_favorite($object){
+        $this->connection_hosting();
+        $sql="SELECT COUNT(`article_id`) AS `contador`, `article_id` FROM `favorite` 
+        INNER JOIN article ON favorite.`article_id` = article.`id` 
+        WHERE article.`store_id` =:store_id GROUP BY `article_id` ORDER BY `contador` DESC LIMIT 3";
+        try{
+            $resultado=$this->pdo->prepare($sql);
+            if(isset($object->store_id)){
+              $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+            }
+            $re=$resultado->excecute();
+            $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+            $lista_favorite = array();
+            
+            for($i = 0; $i < count($data); $i++){
+              $array= array();
+              $array["contador"]=$data[$i]["contador"];
+              $array["article_id"]=$data[$i]["article_id"];
+              array_push($lista_favorite, $array);
+            }
+      
+            $this->pdo = null;
+            
+            return $lista_favorite;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+        }
+    }
 }

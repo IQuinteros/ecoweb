@@ -65,4 +65,35 @@ class History_detail extends Connection{
               die();
         }
     }
+    public function report_most_visualized($object){
+      $this->connection_hosting();
+      $sql="SELECT COUNT(`history_id`) AS `contador`, history.`article_id` FROM `history_detail` 
+      INNER JOIN history ON history_detail.`history_id`=history.`id` 
+      INNER JOIN article ON history.`article_id` = article.`id` WHERE article.`store_id`=:store_id 
+      GROUP BY history.`article_id` ORDER BY `contador` DESC";
+       try{
+        $resultado=$this->pdo->prepare($sql);
+        if(isset($object->store_id)){
+          $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+        }
+        $re=$resultado->excecute();
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        $lista_history_d = array();
+        
+        for($i = 0; $i < count($data); $i++){
+          $array= array();
+          $array["contador"]=$data[$i]["contador"];
+          $array["article_id"]=$data[$i]["article_id"];
+          array_push($lista_history_d, $array);
+        }
+  
+        $this->pdo = null;
+        
+        return $lista_history_d;
+      }catch(PDOException $e){
+        echo $e->getMessage();
+        return $e;
+        die();
+      }
+    }
 }

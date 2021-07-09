@@ -123,4 +123,34 @@ class History extends Connection{
        die();
      }
    }
+   public function report_most_visited($object){
+    $this->connection_hosting();
+    $sql="SELECT COUNT(`article_id`) AS `contador`, `article_id` FROM `history` 
+    INNER JOIN article ON history.`article_id` = article.`id` WHERE article.`store_id` =:store_id 
+    GROUP BY `article_id` ORDER BY `contador` DESC LIMIT 3";
+    try{
+      $resultado=$this->pdo->prepare($sql);
+      if(isset($object->store_id)){
+        $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+      }
+      $re=$resultado->excecute();
+      $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+      $lista_history = array();
+      
+      for($i = 0; $i < count($data); $i++){
+        $array= array();
+        $array["contador"]=$data[$i]["contador"];
+        $array["article_id"]=$data[$i]["article_id"];
+        array_push($lista_history, $array);
+      }
+
+      $this->pdo = null;
+      
+      return $lista_history;
+    }catch(PDOException $e){
+      echo $e->getMessage();
+      return $e;
+      die();
+    }
+  }
 }

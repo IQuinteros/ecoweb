@@ -213,4 +213,38 @@ class Article_purchase extends Connection{
             die();
         }
     }
+    public function report_sells_by_months($object){
+        $this->connection_hosting();
+        $sql="SELECT DISTINCT COUNT(purchase_id) AS `contador`, MONTH(purchase.creation_date) as MONTH, 
+        YEAR(purchase.creation_date) as YEAR FROM `article_purchase` 
+        INNER JOIN purchase ON article_purchase.`purchase_id`= purchase.`id` 
+        INNER JOIN article ON article_purchase.`article_id`= article.`id` 
+        WHERE article.`store_id` =:store_id AND purchase.`creation_date` 
+        BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL - 6 MONTH) AND CURRENT_TIME() 
+        GROUP BY YEAR(purchase.creation_date), MONTH(purchase.creation_date)";
+        try{
+            $resultado=$this->pdo->prepare($sql);
+            if(isset($object->store_id)){
+                $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
+            }
+            $resultado->execute();
+            $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+            $lista_a_purchase = array();
+            for($i = 0; $i < count($data); $i++){
+                $array = array();
+                $array["contador"]=$data[$i]["contador"];
+                $array["month"]=$data[$i]["MONTH"];
+                $array["year"]=$data[$i]["YEAR"];
+                array_push($lista_a_purchase, $array);
+            }
+        
+            $this->pdo = null;
+              
+            return $lista_a_purchase;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return $e;
+            die();
+        }
+    }
 }
