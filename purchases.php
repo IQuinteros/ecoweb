@@ -3,6 +3,21 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/api/query/article_purchase.php');
+
+$articlePurchaseConnection = new Article_purchase();
+
+$purchases = $articlePurchaseConnection->select_article_purchase($storeObj);
+
+// Group article purchases by purchase id
+$groupPurchases = array();
+foreach($purchases as $purchase){
+    if(!array_key_exists($purchase->purchase_id, $groupPurchases)){
+        $groupPurchases[$purchase->purchase_id] = array();
+    }
+    array_push($groupPurchases[$purchase->purchase_id], $purchase);
+}
+
 ?>
 
 <!DOCTYPE html>
