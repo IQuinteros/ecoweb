@@ -76,7 +76,7 @@ class History_detail extends Connection{
         if(isset($object->store_id)){
           $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
         }
-        $re=$resultado->excecute();
+        $re=$resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         $lista_history_d = array();
         

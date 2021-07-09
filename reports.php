@@ -6,9 +6,14 @@ require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/chart/chart.php');
+require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/api/query/profile.php');
 require_once __DIR__.('/api/query/store.php');
 require_once __DIR__.('/api/query/search.php');
+require_once __DIR__.('/api/query/history_detail.php');
+
+$store = AuthUtil::getStoreSession();
+$storeObj = json_decode(json_encode(array("store_id" => $store->id)));
 
 $profileConnection = new Profile();
 $registeredUsers = $profileConnection->report_user_registered(null);
@@ -16,6 +21,12 @@ $usersPerDistricts = $profileConnection->report_user_registered_district(null);
 
 $storeConnection = new Store();
 $registeredStores = $storeConnection->report_registered_stores(null);
+
+$historyDetailConnection = new History_detail();
+$visualizationsResult = $historyDetailConnection->report_most_visualized($storeObj);
+$totalVisualizations = array_reduce($visualizationsResult, function ($acc, $value){
+    return $acc += $value["contador"];
+}, 0);
 
 $searchConnection = new Search();
 $mostSearch = $searchConnection->report_search();
@@ -69,9 +80,9 @@ $mostSearch = array_slice($mostSearch, 0, 7);
             </article>
             <article class="card">
                 <div class="card__header">
-                    <h1 class="card__title">Usuarios que vieron tu perfil</h1>
+                    <h1 class="card__title">Usuarios que vieron tus artículos</h1>
                 </div>
-                <h1 class="card__content card__content--unique">1.568</h1>
+                <h1 class="card__content card__content--unique"><?= $totalVisualizations ?></h1>
             </article>
             <article class="card">
                 <div class="card__header">
