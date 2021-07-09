@@ -23,7 +23,7 @@
 
     ?>
 
-    <form action="api/requests/example.php" method="POST">
+    <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?> method="POST">
         <label for="Pname"> nombre publico:</label>
         <input type="text" id="Pname" name="Pname"><br><br>
         <label for="description">descripcion:</label>
@@ -51,7 +51,7 @@
             </option>
         </select>
 
-        <button value="submit" name="submit">registar</button>
+        
         <button onclick="location.href=''+<script type='text/javascript'> document.write(page); </script>+''" value="submit" name="submit">login</button>
         <?php
 

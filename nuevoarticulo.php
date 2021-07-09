@@ -46,7 +46,7 @@ $general_detail = "";
                     var generaldetail = prompt("Info ecoamigable general");
                 }
             }
-            return false;
+            return true;
         }
     </script>
     <?php
