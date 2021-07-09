@@ -32,7 +32,7 @@ require_once  ('include.php');
 <li><a href="valoraciones.php">valoraciones</a><li>
 <li><a href="inventario.php">inventario</a><li>
 <li><a href="reportes.php">reportes</a><li>
-<li><a href="perfil.php">perfil</a><li>
+<a href="perfil.php">perfil</a><br />
 </ul> 
 <?php      
      session_start();
@@ -41,15 +41,15 @@ require_once  ('include.php');
      
       $article = $articleConnection->select_article($object); 
       foreach($article as $value){
-        echo $value->title; ?><li></li><?php
+        echo $value->title; ?><br /><?php
            $question =$questionConnection->select_question(null,$value->id);
            foreach($question as $val){
             $profile = $profileConnection->select_profile(json_decode(json_encode(array("id" => $val->profile_id))));
             
             if(count($profile) > 0){
-              ?><li></li><?php   echo $profile[0]->name.$profile[0]->last_name;
+              ?><li></li><?php   echo $profile[0]->name.$profile[0]->last_name." :";?><br /><?php
             }
-            echo "".$val->question;
+            echo " ".$val->question;
             $id_question =$val->id;
 
       }

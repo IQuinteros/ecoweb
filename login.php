@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/mainstyle.css">
 </head>
+
 <body>
     <header class="appbar">
         <a class="appbar__title" href="index.html">ECOmercio</a>
@@ -82,4 +84,5 @@
   
     <script src="js/hover.js"></script>
 </body>
+
 </html>
