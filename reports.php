@@ -7,10 +7,12 @@ require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/chart/chart.php');
 require_once __DIR__.('/php/utils/auth_util.php');
+require_once __DIR__.('/php/utils/date_util.php');
 require_once __DIR__.('/api/query/profile.php');
 require_once __DIR__.('/api/query/store.php');
 require_once __DIR__.('/api/query/search.php');
 require_once __DIR__.('/api/query/history_detail.php');
+require_once __DIR__.('/api/query/article_purchase.php');
 
 $store = AuthUtil::getStoreSession();
 $storeObj = json_decode(json_encode(array("store_id" => $store->id)));
@@ -21,6 +23,9 @@ $usersPerDistricts = $profileConnection->report_user_registered_district(null);
 
 $storeConnection = new Store();
 $registeredStores = $storeConnection->report_registered_stores(null);
+
+$articlePurchaseConnection = new Article_purchase();
+$sellsSummary = $articlePurchaseConnection->report_sells_by_months($storeObj);
 
 $historyDetailConnection = new History_detail();
 $visualizationsResult = $historyDetailConnection->report_most_visualized($storeObj);
@@ -67,8 +72,12 @@ $mostSearch = array_slice($mostSearch, 0, 7);
                     <?= new ChartView(
                         "Ventas", 
                         "sellsChart",
-                        ["hi", "hi2"],
-                        [15, 30], 
+                        array_map(function ($value){
+                            return DateUtil::numberToMonth($value["month"]);
+                        }, $sellsSummary),
+                        array_map(function ($value){
+                            return $value["contador"];
+                        }, $sellsSummary), 
                     )?>
                 </div>
             </article>
@@ -98,8 +107,12 @@ $mostSearch = array_slice($mostSearch, 0, 7);
                     <?= new ChartView(
                         "Usuarios", 
                         "districtChart",
-                        ["hi", "hi2"],
-                        [15, 30], 
+                        array_map(function ($value){
+                            return $value["district_name"];
+                        }, $usersPerDistricts),
+                        array_map(function ($value){
+                            return $value["contador"];
+                        }, $usersPerDistricts), 
                     )?>
                 </div>
             </article>

@@ -319,7 +319,9 @@ class Profile extends Connection{
     }
     public function report_user_registered_district($object){
       $this->connection_hosting();
-      $sql="SELECT COUNT(`id`) AS `contador`, `district_id` FROM `profile`";
+      $sql="SELECT COUNT(profile.id) AS `contador`, profile.`district_id`, district.name as district_name
+      FROM `profile`
+      INNER JOIN district ON profile.district_id = district.id";
       
       $haveWHERE = false;
       //id check
@@ -342,8 +344,11 @@ class Profile extends Connection{
         $lista_profiles = array();
 
         for($i = 0; $i < count($data); $i++){
-          $contador = $data[$i]["contador"];
-          array_push($lista_profiles, $contador);
+          $array = array();
+          $array["district_id"] = $data[$i]["district_id"];
+          $array["district_name"] = $data[$i]["district_name"];
+          $array["contador"]=$data[$i]["contador"];
+          array_push($lista_profiles, $array);
         }
 
         $this->pdo = null;
