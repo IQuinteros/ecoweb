@@ -68,9 +68,9 @@
             $enabled = true;
             $store = (json_decode(json_encode(array(
                 "public_name" => $Pname, "description" => $description, "email" => $email, "contact_number" => $contact_number,
-                "location" => $location, "passwords" => $passwords, "rut" => $rut, "rut_cd" => $rut_cd, "district_id" => $district_id, "enabled" => $enabled
+                "location" => $location, "passwords" => $passwords, "rut" => $rut, "rut_cd" => $rut_cd, "district_id" => $district, "enabled" => $enabled
             ))));
-            $x=$profileConnection->insert_store($store);
+            $x=$storeConnection->insert_store($store);
             ?>
     <script>
         x = <?php $x[0]->id; ?>;
