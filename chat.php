@@ -15,7 +15,16 @@ $chatConnection = new Chat();
 $storeObject = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $store->id)));
 $chats = $chatConnection->select_chat($storeObject);
 
-$chat = new Chat_model();
+$selectedChat = new Chat_model();
+
+if(isset($_REQUEST['id'])){
+    $chatId = $_REQUEST['id'];
+    $foundChats = array_filter($chats, function($val) use ($chatId){
+        return $val->id == $chatId;
+    });
+
+    if(count($foundChats) > 0) $selectedChat = end($foundChats);
+}
 
 ?>
 
@@ -53,14 +62,14 @@ $chat = new Chat_model();
             <article class="card chat-messages">
                 <div class="chat-list__item">
                     <img src="https://source.unsplash.com/random/2" alt="">
-                    <h1>Juan Pedro</h1>
-                    <p class="chat-messages__purchase-id">#<?= $chat->purchase_id ?? 'Inválido'?></p>
+                    <h1><?= $selectedChat->purchase->profile_name ?? 'Seleccione un chat' ?></h1>
+                    <p class="chat-messages__purchase-id">#<?= $selectedChat->purchase_id ?? 'No ha seleccionado un chat'?></p>
                 </div>
                 <hr class="divider">
 
                 <div class="chat-messages__list">
-                    <?php if(isset($chat->messages) && $chat->messages != null){?>
-                        <?php foreach($chat->messages as $message){ ?>
+                    <?php if(isset($selectedChat->messages) && $selectedChat->messages != null){?>
+                        <?php foreach($selectedChat->messages as $message){ ?>
                             <?= new MessageView($message->message, $message->from_store) ?>
                         <?php } ?>
                     <?php } ?>

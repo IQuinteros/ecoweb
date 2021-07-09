@@ -7,15 +7,15 @@ require_once __DIR__.('/php/views/list_items/purchase_list_item.php');
 require_once __DIR__.('/api/query/purchase.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 
-$purchaseConnection = new Purchase();
+$store = AuthUtil::getStoreSession();
 
+$purchaseConnection = new Purchase();
 $purchases = $purchaseConnection->select_purchase(null);
 
 $newResultPurchases = array();
 foreach($purchases as $purchase){
     
-    $purchase->articles = array_filter($purchase->articles, function($val){
-        $store = AuthUtil::getStoreSession();
+    $purchase->articles = array_filter($purchase->articles, function($val) use ($store){
         return (isset($val->store_id) && $val->store_id == $store->id);
     });
     if(count($purchase->articles) > 0){

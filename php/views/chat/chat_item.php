@@ -20,7 +20,7 @@ class ChatItemView extends BaseView{
     {  
         ob_start();
         ?>
-        <button class="chat-list__item">
+        <button class="chat-list__item" onclick="window.open('chat.php?id=<?= $this->chat->id?>', '_self')">
             <img src="https://source.unsplash.com/random/2" alt="">
             <h1><?= $this->chat->purchase->profile_name ?></h1>
 

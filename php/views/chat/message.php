@@ -13,6 +13,8 @@ class MessageView extends BaseView{
         string $message,
         bool $owner = true
     ){
+        $this->message = $message;
+        $this->owner = $owner;
         parent::__construct();
     }
 
