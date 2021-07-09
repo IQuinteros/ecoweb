@@ -30,3 +30,26 @@ window.addEventListener('resize', () => {
         item.height = 10;
     });
 });
+
+let inputAlert = async function (title, text, confirmText, callback = (val) => {}, icon = 'question', inputType = 'text') {
+    const { value: result }  = await Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        input: inputType,
+        confirmButtonText: confirmText
+    })
+
+    if(result){
+        callback(result);
+    }
+}
+
+let displayAlert = async function (title, text, confirmText, icon = 'info'){
+    await Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        confirmButtonText: confirmText
+    })
+}

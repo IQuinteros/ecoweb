@@ -23,6 +23,8 @@ $questionsWithoutAnswer = array_filter(
     ARRAY_FILTER_USE_BOTH
 );
 
+// Answer question
+
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +41,8 @@ $questionsWithoutAnswer = array_filter(
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js" integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     

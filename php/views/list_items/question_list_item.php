@@ -33,10 +33,29 @@ class QuestionListItemView extends BaseView{
                 </div>
                 <div class="list-item__content__row">
                     <p><?= $this->question->question ?></p>
-                    <a href="#"><?= $this->question->answer != null? 'Ver respuesta' : 'Responder' ?></a>
+                    <a href="#" onclick="
+                        <?php if($this->question->answer == null) {?>
+                            inputQuestion<?= $this->question->id ?>();
+                        <?php } else { ?>
+                            displayAlert('Ver pregunta', '<?= $this->question->answer->answer ?>', 'Volver')
+                        <?php } ?>
+                    "><?= $this->question->answer != null? 'Ver respuesta' : 'Responder' ?></a>
                 </div>
             </div>
         </button>
+        <script>
+            let inputQuestion<?= $this->question->id ?> = function(){
+                inputAlert(
+                    'Responder pregunta', 
+                    '<?= $this->question->question?>', 
+                    'Responder',
+                    (val) => {
+                        val = val.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+                        window.open(`questions.php?id=<?= $this->question->id ?>&response=${val}`, '_self')
+                    }
+                )
+            }
+        </script>
         <?php
         return ob_get_clean();
     }
