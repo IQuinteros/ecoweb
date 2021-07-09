@@ -5,7 +5,7 @@ require_once __DIR__.('/../../utils/article_util.php');
 require_once __DIR__.('/../../views/article/rating.php');
 require_once __DIR__.('/../../views/article/ecoindicator.php');
 
-class ArticleListItemView extends BaseView{
+class PurchaseListItem extends BaseView{
 
     private Purchase_model $purchase;
 
@@ -23,7 +23,7 @@ class ArticleListItemView extends BaseView{
                 <h1>Pedido # <?= $this->purchase->id ?></h1>
                 <?php foreach($this->purchase->articles as $article) {?>
                     <div class="purchase-list__article">
-                        <img src="<?= $article->photo_url ?? 'assets/no-image-bg.png' ?>" alt="">
+                        <img src="<?= !empty($article->photo_url)? $article->photo_url ?? 'assets/img/no-image-bg.png' : 'assets/img/no-image-bg.png'?>" alt="">
                         <a href="#"><?= $article->title ?></a>
                         <p><?= $article->quantity ?> unidades</p>
                     </div>
@@ -31,8 +31,8 @@ class ArticleListItemView extends BaseView{
             </div>
             <div class="purchase-info">
                 <div class="purchase-info__header">
+                    <p><?php // Hace 2 días?></p>
                     <p><?= $this->purchase->creation_date ?></p>
-                    <p>Hace 2 días</p>
                 </div>
                 <h2>Datos del cliente</h2>
                 <span><b>Nombre: </b><?= $this->purchase->info_purchase->names ?? 'No determinado' ?></span>

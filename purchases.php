@@ -3,19 +3,24 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
-require_once __DIR__.('/api/query/article_purchase.php');
+require_once __DIR__.('/php/views/list_items/purchase_list_item.php');
+require_once __DIR__.('/api/query/purchase.php');
+require_once __DIR__.('/php/utils/auth_util.php');
 
-$articlePurchaseConnection = new Article_purchase();
+$purchaseConnection = new Purchase();
 
-$purchases = $articlePurchaseConnection->select_article_purchase($storeObj);
+$purchases = $purchaseConnection->select_purchase(null);
 
-// Group article purchases by purchase id
-$groupPurchases = array();
+$newResultPurchases = array();
 foreach($purchases as $purchase){
-    if(!array_key_exists($purchase->purchase_id, $groupPurchases)){
-        $groupPurchases[$purchase->purchase_id] = array();
+    
+    $purchase->articles = array_filter($purchase->articles, function($val){
+        $store = AuthUtil::getStoreSession();
+        return (isset($val->store_id) && $val->store_id == $store->id);
+    });
+    if(count($purchase->articles) > 0){
+        array_push($newResultPurchases, $purchase);
     }
-    array_push($groupPurchases[$purchase->purchase_id], $purchase);
 }
 
 ?>
@@ -45,64 +50,9 @@ foreach($purchases as $purchase){
         <?= new HeaderView("Pedidos", null, "8 pedidos hoy") ?>
         
         <div class="main__container unique">
-            <article class="card card--purchase">
-                <div class="purchase-list">
-                    <h1>Pedido # 2031516</h1>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/1" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
-                    </div>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/2" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
-                    </div>
-                </div>
-                <div class="purchase-info">
-                    <div class="purchase-info__header">
-                        <p>Lunes 16 de Marzo de 2021</p>
-                        <p>Hace 2 días</p>
-                    </div>
-                    <h2>Datos del cliente</h2>
-                    <span><b>Nombre: </b>Nombre y apellido</span>
-                    <span><b>Dirección: </b>Dirección completa del cliente con muchas palabras</span>
-                    <span><b>Teléfono: </b>+569 12345678</span>
-
-                    <a href="#">Ir al chat</a>
-
-                    <p>Total: $450.000</p>
-                </div>
-            </article>
-            <article class="card card--purchase">
-                <div class="purchase-list">
-                    <h1>Pedido # 2031516</h1>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/1" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
-                    </div>
-                    <div class="purchase-list__article">
-                        <img src="https://source.unsplash.com/random/2" alt="">
-                        <a href="#">Nombre del producto</a>
-                        <p>3 unidades</p>
-                    </div>
-                </div>
-                <div class="purchase-info">
-                    <div class="purchase-info__header">
-                        <p>Lunes 16 de Marzo de 2021</p>
-                        <p>Hace 2 días</p>
-                    </div>
-                    <h2>Datos del cliente</h2>
-                    <span><b>Nombre: </b>Nombre y apellido</span>
-                    <span><b>Dirección: </b>Dirección completa del cliente con muchas palabras</span>
-                    <span><b>Teléfono: </b>+569 12345678</span>
-
-                    <a href="#">Ir al chat</a>
-
-                    <p>Total: $450.000</p>
-                </div>
-            </article>
+            <?php foreach($newResultPurchases as $purchase){ ?> 
+                <?= new PurchaseListItem($purchase) ?>
+            <?php } ?>
         </div>
         <?= new AsideButtonsView() ?>
     </main>
