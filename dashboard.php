@@ -3,6 +3,23 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/article/article_card.php');
+require_once __DIR__.('/php/views/chart/chart.php');
+require_once __DIR__.('/api/query/article_purchase.php');
+require_once __DIR__.('/api/query/profile.php');
+require_once __DIR__.('/php/utils/auth_util.php');
+require_once __DIR__.('/php/utils/date_util.php');
+
+$store = AuthUtil::getStoreSession();
+$storeObj = json_decode(json_encode(array("store_id" => $store->id)));
+
+$profileConnection = new Profile();
+$registeredUsers = $profileConnection->report_user_registered(null);
+
+$articlePurchaseConnection = new Article_purchase();
+$sellsSummary = $articlePurchaseConnection->report_sells_by_months($storeObj);
+$articlesMostSelled = $articlePurchaseConnection->report_most_selled($storeObj);
+$articlesMostSelled = array_slice($articlesMostSelled, 0, 5);
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +53,16 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
                     <a class="card__redirect" href="#">Ir a resumen</a>    
                 </div>
                 <div class="card__chart">
-                    <canvas class="chart" id="myChart"></canvas>
+                    <?= new ChartView(
+                        "Ventas", 
+                        "sellsChart",
+                        array_map(function ($value){
+                            return DateUtil::numberToMonth($value["month"]);
+                        }, $sellsSummary),
+                        array_map(function ($value){
+                            return $value["contador"];
+                        }, $sellsSummary), 
+                    )?>
                 </div>
             </article>
             <article class="card">
@@ -44,46 +70,16 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
                     <h1 class="card__title">Usuarios registrados</h1>
                     <a class="card__redirect" href="#">Ir a registros</a>
                 </div>
-                <h1 class="card__content card__content--unique">1.568</h1>
+                <h1 class="card__content card__content--unique"><?= $registeredUsers[0] ?? '0'?></h1>
             </article>
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Productos más vendidos</h1>
                     <a class="card__redirect" href="#">Ir a registros</a>
                 </div>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                            <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                        </div>
-                    </div>
-                </button>
-                <button class="card btn article">
-                    <img class="article__img" src="https://source.unsplash.com/random" alt="image">
-                    <div class="article__content">
-                        <h1 class="article__content__title">Título largo de un producto encontrado</h1>
-                        <h1 class="article__content__price">$30.000</h1>
-                        <div class="ecoindicator">
-                            <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                        </div>
-                    </div>
-                </button>
+                <?php foreach($articlesMostSelled as $article){ ?>
+                    <?= isset($article["article"])? new ArticleCardView($article["article"]) : ''?>
+                <?php } ?>
             </article>
             <article class="card">
                 <div class="card__header">
