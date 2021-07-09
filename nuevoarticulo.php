@@ -69,7 +69,7 @@ $general_detail = "";
         <li><a href="perfil.php">perfil</a>
         <li>
     </ul>
-    <form action="api/requests/example.php" method="POST" onsubmit="return validar(this)">
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" onsubmit="return validar(this)">
         <label for="title"> nombre del producto:</label>
         <input type="text" id="title" name="title"><br><br>
         <label for="description">description:</label>
@@ -105,10 +105,10 @@ $general_detail = "";
         <input type="radio" name="recycled_prod" value="TOTAL">TOTAL</input>
         <input type="radio" name="recycled_prod" value="PARCIAL">PARCIAL</input>
         <input type="radio" name="recycled_prod" value="NINGUNO">NINGUNO</input><br><br>
-    </form><br><br>
+    <br><br>
     <label for="recycled_prod_detail">¿puede dar mas detalle?:</label><br><br>
     <textarea name="recycled_prod_detail" placeholder="mensaje" id="recycled_prod_detail"></textarea><br><br>
-    <button value="submit" name="submit">nuevo producto</button>
+    <button value="submit" name="submit">nuevo producto</button></form>
     <?php
     if (isset($_POST['submit'])) {
         $recycled_mats = $_POST['recycled_mats'];
@@ -122,20 +122,19 @@ $general_detail = "";
         ))));
 
         $insert_article_form = $article_formConnection->insert_article_form($article_form);
-        return array($re, $user_id);
-        $insert_article[1];
+        $article_form_id = $insert_article_form[0]->id;           
         $title = $_POST['title'];
         $description = $_POST['description'];
         $price = $_POST['price'];
         $stock = $_POST['stock'];
         $category_id = $_POST['category_id'];
         $store_id = $_SESSION["id"];
+        $enabled=true;
 
-        $article_form_id = $insert_article[1];
+        
         $article = (json_decode(json_encode(array(
-            "title" => $title, "description" => $description, "price" => $price, "stock" => $stock, "category_id" => $category_id, "store_id" => $store_id,
-            "article_form_id" => $article_form_id
-        ))));
+            "title" => $title, "description" => $description, "price" => $price, "stock" => $stock,"enabled"=>$enabled, "category_id" => $category_id, "store_id" => $store_id,
+            "article_form_id" => $article_form_id))));
         $articleConnection->insert_article($article);
     } ?>
 </body>

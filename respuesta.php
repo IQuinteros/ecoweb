@@ -27,12 +27,14 @@
     <li>
   </ul>
   <?php
-  $id_question = $_GET['id_question']; //da error si se abre esta pagina directamente por que no recibe el dato de la pagina pregunta.php
+  $id_question = $_POST['id_question']; //da error si se abre esta pagina directamente por que no recibe el dato de la pagina pregunta.php
   require_once('include.php');
   ini_set('display_errors', 1);
   error_reporting(~0);
   require_once __DIR__ . ('/api/query/answer.php');
   $answerConnection = new answer();
+  session_start();
+  $_SESSION["q"]=$id_question;
   ?>
   <form action=<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?> method="POST">
     <label for="anwer">respuesta:</label>
@@ -43,7 +45,7 @@
   <?php
   if (isset($_POST['submit'])) {
     $answer = $_POST['anwer'];
-    $objet = (json_decode(json_encode(array("answer" => $answer, "id_question" => $id_question))));
+    $objet = (json_decode(json_encode(array("answer" => $answer, "id_question" =>  $_SESSION["q"]))));
 
     $insert_answer = $answerConnection->insert_answer($objet);
   }

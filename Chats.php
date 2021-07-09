@@ -107,7 +107,7 @@
       $messa = $_POST['messa'];
 
 
-      $messageConnection->insert_message(json_decode(json_encode(array("message" => $messa, "chat_id" => $_SESSION["id_chat"]))));
+      $messageConnection->insert_message(json_decode(json_encode(array("chat_id" => $_SESSION["id_chat"],"message" => $messa))));
     } ?>
   </div>
 

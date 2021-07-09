@@ -52,6 +52,7 @@
         </select>
 
         <button value="submit" name="submit">registar</button>
+        <button onclick="location.href=''+<script type='text/javascript'> document.write(page); </script>+''" value="submit" name="submit">login</button>
         <?php
 
         if (isset($_POST['submit'])) {
@@ -69,7 +70,20 @@
                 "public_name" => $Pname, "description" => $description, "email" => $email, "contact_number" => $contact_number,
                 "location" => $location, "passwords" => $passwords, "rut" => $rut, "rut_cd" => $rut_cd, "district_id" => $district_id, "enabled" => $enabled
             ))));
-            $profileConnection->insert_store($store);
+            $x=$profileConnection->insert_store($store);
+            ?>
+    <script>
+        x = <?php $x[0]->id; ?>;
+        if (x > 0) {
+            var page = "home.php";
+        } else {
+            if (x == null) {
+                var page = "register.php"
+            }
+        }
+    </script>
+<?php
+} ?>
         }
         ?>
     </form>
