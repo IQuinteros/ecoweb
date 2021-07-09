@@ -17,7 +17,7 @@ class ArticleCardView extends BaseView{
     {  
         ob_start();
         ?>
-        <button class="card btn article">
+        <button class="card btn article" onclick="window.open('editarticle.php?id=<?= $this->article->id ?>', '_self')">
             <img class="article__img" src="<?= $this->article->photos[0]->photo ?? 'assets/img/no-image-bg.png'?>" alt="image">
             <div class="article__content">
                 <h1 class="article__content__title"><?= $this->article->title?></h1>

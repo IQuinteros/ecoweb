@@ -43,8 +43,8 @@ $articleConnection = new Article();
                 $articles = $articleConnection->select_article($storeObject); 
                 foreach($articles as $value){
                 ?>
-                <?= new ArticleListItemView($value) ?>
-                <hr class="divider">
+                    <?= new ArticleListItemView($value) ?>
+                    <hr class="divider">
                 <?php } ?>
             </article>
         </div>

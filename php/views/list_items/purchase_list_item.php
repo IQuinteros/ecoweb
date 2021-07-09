@@ -24,7 +24,7 @@ class PurchaseListItem extends BaseView{
                 <?php foreach($this->purchase->articles as $article) {?>
                     <div class="purchase-list__article">
                         <img src="<?= !empty($article->photo_url)? $article->photo_url ?? 'assets/img/no-image-bg.png' : 'assets/img/no-image-bg.png'?>" alt="">
-                        <a href="#"><?= $article->title ?></a>
+                        <a href="editarticle.php?id=<?= $article->article_id ?>"><?= $article->title ?></a>
                         <p><?= $article->quantity ?> unidades</p>
                     </div>
                 <?php } ?>
