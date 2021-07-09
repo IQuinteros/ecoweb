@@ -1,10 +1,9 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/article/edit_photo.php');
 require_once __DIR__.('/php/views/article/ecoindicator.php');
 require_once __DIR__.('/php/utils/article_util.php');
 require_once __DIR__.('/api/query/article.php');
@@ -87,31 +86,15 @@ $article = function () use (&$foundArticles): Article_model { return $foundArtic
                 </div>
                 
                 <div class="photos-container">
-                    <button class="btn photo">
-                        <img class="photo__img" src="https://source.unsplash.com/random/2" alt="">
-                        <div class="photo__delete">
-                            <span class="photo__delete__icon material-icons material-icons-outlined">delete</span>
-                            <span class="photo__delete__text">Eliminar imagen</span>
-                        </div>
-                    </button>
-                    <button class="btn photo">
-                        <img class="photo__img" src="https://source.unsplash.com/random/3" alt="">
-                        <div class="photo__delete">
-                            <span class="photo__delete__icon material-icons material-icons-outlined">delete</span>
-                            <span class="photo__delete__text">Eliminar imagen</span>
-                        </div>
-                    </button>
-                    <button class="btn photo">
-                        <img class="photo__img" src="https://source.unsplash.com/random/4" alt="">
-                        <div class="photo__delete">
-                            <span class="photo__delete__icon material-icons material-icons-outlined">delete</span>
-                            <span class="photo__delete__text">Eliminar imagen</span>
-                        </div>
-                    </button>
+                    <?php foreach($article()->photos as $photo){ ?>
+                        <?= new EditPhotoView($photo->photo) ?>
+                    <?php } ?>
+                    <?php if(count($article()->photos) < 4){ ?>
                     <button class="btn picker">
                         <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
                         <span class="picker__text">Subir nueva imagen</span>
                     </button>
+                    <?php } ?>
                 </div>
 
                 <div class="card__buttons">
