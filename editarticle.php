@@ -1,8 +1,25 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/article/ecoindicator.php');
+require_once __DIR__.('/php/utils/article_util.php');
+require_once __DIR__.('/api/query/article.php');
+
+if(!isset($_REQUEST['id'])){
+    header('Location:inventory.php');
+}
+
+$articleId = $_REQUEST['id'];
+
+$articleConnection = new Article();
+$foundArticles = $articleConnection->select_article(json_decode(json_encode(array("id" => $articleId))));
+
+$article = function () use (&$foundArticles): Article_model { return $foundArticles[0]; }
+
 ?>
 
 <!DOCTYPE html>
@@ -31,45 +48,41 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
         
         <div class="main__container unique">
             <div class="main__article">
-                <img class="main__article__img" src="https://source.unsplash.com/random/2" alt="">
-                <h1 class="main__article__title">Empresa HH</h1>
-                <h2 class="main__article__price">$ 450.000</h2>
-                <h2 class="main__article__subtitle">5 en stock</h2>
-                <div class="ecoindicator">
-                    <div class="ecoindicator__circle ecoindicator__circle--green"></div>
-                    <div class="ecoindicator__circle ecoindicator__circle--yellow"></div>
-                    <div class="ecoindicator__circle ecoindicator__circle--blue"></div>
-                </div>
+                <img class="main__article__img" src="<?= $article()->photos[0]->photo ?? 'assets/img/no-image-bg.png' ?>" alt="">
+                <h1 class="main__article__title"><?= $article()->title ?></h1>
+                <h2 class="main__article__price">$ <?= $article()->price ?></h2>
+                <h2 class="main__article__subtitle"><?= $article()->stock ?> en stock</h2>
+                <?= new EcoIndicatorView(new ArticleEcoIndicator($article()))?>
             </div>
             <article class="card">
                 <h1>Modifica datos</h1>
                 <div class="input-container">
                     <label class="input-label">
                         Descripción
-                        <input class="input" type="text" placeholder="Ingrese la descripción">
+                        <input class="input" type="text" placeholder="Ingrese la descripción" value="<?= $article()->description ?>">
                     </label>
                 </div>
                 <div class="input-container">
                     <label class="input-label">
                         Categoría
                         <select class="input" name="category" id="category">
-                            <option value="alimentos">Hogar</option>
-                            <option value="alimentos">Cuidado personal</option>
-                            <option value="alimentos">Alimentos</option>
-                            <option value="alimentos">Vestimenta</option>
+                            <option value="2" <?= $article()->category_id == 2? 'selected' : '' ?>>Hogar</option>
+                            <option value="1" <?= $article()->category_id == 1? 'selected' : '' ?>>Cuidado personal</option>
+                            <option value="3" <?= $article()->category_id == 3? 'selected' : '' ?>>Alimentos</option>
+                            <option value="4" <?= $article()->category_id == 4? 'selected' : '' ?>>Vestimenta</option>
                         </select>
                     </label>
                 </div>
                 <div class="input-container">
                     <label class="input-label">
                         Precio
-                        <input class="input" type="text" placeholder="Ingrese un precio">
+                        <input class="input" type="text" placeholder="Ingrese un precio" value="<?= $article()->price ?>">
                     </label>
                 </div>
                 <div class="input-container">
                     <label class="input-label">
                         Stock disponible
-                        <input class="input" type="text" placeholder="Ingrese el stock disponible actual">
+                        <input class="input" type="text" placeholder="Ingrese el stock disponible actual" value="<?= $article()->stock ?>">
                     </label>
                 </div>
                 
