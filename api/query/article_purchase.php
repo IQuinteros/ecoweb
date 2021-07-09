@@ -90,7 +90,8 @@ class Article_purchase extends Connection{
     }
     public function select_article_purchase($object){
         $this->connection_hosting();
-        $sql="SELECT * FROM `article_purchase`";
+        $sql="SELECT article_purchase.*, purchase.creation_date, purchase.total as purchase_total FROM `article_purchase`
+        INNER JOIN purchase ON article_purchase.purchase_id = purchase.id";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -150,6 +151,8 @@ class Article_purchase extends Connection{
                 $article_p->recycled_prod_detail=$data[$i]["recycled_prod_detail"];
                 $article_p->general_detail=$data[$i]["general_detail"];
                 $article_p->store_id=$data[$i]["store_id"];
+                $article_p->creation_date=$data[$i]["creation_date"];
+                $article_p->purchase_total=$data[$i]["purchase_total"];
 
                 $articleIdObject = json_decode(json_encode(array("id" => $article_p->article_id)));
                 $articleConnection = new Article();

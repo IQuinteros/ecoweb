@@ -3,10 +3,13 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/list_items/chat_list_item.php');
+require_once __DIR__.('/php/views/list_items/purchase_list_item_basic.php');
 require_once __DIR__.('/php/views/article/article_card.php');
 require_once __DIR__.('/php/views/chart/chart.php');
 require_once __DIR__.('/api/query/article_purchase.php');
 require_once __DIR__.('/api/query/profile.php');
+require_once __DIR__.('/api/query/chat.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/php/utils/date_util.php');
 
@@ -20,6 +23,21 @@ $articlePurchaseConnection = new Article_purchase();
 $sellsSummary = $articlePurchaseConnection->report_sells_by_months($storeObj);
 $articlesMostSelled = $articlePurchaseConnection->report_most_selled($storeObj);
 $articlesMostSelled = array_slice($articlesMostSelled, 0, 5);
+$purchases = $articlePurchaseConnection->select_article_purchase($storeObj);
+
+// Group article purchases by purchase id
+$groupPurchases = array();
+foreach($purchases as $purchase){
+    if(!array_key_exists($purchase->purchase_id, $groupPurchases)){
+        $groupPurchases[$purchase->purchase_id] = array();
+    }
+    array_push($groupPurchases[$purchase->purchase_id], $purchase);
+}
+$groupPurchases = array_slice($groupPurchases, 0, 3);
+
+$chatConnection = new Chat();
+$storeObject = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $store->id)));
+$chats = array_slice($chatConnection->select_chat($storeObject), 0, 3);
 ?>
 
 <!DOCTYPE html>
@@ -86,42 +104,22 @@ $articlesMostSelled = array_slice($articlesMostSelled, 0, 5);
                     <h1 class="card__title">Últimos mensajes</h1>
                     <a class="card__redirect" href="#">Ir a chats</a>
                 </div>
-                <button class="card btn chat">
-                    <h1 class="chat__name">Nombre y apellido</h1>
-                    <p class="chat__message">Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    <p class="chat__date">Hace 2 días, sin reponder</p>
-                </button>
-                <button class="card btn chat">
-                    <h1 class="chat__name">Nombre y apellido</h1>
-                    <p class="chat__message">Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    <p class="chat__date">Hace 2 días, sin reponder</p>
-                </button>
-                <button class="card btn chat">
-                    <h1 class="chat__name">Nombre y apellido</h1>
-                    <p class="chat__message">Hola! Sabes que necesito que me des la factura por la compra. Rut: 11.111.111-1, Gracias</p>
-                    <p class="chat__date">Hace 2 días, sin reponder</p>
-                </button>
+                <?php foreach($chats as $chat){ ?>
+                    <?= new ChatListItem($chat) ?> 
+                <?php } ?> 
             </article>
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Últimos pedidos</h1>
                     <a class="card__redirect" href="#">Ir a pedidos</a>
                 </div>
-                <button class="card btn purchase">
-                    <h1 class="purchase__quantity">3 artículos</h1>
-                    <p class="purchase__status">Enviado</p>
-                    <p class="purchase__date">Hace 2 días</p>
-                </button>
-                <button class="card btn purchase btn--red">
-                    <h1 class="purchase__quantity">5 artículos</h1>
-                    <p class="purchase__status">Sin revisar</p>
-                    <p class="purchase__date">Hace 1 día</p>
-                </button>
-                <button class="card btn purchase">
-                    <h1 class="purchase__quantity">3 artículos</h1>
-                    <p class="purchase__status">Enviado</p>
-                    <p class="purchase__date">Hoy</p>
-                </button>
+                <?php foreach($groupPurchases as $purchase){ ?>
+                    <?= new PurchaseListItemBasic(
+                        count($purchase),
+                        $purchase[0]->purchase_total ?? 0, 
+                        $purchase[0]->creation_date ?? ''
+                    )?>
+                <?php } ?>
             </article>
         </div>
 
