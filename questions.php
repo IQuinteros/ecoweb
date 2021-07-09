@@ -5,10 +5,11 @@ require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/list_items/question_list_item.php');
 require_once __DIR__.('/api/query/article.php');
+require_once __DIR__.('/php/utils/auth_util.php');
 
 $articleConnection = new Article();
-
-$storeObject = json_decode(json_encode(array("store_id" => $id)));
+$store = AuthUtil::getStoreSession();
+$storeObject = json_decode(json_encode(array("store_id" => $store->id)));
 $articles = $articleConnection->select_article($storeObject);
 $questions = array(); 
 
