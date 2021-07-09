@@ -5,6 +5,7 @@ require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/list_items/question_list_item.php');
 require_once __DIR__.('/api/query/article.php');
+require_once __DIR__.('/api/query/answer.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 
 $articleConnection = new Article();
@@ -24,6 +25,27 @@ $questionsWithoutAnswer = array_filter(
 );
 
 // Answer question
+if(isset($_REQUEST['id']) && isset($_REQUEST['response'])){
+    
+    // TODO: Check if exists in questions without answer
+    $found = array();
+    $found = array_filter($questionsWithoutAnswer, function ($value){
+        return $value->id == $_REQUEST['id'];
+    });
+
+    if(count($found) <= 0){
+        header('Location:questions.php');
+    }
+
+    $answerConnection = new Answer();
+    $data = array();
+    $data["question_id"] = $_REQUEST['id'];
+    $data ["answer"] = $_REQUEST['response'];
+    $answerConnection->insert_answer(json_decode(json_encode($data)));
+
+    header('Location:questions.php');
+    
+}
 
 ?>
 
