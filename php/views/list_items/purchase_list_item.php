@@ -39,7 +39,7 @@ class PurchaseListItem extends BaseView{
                 <span><b>Dirección: </b><?= ($this->purchase->info_purchase->location ?? 'No determinado').", ".($this->purchase->info_purchase->district ?? '') ?></span>
                 <span><b>Teléfono: </b><?= $this->purchase->info_purchase->contact_number ?? 'No determinado' ?></span>
 
-                <a href="#">Ir al chat</a>
+                <a href="chat.php?purchaseid=<?= $this->purchase->id ?? 0 ?>">Ir al chat</a>
 
                 <p>Total: $<?= $this->purchase->total?></p>
             </div>

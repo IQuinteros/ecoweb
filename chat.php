@@ -24,6 +24,13 @@ if(isset($_REQUEST['id'])){
     });
 
     if(count($foundChats) > 0) $selectedChat = end($foundChats);
+} else if(isset($_REQUEST['purchaseid'])){
+    $purchaseId = $_REQUEST['purchaseid'];
+    $foundChats = array_filter($chats, function($val) use ($purchaseId){
+        return $val->purchase_id == $purchaseId;
+    });
+
+    if(count($foundChats) > 0) $selectedChat = end($foundChats);
 }
 
 ?>
@@ -63,7 +70,7 @@ if(isset($_REQUEST['id'])){
                 <div class="chat-list__item">
                     <img src="https://source.unsplash.com/random/2" alt="">
                     <h1><?= $selectedChat->purchase->profile_name ?? 'Seleccione un chat' ?></h1>
-                    <p class="chat-messages__purchase-id">#<?= $selectedChat->purchase_id ?? 'No ha seleccionado un chat'?></p>
+                    <p class="chat-messages__purchase-id">Pedido #<?= $selectedChat->purchase_id ?? 'No ha seleccionado un chat'?></p>
                 </div>
                 <hr class="divider">
 
