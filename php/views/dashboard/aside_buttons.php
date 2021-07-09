@@ -64,19 +64,19 @@ class AsideButtonsView extends BaseView{
         ob_start();
         ?>
         <aside class="buttons">
-            <button class="card btn <?= count($this->storePurchases) > 0? 'btn--red' : ''?>">
+            <button class="card btn <?= count($this->storePurchases) > 0? 'btn--red' : ''?>" onclick="window.open('purchases.php', '_self')">
                 <h1>Pedidos</h1>
                 <p><?= count($this->storePurchases ?? []) ?> pedidos hoy</p>
             </button>
-            <button class="card btn <?= count($this->storeChats) > 0? 'btn--red' : ''?>">
+            <button class="card btn <?= count($this->storeChats) > 0? 'btn--red' : ''?>" onclick="window.open('chat.php', '_self')">
                 <h1>Chats</h1>
                 <p><?= count($this->storeChats)?> nuevos mensajes</p>
             </button>
-            <button class="card btn <?= count($this->storeQuestions) > 0? 'btn--red' : ''?>">
+            <button class="card btn <?= count($this->storeQuestions) > 0? 'btn--red' : ''?>" onclick="window.open('questions.php', '_self')">
                 <h1>Preguntas</h1>
                 <p><?= count($this->storeQuestions)?> preguntas sin responder</p>
             </button>
-            <button class="card btn">
+            <button class="card btn" onclick="window.open('rating.php', '_self')">
                 <h1>Valoraciones</h1>
                 <p><?= count($this->storeOpinions) ?> opiniones hoy</p>
             </button>
