@@ -35,6 +35,7 @@ if(isset($_REQUEST['id']) && isset($_REQUEST['response'])){
 
     if(count($found) <= 0){
         header('Location:questions.php');
+        return;
     }
 
     $answerConnection = new Answer();
