@@ -19,10 +19,10 @@ function toggleMenu(){
 /* Chart */
 
 const charts = document.getElementsByClassName("chart");
-charts.forEach((item) => {
+/*charts.forEach((item) => {
     item.width = parent.offsetWidth;
     item.height = parent.offsetWidth;
-});
+});*/
 
 window.addEventListener('resize', () => {
     charts.forEach((item) => {
@@ -30,6 +30,8 @@ window.addEventListener('resize', () => {
         item.height = 10;
     });
 });
+
+/* Alerts */
 
 let inputAlert = async function (title, text, confirmText, callback = (val) => {}, icon = 'question', inputType = 'text') {
     const { value: result }  = await Swal.fire({
