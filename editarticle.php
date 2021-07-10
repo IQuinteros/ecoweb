@@ -62,7 +62,7 @@ if(
         }
     }
 
-    header('Location:editarticle.php?id='.$article()->id);
+    header('Location:editarticle.php?id='.$article()->id.'&success=true');
     return;
 }
 
@@ -82,6 +82,7 @@ if(
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js" integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     
@@ -107,8 +108,8 @@ if(
                     <input type="hidden" name="id" value="<?= $article()->id?>">
                     <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', $article()->description)?>
                     <?= new CategoryInputView($article()->category_id)?>
-                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', $article()->price)?>
-                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', $article()->stock)?>
+                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', $article()->price, false, true, 'number')?>
+                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', $article()->stock, false, true, 'number')?>
                     
                     <div class="photos-container">
                         <?php foreach($article()->photos as $photo){ ?>
@@ -134,6 +135,17 @@ if(
 </div>
 
 <script src="js/script.js"></script>
+
+<?php if(isset($_REQUEST['success'])) {?>
+<script>
+    displayAlert('Artículo modificado', 'Tu artículo ha sido modificado exitósamente', 'Volver');
+</script>
+<?php } ?>
+<?php if(isset($_REQUEST['new'])) {?>
+<script>
+    displayAlert('Artículo creado', 'Tu artículo ha sido creado exitósamente', 'Volver');
+</script>
+<?php } ?>
 
 </body>
 </html>

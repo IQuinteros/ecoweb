@@ -8,6 +8,7 @@ class TextInputView extends BaseView{
     private string $title;
     private string $id;
     private string $value;
+    private string $type;
     private bool $isTextArea;
     private bool $required;
 
@@ -18,7 +19,8 @@ class TextInputView extends BaseView{
         string $placeholder = '',
         string $value = '',
         bool $isTextArea = false,
-        bool $required = true
+        bool $required = true,
+        string $type = 'text'
     ){
         $this->placeholder = $placeholder;
         $this->title = $title ?? '';
@@ -27,6 +29,7 @@ class TextInputView extends BaseView{
         $this->value = $value ?? '';
         $this->isTextArea = $isTextArea ?? false;
         $this->required = $required ?? true;
+        $this->type = $type ?? 'text';
         parent::__construct();
     }
 
@@ -38,7 +41,7 @@ class TextInputView extends BaseView{
         <div class="input-container">
             <label class="input-label">
                 <?= $this->title ?>
-                <<?= $this->isTextArea? 'textarea' : 'input'?> class="input" <?= !$this->isTextArea? 'type="text"' : ''?> id="<?= $this->id ?>" name="<?= $this->name ?>" placeholder="<?= $this->placeholder ?>" value="<?= $this->value ?>" <?= $this->required? 'required' : ''?>><?= $this->isTextArea? '</textarea>' : ''?>
+                <<?= $this->isTextArea? 'textarea' : 'input'?> class="input" <?= !$this->isTextArea? 'type="'.$this->type.'"' : ''?> id="<?= $this->id ?>" name="<?= $this->name ?>" placeholder="<?= $this->placeholder ?>" value="<?= $this->value ?>" <?= $this->required? 'required' : ''?>><?= $this->isTextArea? '</textarea>' : ''?>
             </label>
         </div>
         <?php

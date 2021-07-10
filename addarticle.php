@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
@@ -79,7 +77,7 @@ if(
         }
     }
 
-    header('Location:editarticle.php?id='.$resultArticle[0]);
+    header('Location:editarticle.php?id='.$resultArticle[0].'&new=true');
     return;
 }
 
@@ -112,11 +110,11 @@ if(
         <div class="main__container unique">
             <article class="card">
                 <form action="addarticle.php" method="post" enctype="multipart/form-data">
-                    <?= new TextInputView('Nombre de producto completo', 'title', 'title', 'Ingrese un nombre')?>
+                    <?= new TextInputView('Nombre de producto completo', 'title', 'title', 'Ingrese un nombre', '')?>
                     <?= new CategoryInputView()?>
                     <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción')?>
-                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio')?>
-                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual')?>
+                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', false, true, 'number')?>
+                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', false, true, 'number')?>
                     
                     <div class="photos-container">
                         <?= new ImageInputView() ?>

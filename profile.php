@@ -92,8 +92,8 @@ if(
                     <?= new TextInputView('Descripción de la tienda', 'description', 'description', 'Ingrese la descripción', $store->description) ?>
                     <?= new DistrictInputView($store->district_id) ?>
                     <?= new TextInputView('Dirección', 'location', 'location', 'Ingrese la dirección', $store->location) ?>
-                    <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', $store->email) ?>
-                    <?= new TextInputView('Número de contacto', 'contact', 'contact', 'Ingrese el número de contacto', $store->contact_number) ?>
+                    <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', $store->email, false, true, 'email') ?>
+                    <?= new TextInputView('Número de contacto', 'contact', 'contact', 'Ingrese el número de contacto', $store->contact_number, false, true, 'number') ?>
 
                     <div class="photos-container">
                         <?= new ImageInputView()?>
