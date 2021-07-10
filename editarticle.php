@@ -93,7 +93,7 @@ if(
     <?= new AppBarView(new AppBarSelected(AppBarSelected::NONE)) ?>
 
     <main class="main">
-        <?= new HeaderView("Edición de producto", null, "Publicado") ?>
+        <?= new HeaderView("Edición de producto", null, $article()->enabled? "Publicado" : "Desactivado") ?>
         
         <div class="main__container unique">
             <div class="main__article">

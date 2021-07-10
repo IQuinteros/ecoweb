@@ -53,7 +53,7 @@ if(
     $articleData['description'] = $_POST['description'];
     $articleData['price'] = $_POST['price'];
     $articleData['stock'] = $_POST['stock'];
-    $articleData['enabled'] = $_POST['enabled'];
+    $articleData['enabled'] = $_POST['enabled'] != 0? true : false;
     $articleData['category_id'] = $_POST['category'];
     $articleData['store_id'] = $store->id;
     $articleData['article_form_id'] = $resultForm[0];
@@ -141,10 +141,9 @@ if(
                     <?= new TextInputView('', 'recycledProdDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true, false)?>
 
                     <input type="hidden" name="generalDetail">
-                    <input type="hidden" name="enabled">
                     <div class="card__buttons">
-                        <button type="submit" class="btn btn--primary">Publicar producto</button>
-                        <button type="button" class="btn btn--primary">Guardar borrador</button>
+                        <button type="submit" name="enabled" value="1" class="btn btn--primary">Publicar producto</button>
+                        <button type="submit" name="enabled" value="0" class="btn btn--primary">Guardar borrador</button>
                     </div>
                 </form>
             </article>
