@@ -68,7 +68,7 @@ $chats = array_slice($chatConnection->select_chat($storeObject), 0, 3);
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Resumen de ventas</h1>
-                    <a class="card__redirect" href="#">Ir a resumen</a>    
+                    <a class="card__redirect" href="reports.php">Ir a reportes</a>    
                 </div>
                 <div class="card__chart">
                     <?= new ChartView(
@@ -86,14 +86,14 @@ $chats = array_slice($chatConnection->select_chat($storeObject), 0, 3);
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Usuarios registrados</h1>
-                    <a class="card__redirect" href="#">Ir a registros</a>
+                    <a class="card__redirect" href="reports.php">Ir a reportes</a>
                 </div>
                 <h1 class="card__content card__content--unique"><?= $registeredUsers[0] ?? '0'?></h1>
             </article>
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Productos más vendidos</h1>
-                    <a class="card__redirect" href="#">Ir a registros</a>
+                    <a class="card__redirect" href="reports.php">Ir a reportes</a>
                 </div>
                 <?php foreach($articlesMostSelled as $article){ ?>
                     <?= isset($article["article"])? new ArticleCardView($article["article"]) : ''?>
@@ -102,7 +102,7 @@ $chats = array_slice($chatConnection->select_chat($storeObject), 0, 3);
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Últimos mensajes</h1>
-                    <a class="card__redirect" href="#">Ir a chats</a>
+                    <a class="card__redirect" href="chat.php">Ir a chats</a>
                 </div>
                 <?php foreach($chats as $chat){ ?>
                     <?= new ChatListItem($chat) ?> 
@@ -111,7 +111,7 @@ $chats = array_slice($chatConnection->select_chat($storeObject), 0, 3);
             <article class="card">
                 <div class="card__header">
                     <h1 class="card__title">Últimos pedidos</h1>
-                    <a class="card__redirect" href="#">Ir a pedidos</a>
+                    <a class="card__redirect" href="purchases.php">Ir a pedidos</a>
                 </div>
                 <?php foreach($groupPurchases as $purchase){ ?>
                     <?= new PurchaseListItemBasic(
