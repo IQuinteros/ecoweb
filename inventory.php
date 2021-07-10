@@ -10,6 +10,17 @@ require_once __DIR__.('/php/views/list_items/article_list_item.php');
 $store = AuthUtil::getStoreSession();
 $articleConnection = new Article();
 
+$storeObject = json_decode(json_encode(array("id_store" => $store->id, "quantity" => 1000)));
+$articles = $articleConnection->select_article($storeObject); 
+
+$enabledArticles = array_filter($articles, function($val){
+    return $val->enabled;
+});
+
+$disabledArticles = array_filter($articles, function($val){
+    return !$val->enabled;
+});
+
 ?>
 
 <!DOCTYPE html>
@@ -34,15 +45,11 @@ $articleConnection = new Article();
     <?= new AppBarView(new AppBarSelected(AppBarSelected::INVENTORY)) ?>
 
     <main class="main">
-        <?= new HeaderView("Inventario", null, "50 artículos publicados", "5 artículos desactivados") ?>
+        <?= new HeaderView("Inventario", null, count($enabledArticles)." artículos publicados", count($disabledArticles)." artículos desactivados") ?>
         
         <div class="main__container unique">
             <article class="card">
-                <?php
-                $storeObject = json_decode(json_encode(array("id_store" => $store->id, "quantity" => 1000)));
-                $articles = $articleConnection->select_article($storeObject); 
-                foreach($articles as $value){
-                ?>
+                <?php foreach($articles as $value){ ?>
                     <?= new ArticleListItemView($value) ?>
                     <hr class="divider">
                 <?php } ?>
