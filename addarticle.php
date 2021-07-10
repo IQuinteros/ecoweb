@@ -36,7 +36,7 @@ require_once __DIR__.('/php/views/article/edit_photo.php');
         
         <div class="main__container unique">
             <article class="card">
-                <form action="addarticle.php" method="post">
+                <form action="addarticle.php" method="post" enctype="multipart/form-data">
                     <?= new TextInputView('Nombre de producto completo', 'name', 'name', 'Ingrese un nombre')?>
                     <?= new CategoryInputView()?>
                     <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción')?>
