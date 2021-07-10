@@ -28,6 +28,26 @@ if(count($foundArticles) <= 0){
 }
 $article = function () use (&$foundArticles): Article_model { return $foundArticles[0]; };
 
+if(
+    isset($_POST['description']) &&
+    isset($_POST['category']) &&
+    isset($_POST['price']) &&
+    isset($_POST['stock'])
+){
+    $data = array();
+    $data['title'] = $article()->title;
+    $data['description'] = $_POST['description'];
+    $data['price'] = $_POST['price'];
+    $data['stock'] = $_POST['stock'];
+    $data['enabled'] = $article()->enabled;
+    $data['category_id'] = $_POST['category'];
+    $data['past_price'] = $article()->price;
+    $data['id'] = $article()->id;
+    $articleConnection->update_article(json_decode(json_encode($data)));
+
+    header('Location:editarticle.php?id='.$article()->id);
+    return;
+}
 
 ?>
 
