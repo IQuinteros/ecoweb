@@ -17,6 +17,8 @@ require_once __DIR__.('/php/views/cover/appbar.php');
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/mainstyle.css">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -50,6 +52,13 @@ require_once __DIR__.('/php/views/cover/appbar.php');
     <?= new FooterView()?>
   
     <script src="js/hover.js"></script>
+    <script src="js/script.js"></script>
+    
+    <?php if(isset($_REQUEST['error'])) {?>
+        <script>
+            displayAlert('Datos incorrectos', 'Los datos ingresados no son correctos para iniciar sesión', 'Volver', 'error');
+        </script>
+    <?php } ?>
 </body>
 
 </html>

@@ -10,5 +10,5 @@ if($result){
     header('Location:dashboard.php');
 }
 else{
-    header('Location:login.php');
+    header('Location:login.php?error=true');
 }

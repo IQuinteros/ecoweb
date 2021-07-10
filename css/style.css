@@ -14,6 +14,11 @@
   font-weight: 600;
 }
 
+/* Sweet alert 2 */
+.normal-font-size {
+  font-size: 1.4rem !important;
+}
+
 * {
   border: 0;
   margin: 0;
@@ -805,6 +810,11 @@ textarea {
   font-weight: 600;
 }
 
+/* Sweet alert 2 */
+.normal-font-size {
+  font-size: 1.4rem !important;
+}
+
 .article {
   background-color: white;
   color: #001b2e;
@@ -1082,6 +1092,11 @@ div.chat-list__item {
 
 .w600 {
   font-weight: 600;
+}
+
+/* Sweet alert 2 */
+.normal-font-size {
+  font-size: 1.4rem !important;
 }
 
 .purchase {
