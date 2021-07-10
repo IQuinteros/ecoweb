@@ -45,6 +45,11 @@ if(
     $data['price'] = $_POST['price'];
     $data['stock'] = $_POST['stock'];
     $data['enabled'] = $article()->enabled;
+
+    if(isset($_POST['enable'])){
+        $data['enabled'] = $_POST['enable'] != 0? true : false;
+    }
+    
     $data['category_id'] = $_POST['category'];
     $data['past_price'] = $article()->price;
     $data['id'] = $article()->id;
@@ -64,7 +69,13 @@ if(
         }
     }
 
-    header('Location:editarticle.php?id='.$article()->id.'&success=true');
+    header('Location:editarticle.php?id='.$article()->id.'&success=true'.(isset($_POST['enable'])? '&enabled='.($_POST['enable'] != 0? 'true' : 'false'): ''));
+    return;
+}
+
+if(isset($_REQUEST['delete'])){
+    $articleConnection->delete_article($article()->id);
+    header('Location:inventory.php');
     return;
 }
 
@@ -123,13 +134,13 @@ if(
                     </div>
 
                     <div class="card__buttons">
-                        <button type="submit" class="btn btn--primary">Publicar producto</button>
-                        <button type="button" class="btn btn--primary">Guardar borrador</button>
+                        <button type="submit" class="btn btn--primary">Solo guardar cambios</button>
+                        <button type="submit" name="enable" value="<?= $article()->enabled? 0 : 1?>" class="btn btn--danger">Guardar y <?= $article()->enabled? 'Desactivar publicación' : 'Publicar artículo'?></button>
                     </div>
                 </form>
             </article>
         </div>
-        <?= new AsideButtonsView() ?>
+        <?= new AsideButtonsView([new AsideSingleButtonView('Eliminar producto', 'Eliminar permamentemente el artículo', 'editarticle.php?id='.$article()->id.'&delete=true', true)]) ?>
     </main>
 
     <?= new FooterView() ?>
@@ -139,19 +150,23 @@ if(
 <script src="js/script.js"></script>
 
 <?php if(isset($_REQUEST['success'])) {?>
-<script>
-    displayAlert('Artículo modificado', 'Tu artículo ha sido modificado exitósamente', 'Volver');
-</script>
+    <?php 
+        $enabled = $_REQUEST['enabled'] ?? null;
+    ?>
+    
+    <script>
+        displayAlert('Artículo modificado <?= $enabled != null? ($enabled == 'true'? 'y publicado': 'y desactivado') :''?>', 'Tu artículo ha sido modificado exitósamente', 'Volver');
+    </script>
 <?php } ?>
 <?php if(isset($_REQUEST['new'])) {?>
-<script>
-    displayAlert('Artículo publicado', 'Tu artículo ha sido publicado exitósamente', 'Volver');
-</script>
+    <script>
+        displayAlert('Artículo publicado', 'Tu artículo ha sido publicado exitósamente', 'Volver');
+    </script>
 <?php } ?>
 <?php if(isset($_REQUEST['saved'])) {?>
-<script>
-    displayAlert('Artículo guardado', 'Tu artículo ha sido guardado exitósamente. Para publicarlo, presiona el botón para publicar', 'Volver');
-</script>
+    <script>
+        displayAlert('Artículo guardado', 'Tu artículo ha sido guardado exitósamente. Para publicarlo, presiona el botón para publicar', 'Volver');
+    </script>
 <?php } ?>
 
 </body>

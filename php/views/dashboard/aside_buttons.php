@@ -90,6 +90,7 @@ class AsideButtonsView extends BaseView{
                 count($this->storeOpinions ?? []).' opiniones hoy',
                 'rating.php',
             )?>
+            <?php if(count($this->additionalButtons) > 0) {?><hr class="divider"><?php }?>
             <?php foreach($this->additionalButtons as $button){ ?>
                 <?= $button ?>
             <?php } ?>
