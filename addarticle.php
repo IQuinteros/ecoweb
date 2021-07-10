@@ -31,6 +31,7 @@ if(
     isset($_POST['enabled']) &&
     isset($_POST['category'])
 ){
+
     $articleFormData = array();
     $articleFormData['recycled_mats'] = !empty($_POST['recycledMats'])? $_POST['recycledMats'] : null;
     $articleFormData['recycled_mats_detail'] = !empty($_POST['recycledMatsDetail'])? $_POST['recycledMatsDetail'] : null;
@@ -55,6 +56,10 @@ if(
     $articleData['category_id'] = $_POST['category'];
     $articleData['store_id'] = $store->id;
     $articleData['article_form_id'] = $resultForm[0];
+
+    if(!$store->enabled){
+        $articleData['enabled'] = false;
+    }
 
     $resultArticle = $articleConnection->insert_article(json_decode(json_encode($articleData)));
 
@@ -140,8 +145,13 @@ if(
 
                     <input type="hidden" name="generalDetail">
                     <div class="card__buttons">
-                        <button type="submit" name="enabled" value="1" class="btn btn--primary">Publicar producto</button>
-                        <button type="submit" name="enabled" value="0" class="btn btn--primary">Guardar borrador</button>
+                        <?php if($store->enabled) {?>
+                            <button type="submit" name="enabled" value="1" class="btn btn--primary">Publicar producto</button>
+                            <button type="submit" name="enabled" value="0" class="btn btn--primary">Guardar borrador</button>
+                        <?php } else {?>
+                            <button type="submit" name="enabled" value="0" class="btn btn--primary">Guardar borrador</button>
+                            <button class="btn btn--disabled" disabled>Por el momento, solo puede guardar su artículo como borrador. Su cuenta aún no está activada para publicar el producto</button>
+                        <?php } ?>
                     </div>
                 </form>
             </article>

@@ -239,6 +239,11 @@ button
     background-color: $primary-color
     color: white
     text-align: center
+.btn.btn--disabled
+    @include padding($vertical: 0.5)
+    text-align: center
+.btn.btn--disabled:hover
+    box-shadow: none
 .btn:hover
     @include shadow($vertical: 3, $blur: 10, $opacity: 0.6)
 

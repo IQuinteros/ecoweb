@@ -61,6 +61,10 @@ if(
 
     if(isset($_POST['enable'])){
         $data['enabled'] = $_POST['enable'] != 0? true : false;
+
+        if(!$store->enabled){
+            $articleData['enabled'] = false;
+        }
     }
     
     $data['category_id'] = $_POST['category'];
@@ -146,7 +150,12 @@ if(isset($_REQUEST['delete'])){
 
                     <div class="card__buttons">
                         <button type="submit" class="btn btn--primary">Solo guardar cambios</button>
-                        <button type="submit" name="enable" value="<?= $article()->enabled? 0 : 1?>" class="btn btn--danger">Guardar y <?= $article()->enabled? 'Desactivar publicación' : 'Publicar artículo'?></button>
+                        <?php if($store->enabled){ ?>
+                            <button type="submit" name="enable" value="<?= $article()->enabled? 0 : 1?>" class="btn btn--danger">Guardar y <?= $article()->enabled? 'Desactivar publicación' : 'Publicar artículo'?></button>
+                        <?php } else {?>
+                            <button class="btn btn--disabled" disabled>No puede publicar su artículo. Su cuenta aún no está activada</button>
+                        <?php }?>
+
                     </div>
                 </form>
             </article>
