@@ -3,9 +3,12 @@
 class UploadUtil {
 
     private const TARGET_DIR = __DIR__.'/../uploads/';
+    // TODO: Change for hosting
+    private const DB_DIR = '/ecoweb/php/uploads/';
 
     public static function uploadImage(string $requestFileName = 'fileUpload', int $id = 0) : UploadResult {
-        $target_file = UploadUtil::TARGET_DIR .$id.md5(rand(0, 30000000)) . basename($_FILES[$requestFileName]["name"]);
+        $fileName = $id.md5(rand(0, 30000000)) . basename($_FILES[$requestFileName]["name"]);
+        $target_file = UploadUtil::TARGET_DIR . $fileName;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
         // Check if image file is a actual image or fake image
@@ -36,7 +39,7 @@ class UploadUtil {
             return new UploadResult(
                 true, 
                 "The file ". htmlspecialchars( basename( $_FILES[$requestFileName]["name"])). " has been uploaded.", 
-                $target_file
+                UploadUtil::DB_DIR.$fileName
             );
         } else {
             return new UploadResult(false, 'There was an error uploading your file');

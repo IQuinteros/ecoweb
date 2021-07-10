@@ -15,7 +15,7 @@ class Photo extends Connection{
         }
         $resultado=$this->pdo->prepare($sql);
         $resultado->bindParam(':photo', $object->photo, PDO::PARAM_STR);
-        $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
+        $resultado->bindParam(':article_id', $object->article_id, PDO::PARAM_INT);
         $re=$resultado->execute();
         if (!$re) 
         {

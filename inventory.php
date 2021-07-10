@@ -39,7 +39,7 @@ $articleConnection = new Article();
         <div class="main__container unique">
             <article class="card">
                 <?php
-                $storeObject = json_decode(json_encode(array("id_store" => $store->id)));
+                $storeObject = json_decode(json_encode(array("id_store" => $store->id, "quantity" => 1000)));
                 $articles = $articleConnection->select_article($storeObject); 
                 foreach($articles as $value){
                 ?>

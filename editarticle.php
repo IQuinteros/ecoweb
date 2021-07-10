@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
@@ -13,6 +11,7 @@ require_once __DIR__.('/php/utils/article_util.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/php/utils/upload_util.php');
 require_once __DIR__.('/api/query/article.php');
+require_once __DIR__.('/api/query/photo.php');
 
 if(!isset($_REQUEST['id'])){
     header('Location:inventory.php');
@@ -49,13 +48,20 @@ if(
     $articleConnection->update_article(json_decode(json_encode($data)));
 
     if(isset($_FILES['newimg'])){
-        echo json_encode(UploadUtil::uploadImage('newimg'));
-    }
-    else{
-        echo 'No photo';
+        $result = UploadUtil::uploadImage('newimg');
+
+        if($result->result){
+            $photosConnection = new Photo();
+
+            $data = array();
+            $data['photo'] = $result->newFileUrl;
+            $data['article_id'] = $article()->id;
+
+            $photosConnection->insert_photo(json_decode(json_encode($data)));
+        }
     }
 
-    //header('Location:editarticle.php?id='.$article()->id);
+    header('Location:editarticle.php?id='.$article()->id);
     return;
 }
 
