@@ -82,7 +82,7 @@ if($selectedChat != null && isset($_POST['sendMsg']) && !empty($_POST['sendMsg']
                 <div class="chat-list__item">
                     <img src="https://source.unsplash.com/random/2" alt="">
                     <h1><?= $selectedChat->purchase->profile_name ?? 'Seleccione un chat' ?></h1>
-                    <p class="chat-messages__purchase-id">Pedido #<?= $selectedChat->purchase_id ?? 'No ha seleccionado un chat'?></p>
+                    <p class="chat-messages__purchase-id"><?= $selectedChat != null? 'Pedido #'.$selectedChat->purchase_id ?? '?' : 'No ha seleccionado un chat'?></p>
                 </div>
                 <hr class="divider">
 
