@@ -20,11 +20,21 @@ class ImageInputView extends BaseView{
     {  
         ob_start();
         ?>
-        <label class="btn picker">
+        <label id="<?= $this->id ?>label" class="btn picker">
             <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
-            <span class="picker__text">Subir nueva imagen</span>
+            <span id="<?= $this->id ?>text" class="picker__text">Subir nueva imagen</span>
             <input class="input--file" type="file" name="<?= $this->name ?>" id="<?= $this->id ?>"/>
         </label>
+
+        <script>
+            let fileInput<?= $this->id ?> = document.getElementById('<?= $this->id ?>');
+            let fileInputText<?= $this->id ?> = document.getElementById('<?= $this->id ?>text');
+
+
+            fileInput<?= $this->id ?>.addEventListener('change', function() {
+                fileInputText<?= $this->id ?>.innerHTML = 'Se subirá el archivo: <b>' + fileInput<?= $this->id ?>.value.split('\\').pop() + '</b><br>Al guardar cambios, podrá volver a subir una nueva imagen.';
+            });
+        </script>
         <?php
         return ob_get_clean();
     }

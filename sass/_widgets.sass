@@ -335,6 +335,10 @@ textarea
     gap: $margin-unit
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
     @include margin($vertical: 1, $horizontal: 0)
+    max-width: 900px
+    justify-self: center
+    margin-left: auto
+    margin-right: auto
 
     .photo,
     .picker
@@ -369,6 +373,9 @@ textarea
             .photo__delete__text
                 color: white
                 margin-top: math.div($margin-unit, 2)    
+        .picker__text
+            text-align: center
+            @include padding($vertical: 0, $horizontal: 1)
     .photo:hover,
     .picker:hover
         @include shadow($vertical: 3, $blur: 6)

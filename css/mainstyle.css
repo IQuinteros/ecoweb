@@ -404,6 +404,10 @@ textarea {
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin: 20px 0px;
+  max-width: 900px;
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 .photos-container .photo,
 .photos-container .picker {
@@ -446,6 +450,11 @@ textarea {
 .photos-container .picker .photo__delete .photo__delete__text {
   color: white;
   margin-top: 10px;
+}
+.photos-container .photo .picker__text,
+.photos-container .picker .picker__text {
+  text-align: center;
+  padding: 0px 20px;
 }
 .photos-container .photo:hover,
 .photos-container .picker:hover {

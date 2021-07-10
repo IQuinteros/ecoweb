@@ -24,6 +24,7 @@ $store = AuthUtil::getStoreSession();
 
 $articleId = $_REQUEST['id'];
 
+$photosConnection = new Photo();
 $articleConnection = new Article();
 $foundArticles = $articleConnection->select_article(json_decode(json_encode(array("id" => $articleId, "id_store" => $store->id))));
 
@@ -32,6 +33,20 @@ if(count($foundArticles) <= 0){
     return;
 }
 $article = function () use (&$foundArticles): Article_model { return $foundArticles[0]; };
+
+if(isset($_POST['deleteimg'])){
+    $imgId = (int)$_POST['deleteimg'];
+
+    $foundImg = array_filter($article()->photos, function($val) use($imgId) {
+        return $val->id == $imgId;
+    });
+
+    if(count($foundImg) > 0){
+        $photosConnection->delete_photo($imgId);
+        header('Location:editarticle.php?id='.$article()->id.'&deletedImg=true');
+        return;
+    }
+}
 
 if(
     isset($_POST['description']) &&
@@ -59,8 +74,6 @@ if(
         $result = UploadUtil::uploadImage('newImg', $article()->id);
 
         if($result->result){
-            $photosConnection = new Photo();
-
             $data = array();
             $data['photo'] = $result->newFileUrl;
             $data['article_id'] = $article()->id;
@@ -126,7 +139,7 @@ if(isset($_REQUEST['delete'])){
                     
                     <div class="photos-container">
                         <?php foreach($article()->photos as $photo){ ?>
-                            <?= new EditPhotoView($photo->photo) ?>
+                            <?= new EditPhotoView($photo->photo, $photo->id) ?>
                         <?php } ?>
                         <?php if(count($article()->photos) < 4){ ?>
                             <?= new ImageInputView()?>
@@ -166,6 +179,11 @@ if(isset($_REQUEST['delete'])){
 <?php if(isset($_REQUEST['saved'])) {?>
     <script>
         displayAlert('Artículo guardado', 'Tu artículo ha sido guardado exitósamente. Para publicarlo, presiona el botón para publicar', 'Volver');
+    </script>
+<?php } ?>
+<?php if(isset($_REQUEST['deletedImg'])) {?>
+    <script>
+        displayAlert('Imagen eliminada', 'La imagen de tu artículo ha sido eliminada', 'Volver');
     </script>
 <?php } ?>
 
