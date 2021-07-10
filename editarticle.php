@@ -8,18 +8,26 @@ require_once __DIR__.('/php/views/article/ecoindicator.php');
 require_once __DIR__.('/php/views/inputs/text_input.php');
 require_once __DIR__.('/php/views/inputs/category_input.php');
 require_once __DIR__.('/php/utils/article_util.php');
+require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/api/query/article.php');
 
 if(!isset($_REQUEST['id'])){
     header('Location:inventory.php');
 }
 
+$store = AuthUtil::getStoreSession();
+
 $articleId = $_REQUEST['id'];
 
 $articleConnection = new Article();
-$foundArticles = $articleConnection->select_article(json_decode(json_encode(array("id" => $articleId))));
+$foundArticles = $articleConnection->select_article(json_decode(json_encode(array("id" => $articleId, "id_store" => $store->id))));
 
-$article = function () use (&$foundArticles): Article_model { return $foundArticles[0]; }
+if(count($foundArticles) <= 0){
+    header('Location:inventory.php');
+    return;
+}
+$article = function () use (&$foundArticles): Article_model { return $foundArticles[0]; };
+
 
 ?>
 
@@ -57,27 +65,31 @@ $article = function () use (&$foundArticles): Article_model { return $foundArtic
             </div>
             <article class="card">
                 <h1>Modifica datos</h1>
-                <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', $article()->description)?>
-                <?= new CategoryInputView($article()->category_id)?>
-                <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', $article()->price)?>
-                <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', $article()->stock)?>
-                
-                <div class="photos-container">
-                    <?php foreach($article()->photos as $photo){ ?>
-                        <?= new EditPhotoView($photo->photo) ?>
-                    <?php } ?>
-                    <?php if(count($article()->photos) < 4){ ?>
-                    <button class="btn picker">
-                        <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
-                        <span class="picker__text">Subir nueva imagen</span>
-                    </button>
-                    <?php } ?>
-                </div>
 
-                <div class="card__buttons">
-                    <button class="btn btn--primary">Publicar producto</button>
-                    <button class="btn btn--primary">Guardar borrador</button>
-                </div>
+                <form action="editarticle.php" method="POST">
+                    <input type="hidden" name="id" value="<?= $article()->id?>">
+                    <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', $article()->description)?>
+                    <?= new CategoryInputView($article()->category_id)?>
+                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', $article()->price)?>
+                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', $article()->stock)?>
+                    
+                    <div class="photos-container">
+                        <?php foreach($article()->photos as $photo){ ?>
+                            <?= new EditPhotoView($photo->photo) ?>
+                        <?php } ?>
+                        <?php if(count($article()->photos) < 4){ ?>
+                        <button class="btn picker">
+                            <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
+                            <span class="picker__text">Subir nueva imagen</span>
+                        </button>
+                        <?php } ?>
+                    </div>
+
+                    <div class="card__buttons">
+                        <button type="submit" class="btn btn--primary">Publicar producto</button>
+                        <button type="button" class="btn btn--primary">Guardar borrador</button>
+                    </div>
+                </form>
             </article>
         </div>
         <?= new AsideButtonsView() ?>
