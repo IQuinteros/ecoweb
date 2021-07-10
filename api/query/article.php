@@ -21,14 +21,14 @@ class Article extends Connection{
              $resultado->bindParam(':description', $object->description, PDO::PARAM_STR);
              $resultado->bindParam(':price', $object->price, PDO::PARAM_INT);
              $resultado->bindParam(':stock', $object->stock, PDO::PARAM_INT);
-             $resultado->bindParam(':enabled', $object->enabled, PDO::PARAM_INT);
+             $resultado->bindParam(':enabled', $object->enabled, PDO::PARAM_BOOL);
              $resultado->bindParam(':article_form_id', $object->article_form_id, PDO::PARAM_INT);
              $resultado->bindParam(':category_id', $object->category_id, PDO::PARAM_INT);
              $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
              if(isset($object->past_price)){
                 $resultado->bindParam(':past_price', $object->past_price, PDO::PARAM_INT);
              }else{
-                $resultado->bindParam(':past_price', null, PDO::PARAM_NULL);
+                $resultado->bindValue(':past_price', null, PDO::PARAM_NULL);
              }
              
              $re=$resultado->execute();
