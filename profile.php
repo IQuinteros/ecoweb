@@ -27,6 +27,7 @@ if(
     $newStoreData['contact_number'] = $_POST['contact'];
     $newStoreData['location'] = $_POST['location'];
     $newStoreData['district_id'] = $_POST['district'];
+    $newStoreData['photo_url'] = $store->photo_url;
 
     if(isset($_FILES['newImg'])){
         $result = UploadUtil::uploadImage('newImg');
