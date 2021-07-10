@@ -13,12 +13,13 @@ class Store extends Connection{
             $resultado=$this->pdo->prepare($sql);
              $resultado->bindParam(':public_name', $object->public_name, PDO::PARAM_STR);
              $resultado->bindParam(':description', $object->description, PDO::PARAM_STR);
+             $resultado->bindParam(':email', $object->email, PDO::PARAM_STR);
              $resultado->bindParam(':contact_number', $object->contact_number, PDO::PARAM_INT);
              $resultado->bindParam(':location', $object->location, PDO::PARAM_STR);
              $resultado->bindParam(':password', $object->password, PDO::PARAM_STR);
              $resultado->bindParam(':rut', $object->rut, PDO::PARAM_INT);
-             $resultado->bindParam(':rut_cd', $object->rut_cd, PDO::PARAM_INT);
-             $resultado->bindParam(':enabled', $object->enabled, PDO::PARAM_INT);
+             $resultado->bindParam(':rut_cd', $object->rut_cd, PDO::PARAM_STR);
+             $resultado->bindParam(':enabled', $object->enabled, PDO::PARAM_BOOL);
              if(isset($object->district_id)){
                 $resultado->bindParam(':district_id', $object->district_id, PDO::PARAM_INT);
                }
@@ -38,6 +39,7 @@ class Store extends Connection{
           
             }catch(PDOException $e){
               echo $e->getMessage();
+              echo json_encode($this->pdo->errorInfo());
               return $e;
               die();
             }
