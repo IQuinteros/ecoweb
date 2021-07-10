@@ -3,6 +3,11 @@ require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
+require_once __DIR__.('/php/views/inputs/text_input.php');
+require_once __DIR__.('/php/views/inputs/category_input.php');
+require_once __DIR__.('/php/views/inputs/image_input.php');
+require_once __DIR__.('/php/views/inputs/check_group_input.php');
+require_once __DIR__.('/php/views/article/edit_photo.php');
 ?>
 
 <!DOCTYPE html>
@@ -31,132 +36,40 @@ require_once __DIR__.('/php/views/dashboard/footer.php');
         
         <div class="main__container unique">
             <article class="card">
-                <div class="input-container">
-                    <label class="input-label">
-                        Nombre de producto completo
-                        <input class="input" type="text" placeholder="Ingrese el nombre">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Categoría
-                        <select class="input" name="category" id="category">
-                            <option value="alimentos">Hogar</option>
-                            <option value="alimentos">Cuidado personal</option>
-                            <option value="alimentos">Alimentos</option>
-                            <option value="alimentos">Vestimenta</option>
-                        </select>
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Descripción
-                        <input class="input" type="text" placeholder="Ingrese una descripción para sus clientes">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Precio
-                        <input class="input" type="text" placeholder="Ingrese un precio">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Stock disponible
-                        <input class="input" type="text" placeholder="Ingrese el stock disponible actual">
-                    </label>
-                </div>
-                
-                <div class="photos-container">
-                    <button class="btn photo">
-                        <img class="photo__img" src="https://source.unsplash.com/random/2" alt="">
-                        <div class="photo__delete">
-                            <span class="photo__delete__icon material-icons material-icons-outlined">delete</span>
-                            <span class="photo__delete__text">Eliminar imagen</span>
-                        </div>
-                    </button>
-                    <button class="btn photo">
-                        <img class="photo__img" src="https://source.unsplash.com/random/3" alt="">
-                        <div class="photo__delete">
-                            <span class="photo__delete__icon material-icons material-icons-outlined">delete</span>
-                            <span class="photo__delete__text">Eliminar imagen</span>
-                        </div>
-                    </button>
-                    <button class="btn photo">
-                        <img class="photo__img" src="https://source.unsplash.com/random/4" alt="">
-                        <div class="photo__delete">
-                            <span class="photo__delete__icon material-icons material-icons-outlined">delete</span>
-                            <span class="photo__delete__text">Eliminar imagen</span>
-                        </div>
-                    </button>
-                    <button class="btn picker">
-                        <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
-                        <span class="picker__text">Subir nueva imagen</span>
-                    </button>
-                </div>
+                <form action="addarticle.php" method="post">
+                    <?= new TextInputView('Nombre de producto completo', 'name', 'name', 'Ingrese un nombre')?>
+                    <?= new CategoryInputView()?>
+                    <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción')?>
+                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio')?>
+                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual')?>
+                    
+                    <div class="photos-container">
+                        <?= new ImageInputView() ?>
+                    </div>
 
-                <h1>Destaca lo ecológico de tu producto</h1>
+                    <h1>Destaca lo ecológico de tu producto</h1>
 
-                <h3 class="card__subtitle">¿Se emplearon materiales reciclados y/o reutilizados para desarrollar tu producto?</h3>
+                    <h3 class="card__subtitle">¿Se emplearon materiales reciclados y/o reutilizados para desarrollar tu producto?</h3>
 
-                <div class="check-group">
-                    <label class="input-label">
-                        <input class="checkbox" type="checkbox">
-                        <span class="material-icons material-icons-outlined checkmark">done</span>
-                        <span class="input-label__text">Totalmente</span> 
-                    </label>
-                    <label class="input-label">
-                        <input class="checkbox" type="checkbox">
-                        <span class="material-icons material-icons-outlined checkmark">done</span>
-                        <span class="input-label__text">Parcialmente</span> 
-                    </label>
-                    <label class="input-label">
-                        <input class="checkbox" type="checkbox">
-                        <span class="material-icons material-icons-outlined checkmark">done</span>
-                        <span class="input-label__text">Ninguno</span> 
-                    </label>
-                </div>
+                    <?= new CheckGroupInput('recycledMats')?>
 
-                <div class="input-container">
-                    <input class="input" type="text" placeholder="Da más detalles a tus clientes">
-                </div>
+                    <?= new TextInputView('', 'recycledMatsDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true)?>
 
-                <h3 class="card__subtitle">¿En qué se puede reutilizar tu producto?</h3>
+                    <h3 class="card__subtitle">¿En qué se puede reutilizar tu producto?</h3>
 
-                <div class="input-container">
-                    <label class="input-label">
-                        <textarea class="input" placeholder="Da tips a tus clientes sobre cómo pueden reutilizar tu producto o envoltorio para evitar que lo desechen"></textarea>
-                    </label>
-                </div>
+                    <?= new TextInputView('', 'reuseTips', 'reuseTips', 'Da tips a tus clientes sobre cómo pueden reutilizar tu producto o envoltorio para evitar que lo desechen', '', true)?>
 
-                <h3 class="card__subtitle">¿El producto se puede reciclar?</h3>
+                    <h3 class="card__subtitle">¿El producto se puede reciclar?</h3>
 
-                <div class="check-group">
-                    <label class="input-label">
-                        <input class="checkbox" type="checkbox">
-                        <span class="material-icons material-icons-outlined checkmark">done</span>
-                        <span class="input-label__text">Totalmente</span> 
-                    </label>
-                    <label class="input-label">
-                        <input class="checkbox" type="checkbox">
-                        <span class="material-icons material-icons-outlined checkmark">done</span>
-                        <span class="input-label__text">Parcialmente</span> 
-                    </label>
-                    <label class="input-label">
-                        <input class="checkbox" type="checkbox">
-                        <span class="material-icons material-icons-outlined checkmark">done</span>
-                        <span class="input-label__text">Ninguno</span> 
-                    </label>
-                </div>
+                    <?= new CheckGroupInput('recycledProd')?>
 
-                <div class="input-container">
-                    <input class="input" type="text" placeholder="Da más detalles a tus clientes">
-                </div>
+                    <?= new TextInputView('', 'recycledProdDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true)?>
 
-                <div class="card__buttons">
-                    <button class="btn btn--primary">Publicar producto</button>
-                    <button class="btn btn--primary">Guardar borrador</button>
-                </div>
+                    <div class="card__buttons">
+                        <button type="submit" class="btn btn--primary">Publicar producto</button>
+                        <button type="button" class="btn btn--primary">Guardar borrador</button>
+                    </div>
+                </form>
             </article>
         </div>
         <?= new AsideButtonsView() ?>
