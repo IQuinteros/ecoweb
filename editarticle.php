@@ -5,6 +5,8 @@ require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/article/edit_photo.php');
 require_once __DIR__.('/php/views/article/ecoindicator.php');
+require_once __DIR__.('/php/views/inputs/text_input.php');
+require_once __DIR__.('/php/views/inputs/category_input.php');
 require_once __DIR__.('/php/utils/article_util.php');
 require_once __DIR__.('/api/query/article.php');
 
@@ -55,35 +57,10 @@ $article = function () use (&$foundArticles): Article_model { return $foundArtic
             </div>
             <article class="card">
                 <h1>Modifica datos</h1>
-                <div class="input-container">
-                    <label class="input-label">
-                        Descripción
-                        <input class="input" type="text" placeholder="Ingrese la descripción" value="<?= $article()->description ?>">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Categoría
-                        <select class="input" name="category" id="category">
-                            <option value="2" <?= $article()->category_id == 2? 'selected' : '' ?>>Hogar</option>
-                            <option value="1" <?= $article()->category_id == 1? 'selected' : '' ?>>Cuidado personal</option>
-                            <option value="3" <?= $article()->category_id == 3? 'selected' : '' ?>>Alimentos</option>
-                            <option value="4" <?= $article()->category_id == 4? 'selected' : '' ?>>Vestimenta</option>
-                        </select>
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Precio
-                        <input class="input" type="text" placeholder="Ingrese un precio" value="<?= $article()->price ?>">
-                    </label>
-                </div>
-                <div class="input-container">
-                    <label class="input-label">
-                        Stock disponible
-                        <input class="input" type="text" placeholder="Ingrese el stock disponible actual" value="<?= $article()->stock ?>">
-                    </label>
-                </div>
+                <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', $article()->description)?>
+                <?= new CategoryInputView($article()->category_id)?>
+                <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', $article()->price)?>
+                <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', $article()->stock)?>
                 
                 <div class="photos-container">
                     <?php foreach($article()->photos as $photo){ ?>

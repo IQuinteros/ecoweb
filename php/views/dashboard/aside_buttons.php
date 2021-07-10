@@ -86,3 +86,23 @@ class AsideButtonsView extends BaseView{
     }
 
 }
+
+class AsideSingleButtonView extends BaseView {
+
+    public function __construct(){
+        parent::__construct();
+    }
+
+
+    protected function htmlContent()
+    {  
+        ob_start();
+        ?>
+            <button class="card btn btn--red" onclick="window.open('purchases.php', '_self')">
+                <h1>Pedidos</h1>
+                <p>pedidos hoy</p>
+            </button>
+        <?php
+        return ob_get_clean();
+    }
+}
