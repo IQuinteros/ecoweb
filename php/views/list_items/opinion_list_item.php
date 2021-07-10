@@ -32,7 +32,7 @@ class OpinionListItemView extends BaseView{
                 </div>
                 <div class="list-item__content__row">
                     <p><?= $this->opinion->title ?></p>
-                    <?php if(!empty($this->opinion->content)){?><a href="#">Ver comentario</a><?php } ?>
+                    <?php if(!empty($this->opinion->content)){?><a href="#" onclick="displayAlert('<?= $this->opinion->title?>', '<?= $this->opinion->content?>', 'Volver')">Ver comentario</a><?php } ?>
                 </div>
             </div>
         </button>

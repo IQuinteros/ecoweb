@@ -4,10 +4,10 @@ require_once __DIR__.('/../Connection.php');
 require_once __DIR__.('/../models/message_model.php');
 
 class Message extends Connection{
-    public function insert_message($object){
+    public function insert_message($object, $fromStore = false){
         $this->connection_hosting();
         $sql="INSERT INTO `message` (`id`, `message`, `creation_date`, `chat_id`, `from_store`) 
-        VALUES (NULL, :message, CURRENT_TIME(), :chat_id, false);";
+        VALUES (NULL, :message, CURRENT_TIME(), :chat_id, :fromStore);";
         if($this->pdo == null)
         {
           echo 'PDO NULL';
@@ -16,6 +16,7 @@ class Message extends Connection{
         $resultado=$this->pdo->prepare($sql);
         $resultado->bindParam(':message', $object->message, PDO::PARAM_STR);
         $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
+        $resultado->bindParam(':fromStore', $fromStore, PDO::PARAM_BOOL);
         $re=$resultado->execute();
         if (!$re) 
         {

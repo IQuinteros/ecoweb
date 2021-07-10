@@ -7,6 +7,7 @@ require_once __DIR__.('/php/views/chat/message.php');
 require_once __DIR__.('/php/views/chat/chat_item.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/api/query/chat.php');
+require_once __DIR__.('/api/query/message.php');
 require_once __DIR__.('/api/query/profile.php');
 
 $store = AuthUtil::getStoreSession();
@@ -15,7 +16,7 @@ $chatConnection = new Chat();
 $storeObject = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $store->id)));
 $chats = $chatConnection->select_chat($storeObject);
 
-$selectedChat = new Chat_model();
+$selectedChat = null;
 
 if(isset($_REQUEST['id'])){
     $chatId = $_REQUEST['id'];
@@ -31,6 +32,17 @@ if(isset($_REQUEST['id'])){
     });
 
     if(count($foundChats) > 0) $selectedChat = end($foundChats);
+}
+
+if($selectedChat != null && isset($_POST['sendMsg']) && !empty($_POST['sendMsg'])){
+    $messageConnection = new Message();
+    $data = array();
+    $data['chat_id'] = $selectedChat->id;
+    $data['message'] = $_POST['sendMsg'];
+    $messageConnection->insert_message(json_decode(json_encode($data)), true);
+
+    header('Location:chat.php?id='.$selectedChat->id);
+    return;
 }
 
 ?>
@@ -82,12 +94,17 @@ if(isset($_REQUEST['id'])){
                     <?php } ?>
                 </div>
                 
-                <div class="input-container chat__input">
-                    <input class="input" type="text" name="sendMsg" id="sendMsg" placeholder="Enviar mensaje">
-                    <button class="input-container__button">
-                        <span class="material-icons material-icons-outlined">send</span>
-                    </button>
-                </div>
+                <?php if($selectedChat != null){ ?>
+                    <form action="chat.php" method="POST">
+                        <input type="hidden" name="id" value="<?= $selectedChat->id ?>">
+                        <div class="input-container chat__input">
+                            <input class="input" type="text" name="sendMsg" id="sendMsg" placeholder="Enviar mensaje" required>
+                            <button type="submit" class="input-container__button">
+                                <span class="material-icons material-icons-outlined">send</span>
+                            </button>
+                        </div>
+                    </form>
+                <?php }?>
             </article>
         </div>
         <?= new AsideButtonsView() ?>
