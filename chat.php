@@ -86,13 +86,18 @@ if($selectedChat != null && isset($_POST['sendMsg']) && !empty($_POST['sendMsg']
                 </div>
                 <hr class="divider">
 
-                <div class="chat-messages__list">
+                <div id="chatMessagesList" class="chat-messages__list">
                     <?php if(isset($selectedChat->messages) && $selectedChat->messages != null){?>
                         <?php foreach($selectedChat->messages as $message){ ?>
                             <?= new MessageView($message->message, $message->from_store) ?>
                         <?php } ?>
                     <?php } ?>
                 </div>
+
+                <script>
+                    let chatMessagesList = document.getElementById('chatMessagesList');
+                    chatMessagesList.scrollTop = chatMessagesList.scrollHeight;
+                </script>
                 
                 <?php if($selectedChat != null){ ?>
                     <form action="chat.php" method="POST">
