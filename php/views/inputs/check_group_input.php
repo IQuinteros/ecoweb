@@ -19,17 +19,17 @@ class CheckGroupInput extends BaseView{
         ?>
         <div class="check-group">
             <label class="input-label">
-                <input name="<?= $this->name ?>" class="checkbox" type="radio" value="fully">
+                <input name="<?= $this->name ?>" class="checkbox" type="radio" value="fully" required>
                 <span class="material-icons material-icons-outlined checkmark">done</span>
                 <span class="input-label__text">Totalmente</span> 
             </label>
             <label class="input-label">
-                <input name="<?= $this->name ?>" class="checkbox" type="radio" value="partial">
+                <input name="<?= $this->name ?>" class="checkbox" type="radio" value="partial" required>
                 <span class="material-icons material-icons-outlined checkmark">done</span>
                 <span class="input-label__text">Parcialmente</span> 
             </label>
             <label class="input-label">
-                <input name="<?= $this->name ?>" class="checkbox" type="radio" value="">
+                <input name="<?= $this->name ?>" class="checkbox" type="radio" value="" required>
                 <span class="material-icons material-icons-outlined checkmark">done</span>
                 <span class="input-label__text">Ninguno</span> 
             </label>
