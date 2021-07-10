@@ -767,6 +767,11 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+/* Sweet alert 2 */
+.normal-font-size {
+  font-size: 1.4rem !important;
+}
+
 .w300 {
   font-weight: 300;
 }

@@ -39,7 +39,10 @@ let inputAlert = async function (title, text, confirmText, callback = (val) => {
         text: text,
         icon: icon,
         input: inputType,
-        confirmButtonText: confirmText
+        confirmButtonText: confirmText,
+        customClass: {
+            popup: 'normal-font-size'
+        }
     })
 
     if(result){
@@ -52,6 +55,9 @@ let displayAlert = async function (title, text, confirmText, icon = 'info'){
         title: title,
         text: text,
         icon: icon,
-        confirmButtonText: confirmText
+        confirmButtonText: confirmText,
+        customClass: {
+            popup: 'normal-font-size'
+        }
     })
 }
