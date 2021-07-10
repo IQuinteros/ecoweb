@@ -13,8 +13,9 @@ class AsideButtonsView extends BaseView{
     private array $storeChats = array();
     private array $storeQuestions = array();
     private array $storeOpinions = array();
+    private array $additionalButtons = array();
 
-    public function __construct(){
+    public function __construct(array $additionalButtons = []){
         $this->store = AuthUtil::getStoreSession();
         $storeObj = json_decode(json_encode(array("store_id" => $this->store->id)));
 
@@ -55,6 +56,8 @@ class AsideButtonsView extends BaseView{
         }, array());
         // TODO: Filter for today rating
 
+        $this->additionalButtons = $additionalButtons;
+
         parent::__construct();
     }
 
@@ -64,22 +67,32 @@ class AsideButtonsView extends BaseView{
         ob_start();
         ?>
         <aside class="buttons">
-            <button class="card btn <?= count($this->storePurchases) > 0? 'btn--red' : ''?>" onclick="window.open('purchases.php', '_self')">
-                <h1>Pedidos</h1>
-                <p><?= count($this->storePurchases ?? []) ?> pedidos hoy</p>
-            </button>
-            <button class="card btn <?= count($this->storeChats) > 0? 'btn--red' : ''?>" onclick="window.open('chat.php', '_self')">
-                <h1>Chats</h1>
-                <p><?= count($this->storeChats)?> nuevos mensajes</p>
-            </button>
-            <button class="card btn <?= count($this->storeQuestions) > 0? 'btn--red' : ''?>" onclick="window.open('questions.php', '_self')">
-                <h1>Preguntas</h1>
-                <p><?= count($this->storeQuestions)?> preguntas sin responder</p>
-            </button>
-            <button class="card btn" onclick="window.open('rating.php', '_self')">
-                <h1>Valoraciones</h1>
-                <p><?= count($this->storeOpinions) ?> opiniones hoy</p>
-            </button>
+            <?= new AsideSingleButtonView(
+                'Pedidos', 
+                count($this->storePurchases ?? []).' pedidos hoy',
+                'purchases.php',
+                count($this->storePurchases) > 0
+            )?>
+            <?= new AsideSingleButtonView(
+                'Chats', 
+                count($this->storeChats ?? []).' nuevos mensajes',
+                'chats.php',
+                count($this->storeChats) > 0
+            )?>
+            <?= new AsideSingleButtonView(
+                'Preguntas', 
+                count($this->storeQuestions ?? []).' preguntas sin responder',
+                'questions.php',
+                count($this->storeQuestions) > 0
+            )?>
+            <?= new AsideSingleButtonView(
+                'Valoraciones', 
+                count($this->storeOpinions ?? []).' opiniones hoy',
+                'rating.php',
+            )?>
+            <?php foreach($this->additionalButtons as $button){ ?>
+                <?= $button ?>
+            <?php } ?>
         </aside>
         <?php
         return ob_get_clean();
@@ -89,7 +102,21 @@ class AsideButtonsView extends BaseView{
 
 class AsideSingleButtonView extends BaseView {
 
-    public function __construct(){
+    private string $title;
+    private string $subtitle;
+    private bool $alert;
+    private string $url;
+
+    public function __construct(
+        string $title,
+        string $subtitle,
+        string $url,
+        bool $alert = false
+    ){
+        $this->title = $title;
+        $this->subtitle = $subtitle;
+        $this->alert = $alert;
+        $this->url = $url;
         parent::__construct();
     }
 
@@ -98,9 +125,9 @@ class AsideSingleButtonView extends BaseView {
     {  
         ob_start();
         ?>
-            <button class="card btn btn--red" onclick="window.open('purchases.php', '_self')">
-                <h1>Pedidos</h1>
-                <p>pedidos hoy</p>
+            <button class="card btn <?= $this->alert? 'btn--red' : ''?>" onclick="window.open('<?= $this->url ?>', '_self')">
+                <h1><?= $this->title?></h1>
+                <p><?= $this->subtitle?></p>
             </button>
         <?php
         return ob_get_clean();

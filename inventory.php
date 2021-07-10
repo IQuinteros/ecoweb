@@ -48,7 +48,7 @@ $articleConnection = new Article();
                 <?php } ?>
             </article>
         </div>
-        <?= new AsideButtonsView() ?>
+        <?= new AsideButtonsView([]) ?>
     </main>
 
     <?= new FooterView() ?>
