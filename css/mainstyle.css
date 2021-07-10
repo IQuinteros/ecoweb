@@ -439,10 +439,6 @@ textarea {
   color: white;
   margin-top: 10px;
 }
-.photos-container .photo input[type=file].input--file,
-.photos-container .picker input[type=file].input--file {
-  display: none;
-}
 .photos-container .photo:hover,
 .photos-container .picker:hover {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
@@ -471,6 +467,10 @@ textarea {
 .photos-container .picker:hover .picker__icon {
   transform: scale(2);
   margin-bottom: 10px;
+}
+
+.input--file {
+  display: none;
 }
 
 .hover--card {

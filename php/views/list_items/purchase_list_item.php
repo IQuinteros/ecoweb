@@ -35,6 +35,7 @@ class PurchaseListItem extends BaseView{
                     <p><?= $this->purchase->creation_date ?></p>
                 </div>
                 <h2>Datos del cliente</h2>
+                <hr class="divider">
                 <span><b>Nombre: </b><?= $this->purchase->info_purchase->names ?? 'No determinado' ?></span>
                 <span><b>Dirección: </b><?= ($this->purchase->info_purchase->location ?? 'No determinado').", ".($this->purchase->info_purchase->district ?? '') ?></span>
                 <span><b>Teléfono: </b><?= $this->purchase->info_purchase->contact_number ?? 'No determinado' ?></span>
