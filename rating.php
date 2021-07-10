@@ -49,7 +49,7 @@ $positiveOpinions = array_filter($opinions, function($value, $key){
         <?= new HeaderView(
             "Valoraciones a tus productos", 
             count($positiveOpinions)." valoraciones positivas en total", 
-            "88 nuevas valoraciones hoy", 
+            //"88 nuevas valoraciones hoy", 
             count($opinions)." valoraciones en total"
         ) ?>
         
