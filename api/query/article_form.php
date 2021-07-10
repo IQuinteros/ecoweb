@@ -10,27 +10,31 @@ class Article_form extends Connection{
         :reuse_tips, :recycled_prod, :recycled_prod_detail);";
         try{
             $resultado=$this->pdo->prepare($sql);
-            $resultado->bindParam(':recycled_mats', $object->recycled_mats, PDO::PARAM_STR);
+            if(isset($object->recycled_mats)){
+               $resultado->bindParam(':recycled_mats', $object->recycled_mats, PDO::PARAM_STR);
+            }else{
+               $resultado->bindValue(':recycled_mats', null, PDO::PARAM_NULL);
+            }
             if(isset($object->recycled_mats_detail)){
                $resultado->bindParam(':recycled_mats_detail', $object->recycled_mats_detail, PDO::PARAM_STR);
             }else{
-               $resultado->bindParam(':recycled_mats_detail', null, PDO::PARAM_NULL);
+               $resultado->bindValue(':recycled_mats_detail', null, PDO::PARAM_NULL);
             }
             if(isset($object->general_detail)){
                 $resultado->bindParam(':general_detail', $object->general_detail, PDO::PARAM_STR);
              }else{
-                $resultado->bindParam(':general_detail', null, PDO::PARAM_NULL);
+                $resultado->bindValue(':general_detail', null, PDO::PARAM_NULL);
              }
              if(isset($object->reuse_tips)){
                 $resultado->bindParam(':reuse_tips', $object->reuse_tips, PDO::PARAM_STR);
              }else{
-                $resultado->bindParam(':reuse_tips', null, PDO::PARAM_NULL);
+                $resultado->bindValue(':reuse_tips', null, PDO::PARAM_NULL);
              }
              $resultado->bindParam(':recycled_prod', $object->recycled_prod, PDO::PARAM_STR);
              if(isset($object->recycled_prod_detail)){
                 $resultado->bindParam(':recycled_prod_detail', $object->recycled_prod_detail, PDO::PARAM_STR);
              }else{
-                $resultado->bindParam(':recycled_prod_detail', null, PDO::PARAM_NULL);
+                $resultado->bindValue(':recycled_prod_detail', null, PDO::PARAM_NULL);
              }
             $re=$resultado->execute();
             $re = $this->pdo->lastInsertId();

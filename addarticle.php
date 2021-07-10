@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
@@ -32,12 +34,12 @@ if(
     isset($_POST['category'])
 ){
     $articleFormData = array();
-    $articleFormData['recycled_mats'] = $_POST['recycledMats'];
-    $articleFormData['recycled_mats_detail'] = $_POST['recycledMatsDetail'];
-    $articleFormData['general_detail'] = $_POST['generalDetail'];
-    $articleFormData['reuse_tips'] = $_POST['reuseTips'];
-    $articleFormData['recycled_prod'] = $_POST['recycledProd'];
-    $articleFormData['recycled_prod_detail'] = $_POST['recycledProdDetail'];
+    $articleFormData['recycled_mats'] = !empty($_POST['recycledMats'])? $_POST['recycledMats'] : null;
+    $articleFormData['recycled_mats_detail'] = !empty($_POST['recycledMatsDetail'])? $_POST['recycledMatsDetail'] : null;
+    $articleFormData['general_detail'] = !empty($_POST['generalDetail'])? $_POST['generalDetail']: null;
+    $articleFormData['reuse_tips'] = !empty($_POST['reuseTips'])? $_POST['reuseTips']: null;
+    $articleFormData['recycled_prod'] = !empty($_POST['recycledProd'])? $_POST['recycledProd']: null;
+    $articleFormData['recycled_prod_detail'] = !empty($_POST['recycledProdDetail'])? $_POST['recycledProdDetail']: null;
 
     $resultForm = $articleFormConnection->insert_article_form(json_decode(json_encode($articleFormData)));
 
@@ -113,8 +115,8 @@ if(
                     <?= new TextInputView('Nombre de producto completo', 'title', 'title', 'Ingrese un nombre', '')?>
                     <?= new CategoryInputView()?>
                     <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción')?>
-                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', false, true, 'number')?>
-                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', false, true, 'number')?>
+                    <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', '', false, true, 'number')?>
+                    <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', '', false, true, 'number')?>
                     
                     <div class="photos-container">
                         <?= new ImageInputView() ?>
@@ -126,17 +128,17 @@ if(
 
                     <?= new CheckGroupInput('recycledMats')?>
 
-                    <?= new TextInputView('', 'recycledMatsDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true)?>
+                    <?= new TextInputView('', 'recycledMatsDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true, false)?>
 
                     <h3 class="card__subtitle">¿En qué se puede reutilizar tu producto?</h3>
 
-                    <?= new TextInputView('', 'reuseTips', 'reuseTips', 'Da tips a tus clientes sobre cómo pueden reutilizar tu producto o envoltorio para evitar que lo desechen', '', true)?>
+                    <?= new TextInputView('', 'reuseTips', 'reuseTips', 'Da tips a tus clientes sobre cómo pueden reutilizar tu producto o envoltorio para evitar que lo desechen', '', true, false)?>
 
                     <h3 class="card__subtitle">¿El producto se puede reciclar?</h3>
 
                     <?= new CheckGroupInput('recycledProd')?>
 
-                    <?= new TextInputView('', 'recycledProdDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true)?>
+                    <?= new TextInputView('', 'recycledProdDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true, false)?>
 
                     <input type="hidden" name="generalDetail">
                     <input type="hidden" name="enabled">
