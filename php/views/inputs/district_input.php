@@ -11,16 +11,19 @@ class DistrictInputView extends BaseView{
 
     private string $name;
     private string $id;
+    private bool $required;
 
     public function __construct(
         int $selected = 0,
         string $name = 'district',
-        string $id = 'district'
+        string $id = 'district',
+        bool $required = true
     ){
         $this->districtConnection = new District();
-        $this->selectedDistrict = $selected;
-        $this->name = $name;
-        $this->id = $id;
+        $this->selectedDistrict = $selected ?? 0;
+        $this->name = $name ?? 'district';
+        $this->id = $id ?? 'district';
+        $this->required = $required ?? true;
         parent::__construct();
     }
 
@@ -33,7 +36,7 @@ class DistrictInputView extends BaseView{
         <div class="input-container">
             <label class="input-label">
                 Comuna
-                <select class="input" name="<?= $this->name ?>" id="<?= $this->id ?>">
+                <select class="input" name="<?= $this->name ?>" id="<?= $this->id ?>" <?= $this->required? 'required' : ''?>>
                     <?php foreach($districts as $value){ ?>
                     <option value="<?= $value->id ?>" <?= $this->selectedDistrict == $value->id? 'selected' : ''?>><?= $value->name?></option>
                     <?php } ?>

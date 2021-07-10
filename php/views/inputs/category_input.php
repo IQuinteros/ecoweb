@@ -7,17 +7,20 @@ class CategoryInputView extends BaseView{
     private string $title;
     private string $id;
     private int $value;
+    private bool $required;
 
     public function __construct(
         int $value = 0,
         string $title = 'Categoría',
         string $name = 'category',
-        string $id = 'category'
+        string $id = 'category',
+        bool $required = true
     ){
         $this->title = $title ?? '';
         $this->name = $name ?? '';
         $this->id = $id ?? '';
         $this->value = $value ?? 0;
+        $this->required = $required ?? true;
         parent::__construct();
     }
 
@@ -29,7 +32,7 @@ class CategoryInputView extends BaseView{
         <div class="input-container">
             <label class="input-label">
                 <?= $this->title?>
-                <select class="input" name="<?= $this->name?>" id="<?= $this->id?>">
+                <select class="input" name="<?= $this->name?>" id="<?= $this->id?>" <?= $this->required? 'required' : ''?>>
                     <option value="2" <?= $this->value == 2? 'selected' : '' ?>>Hogar</option>
                     <option value="1" <?= $this->value == 1? 'selected' : '' ?>>Cuidado personal</option>
                     <option value="3" <?= $this->value == 3? 'selected' : '' ?>>Alimentos</option>
