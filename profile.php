@@ -5,7 +5,9 @@ require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
 require_once __DIR__.('/php/views/dashboard/footer.php');
 require_once __DIR__.('/php/views/inputs/district_input.php');
 require_once __DIR__.('/php/views/inputs/text_input.php');
+require_once __DIR__.('/php/views/inputs/image_input.php');
 require_once __DIR__.('/php/utils/auth_util.php');
+require_once __DIR__.('/php/utils/upload_util.php');
 require_once __DIR__.('/api/query/store.php');
 
 $store = AuthUtil::getStoreSession();
@@ -25,6 +27,12 @@ if(
     $newStoreData['contact_number'] = $_POST['contact'];
     $newStoreData['location'] = $_POST['location'];
     $newStoreData['district_id'] = $_POST['district'];
+
+    if(isset($_FILES['newImg'])){
+        $result = UploadUtil::uploadImage('newImg');
+        if($result->result) $newStoreData['photo_url'] = $result->newFileUrl;
+    }
+
     $storeConnection->update_store(json_decode(json_encode($newStoreData)));
 
     header('Location:profile.php?success=true');
@@ -78,7 +86,7 @@ if(
             <article class="card profile__data">
                 <h1>Modifica datos</h1>
 
-                <form action="profile.php" method="POST">
+                <form action="profile.php" method="POST" enctype="multipart/form-data">
 
                     <?= new TextInputView('Nombre público', 'name', 'name', 'Ingrese el nombre público', $store->public_name) ?>
                     <?= new TextInputView('Descripción de la tienda', 'description', 'description', 'Ingrese la descripción', $store->description) ?>
@@ -86,6 +94,10 @@ if(
                     <?= new TextInputView('Dirección', 'location', 'location', 'Ingrese la dirección', $store->location) ?>
                     <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', $store->email) ?>
                     <?= new TextInputView('Número de contacto', 'contact', 'contact', 'Ingrese el número de contacto', $store->contact_number) ?>
+
+                    <div class="photos-container">
+                        <?= new ImageInputView()?>
+                    </div>
 
                     <div class="card__buttons">
                         <button type="submit" class="btn btn--primary">Guardar cambios</button>

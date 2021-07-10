@@ -7,6 +7,7 @@ require_once __DIR__.('/php/views/article/edit_photo.php');
 require_once __DIR__.('/php/views/article/ecoindicator.php');
 require_once __DIR__.('/php/views/inputs/text_input.php');
 require_once __DIR__.('/php/views/inputs/category_input.php');
+require_once __DIR__.('/php/views/inputs/image_input.php');
 require_once __DIR__.('/php/utils/article_util.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/php/utils/upload_util.php');
@@ -47,8 +48,8 @@ if(
     $data['id'] = $article()->id;
     $articleConnection->update_article(json_decode(json_encode($data)));
 
-    if(isset($_FILES['newimg'])){
-        $result = UploadUtil::uploadImage('newimg');
+    if(isset($_FILES['newImg'])){
+        $result = UploadUtil::uploadImage('newImg', $article()->id);
 
         if($result->result){
             $photosConnection = new Photo();
@@ -114,11 +115,7 @@ if(
                             <?= new EditPhotoView($photo->photo) ?>
                         <?php } ?>
                         <?php if(count($article()->photos) < 4){ ?>
-                        <label class="btn picker">
-                            <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
-                            <span class="picker__text">Subir nueva imagen</span>
-                            <input class="input--file" type="file" name="newimg"/>
-                        </label>
+                            <?= new ImageInputView()?>
                         <?php } ?>
                     </div>
 
