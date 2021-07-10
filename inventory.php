@@ -48,7 +48,11 @@ $articleConnection = new Article();
                 <?php } ?>
             </article>
         </div>
-        <?= new AsideButtonsView([]) ?>
+        <?= new AsideButtonsView([new AsideSingleButtonView(
+            'Publicar artículo', 
+            'Añadir un nuevo artículo',
+            'addarticle.php'
+        )]) ?>
     </main>
 
     <?= new FooterView() ?>
