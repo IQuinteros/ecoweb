@@ -1,1 +1,2 @@
-/php/uploads
+/php/uploads/*
+!/php/uploads/.gitignore
