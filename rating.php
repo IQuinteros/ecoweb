@@ -9,7 +9,7 @@ require_once __DIR__.('/php/views/list_items/opinion_list_item.php');
 $articleConnection = new Article();
 $store = AuthUtil::getStoreSession();
 
-$storeObject = json_decode(json_encode(array("store_id" => $store->id)));
+$storeObject = json_decode(json_encode(array("id_store" => $store->id)));
 $articles = $articleConnection->select_article($storeObject);
 
 $opinions = array_reduce($articles, function($acc, $value){ 

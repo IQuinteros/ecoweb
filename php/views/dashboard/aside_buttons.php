@@ -38,7 +38,7 @@ class AsideButtonsView extends BaseView{
         // TODO: Filter for no seen messages
 
         $articleConnection = new Article();
-        $articles = $articleConnection->select_article($storeObj);
+        $articles = $articleConnection->select_article(json_decode(json_encode(array("id_store" => $this->store->id))));
 
         foreach($articles as $value){
             if($value->questions != null)

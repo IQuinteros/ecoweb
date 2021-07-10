@@ -10,7 +10,7 @@ require_once __DIR__.('/php/utils/auth_util.php');
 
 $articleConnection = new Article();
 $store = AuthUtil::getStoreSession();
-$storeObject = json_decode(json_encode(array("store_id" => $store->id)));
+$storeObject = json_decode(json_encode(array("id_store" => $store->id)));
 $articles = $articleConnection->select_article($storeObject);
 $questions = array(); 
 
