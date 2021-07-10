@@ -145,7 +145,12 @@ if(
 <?php } ?>
 <?php if(isset($_REQUEST['new'])) {?>
 <script>
-    displayAlert('Artículo creado', 'Tu artículo ha sido creado exitósamente', 'Volver');
+    displayAlert('Artículo publicado', 'Tu artículo ha sido publicado exitósamente', 'Volver');
+</script>
+<?php } ?>
+<?php if(isset($_REQUEST['saved'])) {?>
+<script>
+    displayAlert('Artículo guardado', 'Tu artículo ha sido guardado exitósamente. Para publicarlo, presiona el botón para publicar', 'Volver');
 </script>
 <?php } ?>
 

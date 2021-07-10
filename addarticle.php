@@ -79,7 +79,7 @@ if(
         }
     }
 
-    header('Location:editarticle.php?id='.$resultArticle[0].'&new=true');
+    header('Location:editarticle.php?id='.$resultArticle[0].($articleData['enabled']? '&new=true' : '&saved=true'));
     return;
 }
 
