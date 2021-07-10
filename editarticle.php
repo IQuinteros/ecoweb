@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(~0);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
@@ -9,6 +11,7 @@ require_once __DIR__.('/php/views/inputs/text_input.php');
 require_once __DIR__.('/php/views/inputs/category_input.php');
 require_once __DIR__.('/php/utils/article_util.php');
 require_once __DIR__.('/php/utils/auth_util.php');
+require_once __DIR__.('/php/utils/upload_util.php');
 require_once __DIR__.('/api/query/article.php');
 
 if(!isset($_REQUEST['id'])){
@@ -32,7 +35,7 @@ if(
     isset($_POST['description']) &&
     isset($_POST['category']) &&
     isset($_POST['price']) &&
-    isset($_POST['stock'])
+    isset($_POST['stock']) 
 ){
     $data = array();
     $data['title'] = $article()->title;
@@ -45,7 +48,14 @@ if(
     $data['id'] = $article()->id;
     $articleConnection->update_article(json_decode(json_encode($data)));
 
-    header('Location:editarticle.php?id='.$article()->id);
+    if(isset($_FILES['newimg'])){
+        echo json_encode(UploadUtil::uploadImage('newimg'));
+    }
+    else{
+        echo 'No photo';
+    }
+
+    //header('Location:editarticle.php?id='.$article()->id);
     return;
 }
 
@@ -86,7 +96,7 @@ if(
             <article class="card">
                 <h1>Modifica datos</h1>
 
-                <form action="editarticle.php" method="POST">
+                <form action="editarticle.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?= $article()->id?>">
                     <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', $article()->description)?>
                     <?= new CategoryInputView($article()->category_id)?>
@@ -98,10 +108,11 @@ if(
                             <?= new EditPhotoView($photo->photo) ?>
                         <?php } ?>
                         <?php if(count($article()->photos) < 4){ ?>
-                        <button class="btn picker">
+                        <label class="btn picker">
                             <span class="picker__icon material-icons material-icons-outlined">file_upload</span>
                             <span class="picker__text">Subir nueva imagen</span>
-                        </button>
+                            <input class="input--file" type="file" name="newimg"/>
+                        </label>
                         <?php } ?>
                     </div>
 

@@ -362,8 +362,7 @@ textarea
                 color: $red-color
             .photo__delete__text
                 color: white
-                margin-top: math.div($margin-unit, 2)
-    
+                margin-top: math.div($margin-unit, 2)    
     .photo:hover,
     .picker:hover
         @include shadow($vertical: 3, $blur: 6)
@@ -387,6 +386,9 @@ textarea
         .picker__icon
             transform: scale(2)
             margin-bottom: math.div($margin-unit, 2)
+
+.input--file
+    display: none
 
 .hover--card
     transition: box-shadow 0.1s, transform 0.1s
