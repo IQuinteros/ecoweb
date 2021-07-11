@@ -72,6 +72,19 @@ class Favorite extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article_id=:article_id";
             $haveWHERE = true;
         }
+        // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+        if(!is_null($object) && isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+                $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+                for($i = 0; $i < count($object->id_list); $i++){
+                $sql = $sql."article_id=:each_id".$i;
+                if($i < (count($object->id_list) - 1)){
+                    $sql = $sql." OR ";
+                }
+                }
+                $haveWHERE = true;
+            }
+        }
         // LIMIT
         $sql = $sql." LIMIT :initial_number,:quantity";
         
@@ -96,6 +109,13 @@ class Favorite extends Connection{
             }else{
                 $resultado->bindValue(':quantity', 20, PDO::PARAM_INT);
             }
+            if(isset($object->id_list)){
+                if(gettype($object->id_list) == "array"){
+                  for($i = 0; $i < count($object->id_list); $i++){
+                    $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+                  }
+                }
+              }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_favorite = array();
@@ -106,12 +126,24 @@ class Favorite extends Connection{
                 $favorite->profile_id=$data[$i]["profile_id"];
                 $favorite->article_id=$data[$i]["article_id"];
 
-                $articleIdObject = json_decode(json_encode(array("id" => $favorite->article_id)));
-                $articleConnection = new Article();
-                $articles = $articleConnection->select_article($articleIdObject);
-                $favorite->article = count($articles) > 0? $articles[0] : null;;
-
                 array_push($lista_favorite, $favorite);
+            }
+
+            $idList = array_map(function($val){
+                return $val->article_id;
+            }, $lista_favorite);
+
+            $articleIdObject = json_decode(json_encode(array("id_list" => $idList)));
+
+            $articleConnection = new Article();
+            $articles = $articleConnection->select_article($articleIdObject);
+
+            foreach($lista_favorite as $favorite){
+                $foundArticles = array_filter($articles, function($val) use (&$favorite){
+                    return $favorite->article_id == $val->id;
+                });
+                
+                $favorite->article = count($foundArticles) > 0? end($foundArticles) : null;
             }
         
             $this->pdo = null;

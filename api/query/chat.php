@@ -135,16 +135,6 @@ class Chat extends Connection{
                 $chat->store_id=$data[$i]["store_id"];
                 $chat->purchase_id=$data[$i]["purchase_id"];
 
-                $storeIdObject = json_decode(json_encode(array("id" => $chat->store_id)));
-                $storeConnection = new Store();
-                $stores = $storeConnection->select_store($storeIdObject);
-                $chat->store = count($stores) > 0? $stores[0] : null;
-
-                $chatIdObject = json_decode(json_encode(array("chat_id" => $chat->id)));
-                $messagesConnection = new Message();
-                $messages = $messagesConnection->select_message($chatIdObject);
-                $chat->messages = $messages;
-
                 array_push($lista_chat, $chat);
             }
 
@@ -152,16 +142,41 @@ class Chat extends Connection{
                 return $val->purchase_id;
             }, $lista_chat);
 
+            $storeIdList = array_map(function($val){
+                return $val->store_id;
+            }, $lista_chat);
+
+            $chatIdList = array_map(function($val){
+                return $val->id;
+            }, $lista_chat);
+
             $purchaseIdObject = json_decode(json_encode(array("id_list" => $idList)));
+            $storeIdObject = json_decode(json_encode(array("id_list" => $storeIdList)));
+            $chatIdObject = json_decode(json_encode(array("id_list" => $chatIdList)));
+
             $purchaseConnection = new Purchase();
             $purchases = $purchaseConnection->select_purchase($purchaseIdObject);
+
+            $storeConnection = new Store();
+            $stores = $storeConnection->select_store($storeIdObject);
+
+            $messagesConnection = new Message();
+            $messages = $messagesConnection->select_message($chatIdObject);
             
             foreach($lista_chat as $chat){
                 $foundPurchase = array_filter($purchases, function($val) use (&$chat){
                     return $chat->purchase_id == $val->id;
                 });
+                $foundStores = array_filter($stores, function($val) use (&$chat){
+                    return $chat->store_id == $val->id;
+                });
+                $foundMessages = array_filter($messages, function($val) use (&$chat){
+                    return $chat->id == $val->chat_id;
+                });
                 
-                $chat->purchase = end($foundPurchase) ?? null;
+                $chat->purchase = count($foundPurchase) > 0? end($foundPurchase) : null;
+                $chat->store = count($foundStores) > 0? end($foundStores) : null;
+                $chat->messages = array_values($foundMessages) ?? [];
             }
         
             $this->pdo = null;

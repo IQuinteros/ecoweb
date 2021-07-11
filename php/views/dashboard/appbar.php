@@ -4,6 +4,7 @@ require_once __DIR__.('/../base_view.php');
 require_once __DIR__.('/../../utils/enum.php');
 require_once __DIR__.('/../../../api/models/store_model.php');
 require_once __DIR__.('/../../utils/auth_util.php');
+require_once __DIR__.('/../../utils/html_util.php');
 
 final class AppBarSelected extends Enum {
     public const HOME = 0;
@@ -41,6 +42,7 @@ class AppBarView extends BaseView{
     protected function htmlContent()
     {  
         ob_start();
+        $store = HtmlUtil::convertToHtmlSpecialObject($this->store);
         ?>
         <aside id="appbar" class="leftbar">
             <div class="leftbar__appbar">
@@ -48,9 +50,9 @@ class AppBarView extends BaseView{
                     <span class="material-icons material-icons-outlined">menu</span>
                     <span class="nav__list__item__text">Menu</span>
                 </a>
-                <img class="leftbar__img" src="<?=$this->store->photo_url ?? 'assets/img/no-image-bg.png' ?>" alt="">
+                <img class="leftbar__img" src="<?=$store->photo_url ?? 'assets/img/no-image-bg.png' ?>" alt="">
             </div>
-            <h1 class="leftbar__title"><?=$this->store->public_name ?? 'Indeterminado' ?></h1>
+            <h1 class="leftbar__title"><?=$store->public_name ?? 'Indeterminado' ?></h1>
             <p class="leftbar__date"><?//Lunes 15 de Abril de 2021?><?= date("D d M Y")?></p>
 
             <nav class="leftbar__nav nav">

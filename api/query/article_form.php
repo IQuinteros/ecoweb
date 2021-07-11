@@ -4,6 +4,8 @@ require_once __DIR__.('/../models/article_form_model.php');
 class Article_form extends Connection{
     public function insert_article_form($object){
         $this->connection_hosting();
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $sql="INSERT INTO `article_form` (`id`, `creation_date`, `last_update_date`, `recycled_mats`, 
         `recycled_mats_detail`, `general_detail`, `reuse_tips`, `recycled_prod`, `recycled_prod_detail`) 
         VALUES (NULL, CURRENT_TIME(), CURRENT_TIME(), :recycled_mats, :recycled_mats_detail, :general_detail, 
@@ -30,7 +32,11 @@ class Article_form extends Connection{
              }else{
                 $resultado->bindValue(':reuse_tips', null, PDO::PARAM_NULL);
              }
-             $resultado->bindParam(':recycled_prod', $object->recycled_prod, PDO::PARAM_STR);
+             if(isset($object->recycled_prod)){
+               $resultado->bindParam(':recycled_prod', $object->recycled_prod, PDO::PARAM_STR);
+            }else{
+               $resultado->bindValue(':recycled_prod', null, PDO::PARAM_NULL);
+            }
              if(isset($object->recycled_prod_detail)){
                 $resultado->bindParam(':recycled_prod_detail', $object->recycled_prod_detail, PDO::PARAM_STR);
              }else{
@@ -115,12 +121,32 @@ class Article_form extends Connection{
           $sql = $sql." WHERE id=:id";
           $haveWHERE = true;
         }
+         // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+         if(!is_null($object) && isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+                $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+                for($i = 0; $i < count($object->id_list); $i++){
+                $sql = $sql."id=:each_id".$i;
+                if($i < (count($object->id_list) - 1)){
+                    $sql = $sql." OR ";
+                }
+                }
+                $haveWHERE = true;
+            }
+        }
         $sql = $sql.";";
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){
               $resultado->bindParam(':id', $object->id, PDO::PARAM_INT);
             }
+            if(isset($object->id_list)){
+               if(gettype($object->id_list) == "array"){
+                 for($i = 0; $i < count($object->id_list); $i++){
+                   $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+                 }
+               }
+             }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_articles_form = array();

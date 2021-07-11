@@ -4,7 +4,7 @@ require_once('../../query/article.php');
 
 $article = new Article();
 
-$result=$article->select_article($data);
+$result=$article->select_article($data, true);
 
 if(is_null($result)){
     send_response(false, null, "Articulo no encontrado"); 

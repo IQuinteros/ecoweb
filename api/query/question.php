@@ -110,12 +110,24 @@ class Question extends Connection{
         $questionn->profile_name=$data[$i]["profile_name"]." ".$data[$i]["profile_last_name"];
         $questionn->article_name=$data[$i]["article_title"];
 
-        $questionIdObject = json_decode(json_encode(array("question_id" => $questionn->id)));
-        $answerConnection = new Answer();
-        $answers = $answerConnection->select_answer($questionIdObject);
-        $questionn->answer = count($answers) > 0? $answers[0] : null;
-
         array_push($lista_question, $questionn);
+      }
+
+      $idList = array_map(function($val){
+          return $val->id;
+      }, $lista_question);
+
+      $questionIdObject = json_decode(json_encode(array("id_list" => $idList)));
+
+      $answerConnection = new Answer();
+      $answers = $answerConnection->select_answer($questionIdObject);
+
+      foreach($lista_question as $question){
+          $foundAnswers = array_filter($answers, function($val) use (&$question){
+              return $question->id == $val->question_id;
+          });
+          
+          $question->answer = count($foundAnswers) > 0? end($foundAnswers) : null;
       }
 
       $this->pdo = null;

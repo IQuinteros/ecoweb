@@ -42,7 +42,7 @@ if(
 
     $resultForm = $articleFormConnection->insert_article_form(json_decode(json_encode($articleFormData)));
 
-    if(count($resultForm) <= 0){
+    if(count($resultForm) <= 0 || (int)$resultForm[0] <= 0){
         header('Location:addarticle.php');
         return;
     }
@@ -117,7 +117,7 @@ if(
                 <form action="addarticle.php" method="post" enctype="multipart/form-data">
                     <?= new TextInputView('Nombre de producto completo', 'title', 'title', 'Ingrese un nombre', '')?>
                     <?= new CategoryInputView()?>
-                    <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción')?>
+                    <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', '', true)?>
                     <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', '', false, true, 'number')?>
                     <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', '', false, true, 'number')?>
                     
@@ -131,7 +131,7 @@ if(
 
                     <?= new CheckGroupInput('recycledMats')?>
 
-                    <?= new TextInputView('', 'recycledMatsDetail', 'recycledProdDetail', 'Da más detalles a tus clientes', '', true, false)?>
+                    <?= new TextInputView('', 'recycledMatsDetail', 'recycledMatsDetail', 'Da más detalles a tus clientes', '', true, false)?>
 
                     <h3 class="card__subtitle">¿En qué se puede reutilizar tu producto?</h3>
 

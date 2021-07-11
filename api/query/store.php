@@ -153,6 +153,19 @@ class Store extends Connection{
       if(!is_null($object) && isset($object->email)){
         $sql = $sql.($haveWHERE? " AND " : " WHERE ")."`email` LIKE :email";
       }
+      // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+      if(!is_null($object) && isset($object->id_list)){
+          if(gettype($object->id_list) == "array"){
+              $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+              for($i = 0; $i < count($object->id_list); $i++){
+                  $sql = $sql."store.id=:each_id".$i;
+                  if($i < (count($object->id_list) - 1)){
+                  $sql = $sql." OR ";
+                  }
+              }
+              $haveWHERE = true;
+          }
+      }
       $sql = $sql.";";
 
       try{
@@ -166,6 +179,13 @@ class Store extends Connection{
         }
         if(isset($object->email)){
         $resultado->bindParam(':email', '%'.$object->email.'%', PDO::PARAM_STR);
+        }
+        if(isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+                for($i = 0; $i < count($object->id_list); $i++){
+                $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+                }
+            }
         }
         $resultado->execute();
         $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -188,13 +208,26 @@ class Store extends Connection{
           $tiendas->district_name=$data[$i]["district_name"];
           $tiendas->photo_url=$data[$i]["photo_url"];
 
-          $storeIdObject = json_decode(json_encode(array("store_id" => $tiendas->id)));
-          $opinionConnection = new Opinion();
-          $opinions = $opinionConnection->select_opinion($storeIdObject);
-          $tiendas->opinions = $opinions;
-
           array_push($lista_tiendas, $tiendas);
         }
+
+        $idList = array_map(function($val){
+          return $val->id;
+        }, $lista_tiendas);
+
+        $storeIdObject = json_decode(json_encode(array("store_id_list" => $idList)));
+
+        $opinionConnection = new Opinion();
+        $opinions = $opinionConnection->select_opinion($storeIdObject);
+        
+        foreach($lista_tiendas as $purchase){
+            $foundOpinions = array_filter($opinions, function($val) use (&$purchase){
+                return $purchase->id == $val->purchase_id;
+            });
+            
+            $purchase->opinions = array_values($foundOpinions) ?? [];
+        }
+
         $this->pdo = null;
         
         return $lista_tiendas;

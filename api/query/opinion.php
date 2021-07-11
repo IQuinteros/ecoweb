@@ -93,6 +93,19 @@ class Opinion extends Connection{
               $haveWHERE = true;
           }
       }
+      // Check for store_id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+        if(!is_null($object) && isset($object->store_id_list)){
+          if(gettype($object->store_id_list) == "array"){
+              $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+              for($i = 0; $i < count($object->store_id_list); $i++){
+                  $sql = $sql."opinion.store.id=:each_id".$i;
+                  if($i < (count($object->store_id_list) - 1)){
+                  $sql = $sql." OR ";
+                  }
+              }
+              $haveWHERE = true;
+          }
+      }
 
       $sql = $sql." ORDER BY opinion.creation_date DESC";
 
@@ -114,6 +127,13 @@ class Opinion extends Connection{
           if(gettype($object->id_list) == "array"){
               for($i = 0; $i < count($object->id_list); $i++){
               $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+              }
+          }
+        }
+        if(isset($object->store_id_list)){
+          if(gettype($object->store_id_list) == "array"){
+              for($i = 0; $i < count($object->store_id_list); $i++){
+              $resultado->bindParam(':each_id'.$i, $object->store_id_list[$i], PDO::PARAM_INT);
               }
           }
         }

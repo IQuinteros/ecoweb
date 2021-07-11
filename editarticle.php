@@ -31,6 +31,7 @@ if(count($foundArticles) <= 0){
     return;
 }
 $article = function () use (&$foundArticles): Article_model { return $foundArticles[0]; };
+$articleToDisplay = HtmlUtil::convertToHtmlSpecialObject($article());
 
 if(isset($_POST['deleteimg'])){
     $imgId = (int)$_POST['deleteimg'];
@@ -124,9 +125,9 @@ if(isset($_REQUEST['delete'])){
         <div class="main__container unique">
             <div class="main__article">
                 <img class="main__article__img" src="<?= $article()->photos[0]->photo ?? 'assets/img/no-image-bg.png' ?>" alt="">
-                <h1 class="main__article__title"><?= $article()->title ?></h1>
-                <h2 class="main__article__price">$ <?= $article()->price ?></h2>
-                <h2 class="main__article__subtitle"><?= $article()->stock ?> en stock</h2>
+                <h1 class="main__article__title"><?= $articleToDisplay->title ?></h1>
+                <h2 class="main__article__price">$ <?= $articleToDisplay->price ?></h2>
+                <h2 class="main__article__subtitle"><?= $articleToDisplay->stock ?> en stock</h2>
                 <?= new EcoIndicatorView(new ArticleEcoIndicator($article()))?>
             </div>
             <article class="card">
@@ -134,7 +135,7 @@ if(isset($_REQUEST['delete'])){
 
                 <form action="editarticle.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?= $article()->id?>">
-                    <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', $article()->description)?>
+                    <?= new TextInputView('Descripción', 'description', 'description', 'Ingrese una descripción', $article()->description, true)?>
                     <?= new CategoryInputView($article()->category_id)?>
                     <?= new TextInputView('Precio', 'price', 'price', 'Ingrese un precio', $article()->price, false, true, 'number')?>
                     <?= new TextInputView('Stock disponible', 'stock', 'stock', 'Ingrese el stock disponible actual', $article()->stock, false, true, 'number')?>

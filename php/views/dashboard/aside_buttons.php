@@ -67,29 +67,37 @@ class AsideButtonsView extends BaseView{
         ob_start();
         ?>
         <aside class="buttons">
-            <?= new AsideSingleButtonView(
-                'Pedidos', 
-                count($this->storePurchases ?? []).' pedidos hoy',
-                'purchases.php',
-                count($this->storePurchases) > 0
-            )?>
-            <?= new AsideSingleButtonView(
-                'Chats', 
-                count($this->storeChats ?? []).' nuevos mensajes',
-                'chat.php',
-                count($this->storeChats) > 0
-            )?>
-            <?= new AsideSingleButtonView(
-                'Preguntas', 
-                count($this->storeQuestions ?? []).' preguntas sin responder',
-                'questions.php',
-                count($this->storeQuestions) > 0
-            )?>
-            <?= new AsideSingleButtonView(
-                'Valoraciones', 
-                count($this->storeOpinions ?? []).' opiniones hoy',
-                'rating.php',
-            )?>
+            <?php if(count($this->storePurchases) > 0){ ?>
+                <?= new AsideSingleButtonView(
+                    'Pedidos', 
+                    count($this->storePurchases ?? []).' pedidos hoy',
+                    'purchases.php',
+                    count($this->storePurchases) > 0
+                )?>
+            <?php } ?>
+            <?php if(count($this->storeChats) > 0){ ?>
+                <?= new AsideSingleButtonView(
+                    'Chats', 
+                    count($this->storeChats ?? []).' nuevos mensajes',
+                    'chat.php',
+                    count($this->storeChats) > 0
+                )?>
+            <?php }?>
+            <?php if(count($this->storeQuestions) > 0){ ?>
+                <?= new AsideSingleButtonView(
+                    'Preguntas', 
+                    count($this->storeQuestions ?? []).' preguntas sin responder',
+                    'questions.php',
+                    count($this->storeQuestions) > 0
+                )?>
+            <?php } ?>
+            <?php if(count($this->storeOpinions) > 0){ ?>
+                <?= new AsideSingleButtonView(
+                    'Valoraciones', 
+                    count($this->storeOpinions ?? []).' opiniones hoy',
+                    'rating.php',
+                )?>
+            <?php }?>
             <?php if(count($this->additionalButtons) > 0) {?><hr class="divider"><?php }?>
             <?php foreach($this->additionalButtons as $button){ ?>
                 <?= $button ?>

@@ -60,7 +60,7 @@ class Article extends Connection{
               die();
             }
     }
-    public function select_article($object){
+    public function select_article($object, bool $onlyEnabled = false){
       // TODO: Colocar LIMIT
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 
@@ -125,8 +125,13 @@ class Article extends Connection{
           $haveWHERE = true;
         }
         // Check for store_enabled
-        if(!is_null($object) && isset($object->store_enabled)){
-          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.enabled=:store_enabled";
+        if((!is_null($object) && isset($object->store_enabled)) || $onlyEnabled){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store.enabled=:store_enabled";
+          $haveWHERE = true;
+        }
+        // Check for article
+        if((!is_null($object) && isset($object->enabled)) || $onlyEnabled){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ")."article.enabled=:enabled";
           $haveWHERE = true;
         }
         // Check for price
@@ -201,6 +206,15 @@ class Article extends Connection{
           if(isset($object->store_enabled)){
             $resultado->bindParam(':store_enabled', $object->store_enabled, PDO::PARAM_INT);
           }
+          else if($onlyEnabled){
+            $resultado->bindValue(':store_enabled', true, PDO::PARAM_BOOL);
+          }
+          if(isset($object->enabled)){
+            $resultado->bindParam(':enabled', $object->enabled, PDO::PARAM_INT);
+          }
+          else if($onlyEnabled){
+            $resultado->bindValue(':enabled', true, PDO::PARAM_BOOL);
+          }
           if(isset($object->min_price)){
             $resultado->bindParam(':min_price', $object->min_price, PDO::PARAM_INT);
           }
@@ -248,29 +262,7 @@ class Article extends Connection{
             $articles->article_form_id=$data[$i]["article_form_id"];
             $articles->category_id=$data[$i]["category_id"];
             $articles->store_id=$data[$i]["store_id"];
-            $articles->past_price=$data[$i]["past_price"];
-
-            $articleIdObject = json_decode(json_encode(array("article_id" => $articles->id)));
-
-            $storeIdObject = json_decode(json_encode(array("id" => $articles->store_id)));
-            $storeConnection = new Store();
-            $stores = $storeConnection->select_store($storeIdObject);
-            $articles->store = count($stores) > 0? $stores[0] : null;
-
-            $formIdObject = json_decode(json_encode(array("id" => $articles->article_form_id)));
-            $formConnection = new Article_form();
-            $forms = $formConnection->select_article_form($formIdObject);
-            $articles->form = count($forms) > 0? $forms[0] : null;;
-
-            $categoryConnection = new Category();
-            $categories = $categoryConnection->select_category($articles->category_id, null, null);
-            $articles->category = count($categories) > 0? $categories[0] : null;
-
-            if(isset($object->profile_id)){
-              $favoriteConnection = new Favorite();
-              $favorites = $favoriteConnection->select_favorite(json_decode(json_encode(array("article_id" => $articles->id, "profile_id" => $object->profile_id))));
-              $articles->favorite = count($favorites) > 0;
-            }            
+            $articles->past_price=$data[$i]["past_price"];    
 
             array_push($lista_articles, $articles);
           }
@@ -279,7 +271,25 @@ class Article extends Connection{
               return $val->id;
           }, $lista_articles);
 
+          $storeIdList = array_map(function($val){
+              return $val->store_id;
+          }, $lista_articles);
+
+          $categoryIdList = array_map(function($val){
+              return $val->category_id;
+          }, $lista_articles);
+
+          $formIdList = array_map(function($val){
+              return $val->article_form_id;
+          }, $lista_articles);
+
           $idListObj = json_decode(json_encode(array("id_list" => $idList)));
+          $storeIdListObj = json_decode(json_encode(array("id_list" => $storeIdList)));
+          $formIdListObj = json_decode(json_encode(array("id_list" => $formIdList)));
+          $categoryIdListObj = json_decode(json_encode(array("id_list" => $categoryIdList)));
+
+          $storeConnection = new Store();
+          $stores = $storeConnection->select_store($storeIdListObj);
 
           $opinionConnection = new Opinion();
           $opinions = $opinionConnection->select_opinion($idListObj);
@@ -289,6 +299,17 @@ class Article extends Connection{
 
           $photosConnection = new Photo();
           $photos = $photosConnection->select_photo($idListObj);
+
+          $formConnection = new Article_form();
+          $forms = $formConnection->select_article_form($formIdListObj);
+
+          $categoryConnection = new Category();
+          $categories = $categoryConnection->select_category(null, null, null);
+
+          if(isset($object->profile_id)){
+            $favoriteConnection = new Favorite();
+            $favorites = $favoriteConnection->select_favorite(json_decode(json_encode(array("id_list" => $idList, "profile_id" => $object->profile_id))));
+          }  
           
           foreach($lista_articles as $article){
               $foundQuestions = array_filter($questions, function($val) use (&$article){
@@ -302,10 +323,32 @@ class Article extends Connection{
               $foundOpinions = array_filter($opinions, function($val) use (&$article){
                   return $article->id == $val->article_id;
               });
+
+              $foundStores = array_filter($stores, function($val) use (&$article){
+                  return $article->store_id == $val->id;
+              });
+
+              $foundForms = array_filter($forms, function($val) use (&$article){
+                  return $article->article_form_id == $val->id;
+              });
+
+              $foundCategory = array_filter($categories, function($val) use (&$article){
+                  return $article->category_id == $val->id;
+              });
+
+              if(isset($object->profile_id) && isset($favorites)){
+                $foundFavorites = array_filter($favorites, function($val) use (&$article){
+                    return $article->id == $val->article_id;
+                });
+                $articles->favorite = count($foundFavorites) > 0;
+              }
               
               $article->questions = array_values($foundQuestions) ?? [];
               $article->opinions = array_values($foundOpinions) ?? [];
               $article->photos = array_values($foundPhotos) ?? [];
+              $article->form = count($foundForms) > 0? end($foundForms) : null;
+              $article->store = count($foundStores) > 0? end($foundStores) : null;
+              $article->category = count($foundCategory) > 0? end($foundCategory) : null;
           }
   
           $this->pdo = null;

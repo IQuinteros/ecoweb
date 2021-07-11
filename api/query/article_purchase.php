@@ -176,15 +176,10 @@ class Article_purchase extends Connection{
                 $article_p->store_id=$data[$i]["store_id"];
                 $article_p->creation_date=$data[$i]["creation_date"];
                 $article_p->purchase_total=$data[$i]["purchase_total"];
-
-                $storeIdObject = json_decode(json_encode(array("id" => $article_p->store_id)));
-                $storeConnection = new Store();
-                $stores = $storeConnection->select_store($storeIdObject);
-                $article_p->store = count($stores) > 0? $stores[0] : null;
                 
                 array_push($lista_a_purchase, $article_p);
             }
-
+            // ARTICLE
             $idList = array_map(function($val){
                 return $val->article_id;
             }, $lista_a_purchase);
@@ -192,14 +187,29 @@ class Article_purchase extends Connection{
             $articleIdObject = json_decode(json_encode(array("id_list" => $idList)));
             $articleConnection = new Article();
             $articles = $articleConnection->select_article($articleIdObject);
+
+            // STORE
+            $storeIdList = array_map(function($val){
+                return $val->store_id;
+            }, $lista_a_purchase);
+
+            $storeIdObject = json_decode(json_encode(array("id_list" => $storeIdList)));
+            $storeConnection = new Store();
+            $stores = $storeConnection->select_store($storeIdObject);
             
             foreach($lista_a_purchase as $articlePurchase){
                 $foundArticle = array_filter($articles, function($val) use (&$articlePurchase){
                     return $articlePurchase->article_id == $val->id;
                 });
+
+                $foundStore = array_filter($stores, function($val) use (&$articlePurchase){
+                    return $articlePurchase->store_id == $val->id;
+                });
                 
-                $articlePurchase->article = end($foundArticle) ?? null;
+                $articlePurchase->article = count($foundArticle) > 0? end($foundArticle) : null;
+                $articlePurchase->store = count($foundStore) > 0? end($foundStore) : null;
             }
+
         
             $this->pdo = null;
               

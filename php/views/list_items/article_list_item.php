@@ -17,16 +17,17 @@ class ArticleListItemView extends BaseView{
     protected function htmlContent()
     {  
         ob_start();
+        $article = HtmlUtil::convertToHtmlSpecialObject($this->article);
         ?>
         <button class="list-item">
             <img class="list-item__img" src="<?= $this->article->photos[0]->photo ?? 'assets/img/no-image-bg.png' ?>" alt="image">
             <div class="list-item__content">
                 <div class="list-item__content__row">
-                    <a class="list-item__content__title" href="editarticle.php?id=<?= $this->article->id?>"><?= $this->article->title ?></a>
-                    <p><?= $this->article->enabled? 'Publicado' : 'Desactivado' ?></p>
+                    <a class="list-item__content__title" href="editarticle.php?id=<?= $article->id?>"><?= $article->title ?></a>
+                    <p><?= $article->enabled? 'Publicado' : 'Desactivado' ?></p>
                 </div>
                 <div class="list-item__content__row">
-                    <p class="w300">$<?= $this->article->price ?></p>
+                    <p class="w300">$<?= $article->price ?></p>
                     <?= new EcoIndicatorView(new ArticleEcoIndicator($this->article), true) ?>
                 </div>
                 <div class="list-item__content__row">

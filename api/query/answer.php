@@ -59,6 +59,19 @@ class Answer extends Connection{
       $sql = $sql.($haveWHERE? " AND " : " WHERE ")."question_id=:question_id";
       $haveWHERE = true;
     }
+    // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+    if(!is_null($object) && isset($object->id_list)){
+      if(gettype($object->id_list) == "array"){
+          $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+          for($i = 0; $i < count($object->id_list); $i++){
+              $sql = $sql."question_id=:each_id".$i;
+              if($i < (count($object->id_list) - 1)){
+              $sql = $sql." OR ";
+              }
+          }
+          $haveWHERE = true;
+      }
+  }
     try{
       $resultado=$this->pdo->prepare($sql);
       if(isset($object->id)){
@@ -66,6 +79,13 @@ class Answer extends Connection{
         }
       if(isset($object->question_id)){
         $resultado->bindParam(':question_id', $object->question_id, PDO::PARAM_INT);
+      }
+      if(isset($object->id_list)){
+        if(gettype($object->id_list) == "array"){
+            for($i = 0; $i < count($object->id_list); $i++){
+            $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+            }
+        }
       }
       $resultado->execute();
       $data=$resultado->fetchAll(PDO::FETCH_ASSOC);

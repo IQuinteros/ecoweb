@@ -136,11 +136,6 @@ class Purchase extends Connection{
                 $purchase->info_purchase_id=$data[$i]["info_purchase_id"];
                 $purchase->profile_name=$data[$i]["profile_name"]." ".$data[$i]["profile_last_name"];
 
-                $infoPurchaseIdObject = json_decode(json_encode(array("id" => $purchase->info_purchase_id)));
-                $infoPurchaseConnection = new Info_purchase();
-                $info = $infoPurchaseConnection->select_info_purchase($infoPurchaseIdObject);
-                $purchase->info_purchase = count($info) > 0? $info[0] : null;
-
                 array_push($lista_purchase, $purchase);
             }
 
@@ -148,16 +143,27 @@ class Purchase extends Connection{
                 return $val->id;
             }, $lista_purchase);
 
+            $infoIdList = array_map(function($val){
+                return $val->info_purchase_id;
+            }, $lista_purchase);
+
             $purchaseIdObject = json_decode(json_encode(array("id_list" => $idList)));
             $articlesPurchaseConnection = new Article_purchase();
             $articles = $articlesPurchaseConnection->select_article_purchase($purchaseIdObject);
+
+            $infoPurchaseConnection = new Info_purchase();
+            $infos = $infoPurchaseConnection->select_info_purchase($infoIdList);
             
             foreach($lista_purchase as $purchase){
                 $foundArticlesPurchases = array_filter($articles, function($val) use (&$purchase){
                     return $purchase->id == $val->purchase_id;
                 });
+                $foundInfoPurchase = array_filter($infos, function($val) use (&$purchase){
+                    return $purchase->info_purchase_id == $val->id;
+                });
                 
-                $purchase->articles = array_values($foundArticlesPurchases) ?? null;
+                $purchase->articles = array_values($foundArticlesPurchases) ?? [];
+                $purchase->info_purchase = count($foundInfoPurchase) > 0? end($foundInfoPurchase) : null;
             }
 
             $this->pdo = null;

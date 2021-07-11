@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
@@ -47,7 +50,7 @@ foreach($purchases as $purchase){
     <?= new AppBarView(new AppBarSelected(AppBarSelected::PURCHASES)) ?>
 
     <main class="main">
-        <?= new HeaderView("Pedidos", null, "8 pedidos hoy") ?>
+        <?= new HeaderView("Pedidos", null, count($newResultPurchases)." pedidos en total") ?>
         
         <div class="main__container unique">
             <?php foreach($newResultPurchases as $purchase){ ?> 

@@ -14,8 +14,6 @@ $data['public_name'] = 'Nueva tienda';
 $data['description'] = 'Sin descripción';
 $data['enabled'] = false;
 
-echo json_encode($data);
-
 $storeConnection = new Store();
 $storeConnection->insert_store(json_decode(json_encode($data)));
 

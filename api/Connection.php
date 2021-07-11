@@ -67,6 +67,7 @@ abstract class Connection{
     	}
 	}
 	public function connection_hosting(){
+		echo 'CALL'.get_called_class().'<br>';
 		$dsn = 'mysql:host=localhost;port=3306;dbname=id16988549_ecomercio';
 		$username = 'root';//'id16988549_admin';
 		$password = 'root';//'ruJxus-kidky3-puhbox';

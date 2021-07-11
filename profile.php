@@ -1,4 +1,7 @@
 <?php
+/* ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL); */
 require_once __DIR__.('/php/views/dashboard/appbar.php');
 require_once __DIR__.('/php/views/dashboard/header.php');
 require_once __DIR__.('/php/views/dashboard/aside_buttons.php');
@@ -8,9 +11,11 @@ require_once __DIR__.('/php/views/inputs/text_input.php');
 require_once __DIR__.('/php/views/inputs/image_input.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/php/utils/upload_util.php');
+require_once __DIR__.('/php/utils/html_util.php');
 require_once __DIR__.('/api/query/store.php');
 
 $store = AuthUtil::getStoreSession();
+$store = HtmlUtil::convertToHtmlSpecialObject($store);
 
 if(
     isset($_POST['location']) &&
@@ -89,11 +94,11 @@ if(
 
                 <form action="profile.php" method="POST" enctype="multipart/form-data">
 
-                    <?= new TextInputView('Nombre público', 'name', 'name', 'Ingrese el nombre público', $store->public_name) ?>
-                    <?= new TextInputView('Descripción de la tienda', 'description', 'description', 'Ingrese la descripción', $store->description) ?>
+                    <?= new TextInputView('Nombre público', 'name', 'name', 'Ingrese el nombre público', htmlspecialchars_decode($store->public_name)) ?>
+                    <?= new TextInputView('Descripción de la tienda', 'description', 'description', 'Ingrese la descripción', htmlspecialchars_decode($store->description)) ?>
                     <?= new DistrictInputView($store->district_id) ?>
-                    <?= new TextInputView('Dirección', 'location', 'location', 'Ingrese la dirección', $store->location) ?>
-                    <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', $store->email, false, true, 'email') ?>
+                    <?= new TextInputView('Dirección', 'location', 'location', 'Ingrese la dirección', htmlspecialchars_decode($store->location)) ?>
+                    <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', htmlspecialchars_decode($store->email), false, true, 'email') ?>
                     <?= new TextInputView('Número de contacto', 'contact', 'contact', 'Ingrese el número de contacto', $store->contact_number, false, true, 'number') ?>
 
                     <div class="photos-container">

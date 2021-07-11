@@ -99,7 +99,7 @@ $mostSearch = array_slice($mostSearch, 0, 7);
             </article>
             <article class="card">
                 <div class="card__header">
-                    <h1 class="card__title">Usuarios que vieron tus artículos</h1>
+                    <h1 class="card__title">Cantidad de visualizaciones de tus artículos</h1>
                 </div>
                 <h1 class="card__content card__content--unique"><?= $totalVisualizations ?></h1>
             </article>
