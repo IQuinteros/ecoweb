@@ -4,7 +4,7 @@ class UploadUtil {
 
     private const TARGET_DIR = __DIR__.'/../uploads/';
     // TODO: Change for hosting
-    private const DB_DIR = '/ecoweb/php/uploads/';
+    private const DB_DIR = 'http://localhost:8888/ecoweb/php/uploads/';
 
     public static function uploadImage(string $requestFileName = 'fileUpload', int $id = 0) : UploadResult {
         $fileName = $id.md5(rand(0, 30000000)) . basename($_FILES[$requestFileName]["name"]);

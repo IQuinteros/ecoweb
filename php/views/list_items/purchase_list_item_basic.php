@@ -19,7 +19,7 @@ class PurchaseListItemBasic extends BaseView{
         ob_start();
 
         ?>
-        <button class="card btn purchase <?php //btn--red ?>">
+        <button onclick="window.open('purchases.php', '_self')" class="card btn purchase <?php //btn--red ?>">
             <h1 class="purchase__quantity"><?= $this->articlesAmount ?> artículos</h1>
             <p class="purchase__status">$<?= $this->total ?></p>
             <p class="purchase__date"><?= $this->creationDate ?></p>

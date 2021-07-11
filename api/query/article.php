@@ -67,7 +67,7 @@ class Article extends Connection{
         article.`creation_date`, article.`last_update_date`, article.`enabled`, article.`article_form_id`, 
         article.`category_id`, article.`store_id`, article.`past_price`
         FROM `article` 
-        INNER JOIN category ON article.`category_id` = category.`id` 
+        LEFT JOIN category ON article.`category_id` = category.`id` 
         INNER JOIN article_form ON article.`article_form_id` = article_form.`id` 
         INNER JOIN store ON article.`store_id` = store.`id`
         INNER JOIN district ON store.`district_id` = district.`id`";
@@ -234,7 +234,7 @@ class Article extends Connection{
           $resultado->execute();
           $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
           $lista_articles = array();
-  
+          
           for($i = 0; $i < count($data); $i++){
             $articles =new Article_model();
             $articles->id=$data[$i]["id"];
@@ -267,7 +267,7 @@ class Article extends Connection{
 
             $categoryConnection = new Category();
             $categories = $categoryConnection->select_category($articles->category_id, null, null);
-            $articles->category = count($categories) > 0? $categories[0] : null;;
+            $articles->category = count($categories) > 0? $categories[0] : null;
 
             $questionConnection = new Question();
             $questions = $questionConnection->select_question($articleIdObject);

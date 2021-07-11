@@ -33,10 +33,10 @@ class CategoryInputView extends BaseView{
             <label class="input-label">
                 <?= $this->title?>
                 <select class="input" name="<?= $this->name?>" id="<?= $this->id?>" <?= $this->required? 'required' : ''?>>
-                    <option value="2" <?= $this->value == 2? 'selected' : '' ?>>Hogar</option>
-                    <option value="1" <?= $this->value == 1? 'selected' : '' ?>>Cuidado personal</option>
-                    <option value="3" <?= $this->value == 3? 'selected' : '' ?>>Alimentos</option>
-                    <option value="4" <?= $this->value == 4? 'selected' : '' ?>>Vestimenta</option>
+                    <option value="8" <?= $this->value == 8? 'selected' : '' ?>>Hogar</option>
+                    <option value="7" <?= $this->value == 7? 'selected' : '' ?>>Cuidado personal</option>
+                    <option value="6" <?= $this->value == 6? 'selected' : '' ?>>Alimentos</option>
+                    <option value="5" <?= $this->value == 5? 'selected' : '' ?>>Vestimenta</option>
                 </select>
             </label>
         </div>

@@ -23,7 +23,7 @@ class ChatListItem extends BaseView{
         });
 
         ?>
-        <button class="card btn chat">
+        <button onclick="window.open('chat.php?id=<?= $this->chat->id ?>', '_self')" class="card btn chat">
             <h1 class="chat__name"><?= $this->chat->purchase->profile_name ?></h1>
             <p class="chat__message"><?= end($profileMessages)->message ?></p>
             <p class="chat__date"> <?= end($profileMessages)->creation_date ?> </p>
