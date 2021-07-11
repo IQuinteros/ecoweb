@@ -269,14 +269,6 @@ class Article extends Connection{
             $categories = $categoryConnection->select_category($articles->category_id, null, null);
             $articles->category = count($categories) > 0? $categories[0] : null;
 
-            $questionConnection = new Question();
-            $questions = $questionConnection->select_question($articleIdObject);
-            $articles->questions = $questions;
-
-            $photosConnection = new Photo();
-            $photos = $photosConnection->select_photo($articleIdObject);
-            $articles->photos = $photos;
-
             if(isset($object->profile_id)){
               $favoriteConnection = new Favorite();
               $favorites = $favoriteConnection->select_favorite(json_decode(json_encode(array("article_id" => $articles->id, "profile_id" => $object->profile_id))));
@@ -284,6 +276,31 @@ class Article extends Connection{
             }            
 
             array_push($lista_articles, $articles);
+          }
+          /* QUESTIONS */
+          $idList = array_map(function($val){
+              return $val->id;
+          }, $lista_articles);
+
+          $idListObj = json_decode(json_encode(array("id_list" => $idList)));
+
+          $questionConnection = new Question();
+          $questions = $questionConnection->select_question($idListObj);
+
+          $photosConnection = new Photo();
+          $photos = $photosConnection->select_photo($idListObj);
+          
+          foreach($lista_articles as $article){
+              $foundQuestions = array_filter($questions, function($val) use (&$article){
+                  return $article->id == $val->article_id;
+              });
+
+              $foundPhotos = array_filter($photos, function($val) use (&$article){
+                  return $article->id == $val->article_id;
+              });
+              
+              $article->questions = array_values($foundQuestions) ?? [];
+              $article->photos = array_values($foundPhotos) ?? [];
           }
   
           $this->pdo = null;

@@ -198,7 +198,7 @@ class Article_purchase extends Connection{
                     return $articlePurchase->article_id == $val->id;
                 });
                 
-                $articlePurchase->article = $foundArticle[0] ?? null;
+                $articlePurchase->article = end($foundArticle) ?? null;
             }
         
             $this->pdo = null;
