@@ -120,12 +120,23 @@ class Purchase extends Connection{
                 $info = $infoPurchaseConnection->select_info_purchase($infoPurchaseIdObject);
                 $purchase->info_purchase = count($info) > 0? $info[0] : null;
 
-                $purchaseIdObject = json_decode(json_encode(array("purchase_id" => $purchase->id)));
-                $articlesPurchaseConnection = new Article_purchase();
-                $articles = $articlesPurchaseConnection->select_article_purchase($purchaseIdObject);
-                $purchase->articles = $articles;
-
                 array_push($lista_purchase, $purchase);
+            }
+
+            $idList = array_map(function($val){
+                return $val->id;
+            }, $lista_purchase);
+
+            $purchaseIdObject = json_decode(json_encode(array("id_list" => $idList)));
+            $articlesPurchaseConnection = new Article_purchase();
+            $articles = $articlesPurchaseConnection->select_article_purchase($purchaseIdObject);
+            
+            foreach($lista_purchase as $purchase){
+                $foundArticlesPurchases = array_filter($articles, function($val) use (&$purchase){
+                    return $purchase->id == $val->purchase_id;
+                });
+                
+                $purchase->articles = $foundArticlesPurchases ?? null;
             }
 
             $this->pdo = null;

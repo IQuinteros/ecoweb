@@ -61,6 +61,7 @@ class Article extends Connection{
             }
     }
     public function select_article($object){
+      echo 'CALL';
       // TODO: Colocar LIMIT
         $this->connection_hosting();
         $sql="SELECT article.`id`, article.`title`, article.`description`, article.`price`, article.`stock`, 

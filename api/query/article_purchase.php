@@ -118,6 +118,21 @@ class Article_purchase extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."store_id=:store_id";
             $haveWHERE = true;
         }
+
+        // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+        if(!is_null($object) && isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+                $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+                for($i = 0; $i < count($object->id_list); $i++){
+                    $sql = $sql."article_purchase.purchase_id=:each_id".$i;
+                    if($i < (count($object->id_list) - 1)){
+                    $sql = $sql." OR ";
+                    }
+                }
+                $haveWHERE = true;
+            }
+        }
+
         try{
             $resultado=$this->pdo->prepare($sql);
             if(isset($object->id)){
@@ -132,6 +147,14 @@ class Article_purchase extends Connection{
             if(isset($object->store_id)){
                 $resultado->bindParam(':store_id', $object->store_id, PDO::PARAM_INT);
             }
+            if(isset($object->id_list)){
+                if(gettype($object->id_list) == "array"){
+                    for($i = 0; $i < count($object->id_list); $i++){
+                    $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+                    }
+                }
+            }
+
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             $lista_a_purchase = array();
@@ -154,17 +177,28 @@ class Article_purchase extends Connection{
                 $article_p->creation_date=$data[$i]["creation_date"];
                 $article_p->purchase_total=$data[$i]["purchase_total"];
 
-                $articleIdObject = json_decode(json_encode(array("id" => $article_p->article_id)));
-                $articleConnection = new Article();
-                $articles = $articleConnection->select_article($articleIdObject);
-                $article_p->article = count($articles) > 0? $articles[0] : null;
-
                 $storeIdObject = json_decode(json_encode(array("id" => $article_p->store_id)));
                 $storeConnection = new Store();
                 $stores = $storeConnection->select_store($storeIdObject);
                 $article_p->store = count($stores) > 0? $stores[0] : null;
                 
                 array_push($lista_a_purchase, $article_p);
+            }
+
+            $idList = array_map(function($val){
+                return $val->article_id;
+            }, $lista_a_purchase);
+
+            $articleIdObject = json_decode(json_encode(array("id_list" => $idList)));
+            $articleConnection = new Article();
+            $articles = $articleConnection->select_article($articleIdObject);
+            
+            foreach($lista_a_purchase as $articlePurchase){
+                $foundArticle = array_filter($articles, function($val) use (&$articlePurchase){
+                    return $articlePurchase->article_id == $val->id;
+                });
+                
+                $articlePurchase->article = $foundArticle[0] ?? null;
             }
         
             $this->pdo = null;

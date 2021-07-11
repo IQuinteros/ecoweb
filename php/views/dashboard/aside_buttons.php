@@ -76,7 +76,7 @@ class AsideButtonsView extends BaseView{
             <?= new AsideSingleButtonView(
                 'Chats', 
                 count($this->storeChats ?? []).' nuevos mensajes',
-                'chats.php',
+                'chat.php',
                 count($this->storeChats) > 0
             )?>
             <?= new AsideSingleButtonView(
