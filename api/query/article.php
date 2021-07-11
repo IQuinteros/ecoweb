@@ -251,9 +251,6 @@ class Article extends Connection{
             $articles->past_price=$data[$i]["past_price"];
 
             $articleIdObject = json_decode(json_encode(array("article_id" => $articles->id)));
-            $opinionConnection = new Opinion();
-            $opinions = $opinionConnection->select_opinion($articleIdObject);
-            $articles->opinions = $opinions;
 
             $storeIdObject = json_decode(json_encode(array("id" => $articles->store_id)));
             $storeConnection = new Store();
@@ -284,6 +281,9 @@ class Article extends Connection{
 
           $idListObj = json_decode(json_encode(array("id_list" => $idList)));
 
+          $opinionConnection = new Opinion();
+          $opinions = $opinionConnection->select_opinion($idListObj);
+
           $questionConnection = new Question();
           $questions = $questionConnection->select_question($idListObj);
 
@@ -298,8 +298,13 @@ class Article extends Connection{
               $foundPhotos = array_filter($photos, function($val) use (&$article){
                   return $article->id == $val->article_id;
               });
+
+              $foundOpinions = array_filter($opinions, function($val) use (&$article){
+                  return $article->id == $val->article_id;
+              });
               
               $article->questions = array_values($foundQuestions) ?? [];
+              $article->opinions = array_values($foundOpinions) ?? [];
               $article->photos = array_values($foundPhotos) ?? [];
           }
   
