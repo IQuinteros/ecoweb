@@ -90,6 +90,20 @@ class Purchase extends Connection{
             $sql = $sql.($haveWHERE? " AND " : " WHERE ")."purchase.chat_id=:chat_id";
             $haveWHERE = true;
         }
+        // Check for id_list (ID LIST WILL BE A LIST WITH ID's TO GET)
+        if(!is_null($object) && isset($object->id_list)){
+            if(gettype($object->id_list) == "array"){
+                $sql = $sql.($haveWHERE? " AND " : " WHERE ");
+                for($i = 0; $i < count($object->id_list); $i++){
+                    $sql = $sql."purchase.id=:each_id".$i;
+                    if($i < (count($object->id_list) - 1)){
+                    $sql = $sql." OR ";
+                    }
+                }
+                $haveWHERE = true;
+            }
+        }
+
         $sql = $sql." ORDER BY creation_date DESC";
 
         try{
@@ -102,6 +116,13 @@ class Purchase extends Connection{
             }
             if(isset($object->chat_id)){
               $resultado->bindParam(':chat_id', $object->chat_id, PDO::PARAM_INT);
+            }
+            if(isset($object->id_list)){
+                if(gettype($object->id_list) == "array"){
+                    for($i = 0; $i < count($object->id_list); $i++){
+                    $resultado->bindParam(':each_id'.$i, $object->id_list[$i], PDO::PARAM_INT);
+                    }
+                }
             }
             $resultado->execute();
             $data=$resultado->fetchAll(PDO::FETCH_ASSOC);

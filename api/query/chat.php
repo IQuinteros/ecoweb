@@ -140,17 +140,28 @@ class Chat extends Connection{
                 $stores = $storeConnection->select_store($storeIdObject);
                 $chat->store = count($stores) > 0? $stores[0] : null;
 
-                $purchaseIdObject = json_decode(json_encode(array("id" => $chat->purchase_id)));
-                $purchaseConnection = new Purchase();
-                $purchases = $purchaseConnection->select_purchase($purchaseIdObject);
-                $chat->purchase = count($purchases) > 0? $purchases[0] : null;
-
                 $chatIdObject = json_decode(json_encode(array("chat_id" => $chat->id)));
                 $messagesConnection = new Message();
                 $messages = $messagesConnection->select_message($chatIdObject);
                 $chat->messages = $messages;
 
                 array_push($lista_chat, $chat);
+            }
+
+            $idList = array_map(function($val){
+                return $val->purchase_id;
+            }, $lista_chat);
+
+            $purchaseIdObject = json_decode(json_encode(array("id_list" => $idList)));
+            $purchaseConnection = new Purchase();
+            $purchases = $purchaseConnection->select_purchase($purchaseIdObject);
+            
+            foreach($lista_chat as $chat){
+                $foundPurchase = array_filter($purchases, function($val) use (&$chat){
+                    return $chat->purchase_id == $val->id;
+                });
+                
+                $chat->purchase = end($foundPurchase) ?? null;
             }
         
             $this->pdo = null;
