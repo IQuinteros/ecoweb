@@ -82,7 +82,7 @@ if(
         
         <div class="main__container unique">
             <div class="main__profile">
-                <img class="main__profile__img" src="<?= $store->photo_url ?? 'assets/img/no-image-bg.png'?>" alt="">
+                <img class="main__profile__img" src="<?= $store->photo_url != null? htmlspecialchars_decode($store->photo_url) : 'assets/img/no-image-bg.png'?>" alt="">
                 <h1 class="main__profile__title"><?= $store != null? $store->public_name : 'Indeterminado'?></h1>
                 <h2 class="main__profile__subtitle"><?= $store != null? $store->description : 'Sin descripción'?></h2>
                 <?php /*<button class="main__profile__btn">
