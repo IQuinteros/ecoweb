@@ -19,6 +19,7 @@ require_once __DIR__.('/php/views/cover/appbar.php');
     <link rel="stylesheet" href="css/mainstyle.css">
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="manifest" href="/manifest.json">
 </head>
 
 <body>

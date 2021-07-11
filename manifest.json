@@ -1,0 +1,38 @@
+{
+    "short_name": "ECOmercio",
+    "name": "ECOmercio. Tu marketplace amigable al entorno",
+    "icons": [
+      {
+        "src": "/assets/img/circle-logo.png",
+        "type": "image/png",
+        "sizes": "120×118"
+      }
+    ],
+    "start_url": "/index.php",
+    "background_color": "#001B2E",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#149911",
+    "shortcuts": [
+      {
+        "name": "ECOmercio Dashboard",
+        "short_name": "ECOmercio",
+        "description": "Administrar tu tienda en ECOmercio",
+        "url": "/login.php",
+        "icons": [{ "src": "/images/circle-logo", "sizes": "120×118" }]
+      }
+    ],
+    "description": "Vende y compra artículos amigables al medio ambiente, con ECOmercio",
+    "screenshots": [
+      {
+        "src": "/images/screen1.png",
+        "type": "image/png",
+        "sizes": "540x720"
+      },
+      {
+        "src": "/images/screen2.jpg",
+        "type": "image/jpg",
+        "sizes": "540x720"
+      }
+    ]
+  }

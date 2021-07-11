@@ -564,7 +564,7 @@ textarea {
   }
 }
 .main {
-  width: calc(100vw - 15px);
+  width: 100vw;
   min-height: 100vh;
   padding-top: 60px;
   padding-bottom: 20px;

@@ -21,7 +21,7 @@ class AppBarView extends BaseView{
                     <li><a href="login.php">Entrar como vendedor</a></li>
                 </ul>
             </nav>
-            <button class="appbar__profile">
+            <button onclick="window.open('login.php', '_self')" class="appbar__profile">
                 <span class="material-icons material-icons-outlined">account_circle</span>
             </button>
         </header>
