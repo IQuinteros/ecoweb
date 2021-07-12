@@ -8,7 +8,7 @@ class Store_model{
     public string $location;
     public string $passwords;
     public int $rut;
-    public int $rut_cd;
+    public string $rut_cd;
     public int $enabled;
     public string $creation_date;
     public string $last_update_date;

@@ -36,13 +36,13 @@ require_once __DIR__.('/php/views/cover/footer.php');
                 <h2 class="main__subtitle">Solicita el registro de tu cuenta y comienza a preparar tu vitrina
                     Nos contactaremos a la brevedad :)</h2>
                 
-                <?= new TextInputView('Rut de empresa', 'rut', 'rut', 'Ingrese el rut de la empresa')?>
+                <?= new TextInputView('Rut de empresa', 'rut', 'rut', 'Ingrese el rut de la empresa', '', false, true, 'text', 12, '^(\d{1,3}(?:\.\d{1,3}){2}-[\dkK])$', 'Debe ser un rut válido')?>
                 <?= new DistrictInputView()?>
-                <?= new TextInputView('Dirección', 'location', 'location', 'Ingrese la dirección')?>
-                <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', '', false, true, 'email')?>
-                <?= new TextInputView('Teléfono', 'contactNumber', 'contactNumber', 'Ingrese el número', '', false, true, 'number')?>
-                <?= new TextInputView('Contraseña', 'pass', 'pass', 'Ingrese la contraseña', '', false, true, 'password')?>
-                <?= new TextInputView('Repetir contraseña', 'repass', 'repass', 'Repita la contraseña', '', false, true, 'password')?>
+                <?= new TextInputView('Dirección', 'location', 'location', 'Ingrese la dirección', '', false, true, 'text', 200)?>
+                <?= new TextInputView('Email', 'email', 'email', 'Ingrese el email', '', false, true, 'email', 50)?>
+                <?= new TextInputView('Teléfono', 'contactNumber', 'contactNumber', 'Ingrese el número', '', false, true, 'number', 9, '[^a-z ]\ *([.0-9])*\d')?>
+                <?= new TextInputView('Contraseña', 'pass', 'pass', 'Ingrese la contraseña', '', false, true, 'password', 50)?>
+                <?= new TextInputView('Repetir contraseña', 'repass', 'repass', 'Repita la contraseña', '', false, true, 'password', 50)?>
 
                 <button type="submit" class="btn btn--primary btn--submit">Solicitar registro</button>
             </div>

@@ -11,6 +11,9 @@ class TextInputView extends BaseView{
     private string $type;
     private bool $isTextArea;
     private bool $required;
+    private ?int $maxLength;
+    private ?string $pattern;
+    private ?string $patternMessage;
 
     public function __construct(
         string $title,
@@ -20,7 +23,10 @@ class TextInputView extends BaseView{
         string $value = '',
         bool $isTextArea = false,
         bool $required = true,
-        string $type = 'text'
+        string $type = 'text',
+        ?int $maxLength = null,
+        ?string $pattern = null,
+        ?string $patternMessage = null
     ){
         $this->placeholder = htmlspecialchars($placeholder);
         $this->title = htmlspecialchars($title ?? '');
@@ -30,6 +36,10 @@ class TextInputView extends BaseView{
         $this->isTextArea = htmlspecialchars($isTextArea ?? false);
         $this->required = htmlspecialchars($required ?? true);
         $this->type = htmlspecialchars($type ?? 'text');
+        $this->maxLength = $maxLength;
+        $this->pattern = $pattern;
+        $this->patternMessage = $patternMessage;
+
         parent::__construct();
     }
 
@@ -41,7 +51,7 @@ class TextInputView extends BaseView{
         <div class="input-container">
             <label class="input-label">
                 <?= $this->title ?>
-                <<?= $this->isTextArea? 'textarea' : 'input'?> class="input" <?= !$this->isTextArea? 'type="'.$this->type.'"' : ''?> id="<?= $this->id ?>" name="<?= $this->name ?>" placeholder="<?= $this->placeholder ?>" value="<?= $this->value ?>" <?= $this->required? 'required' : ''?>><?= $this->isTextArea? $this->value.'</textarea>' : ''?>
+                <<?= $this->isTextArea? 'textarea' : 'input'?> class="input" <?= !$this->isTextArea? 'type="'.$this->type.'"' : ''?> id="<?= $this->id ?>" name="<?= $this->name ?>" placeholder="<?= $this->placeholder ?>" value="<?= $this->value ?>" <?= $this->required? 'required' : ''?> <?= $this->maxLength != null? 'maxlength="'.$this->maxLength.'"' : '' ?> <?= $this->pattern != null? 'pattern="'.$this->pattern.'"' : '' ?>  <?= $this->patternMessage != null? 'title="'.$this->patternMessage.'"' : '' ?>><?= $this->isTextArea? $this->value.'</textarea>' : ''?>
             </label>
         </div>
         <?php

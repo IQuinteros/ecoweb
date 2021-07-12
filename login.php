@@ -1,4 +1,12 @@
 <?php
+require_once __DIR__.('/php/utils/auth_util.php');
+
+$store = AuthUtil::getStoreSession();
+if($store != null){
+    header('Location:dashboard.php');
+    return;
+}
+
 require_once __DIR__.('/php/views/cover/footer.php');
 require_once __DIR__.('/php/views/cover/appbar.php');
 ?>
