@@ -220,12 +220,12 @@ class Store extends Connection{
         $opinionConnection = new Opinion();
         $opinions = $opinionConnection->select_opinion($storeIdObject);
         
-        foreach($lista_tiendas as $purchase){
-            $foundOpinions = array_filter($opinions, function($val) use (&$purchase){
-                return $purchase->id == $val->purchase_id;
+        foreach($lista_tiendas as $store){
+            $foundOpinions = array_filter($opinions, function($val) use (&$store){
+                return $store->id == $val->store_id;
             });
             
-            $purchase->opinions = array_values($foundOpinions) ?? [];
+            $store->opinions = array_values($foundOpinions) ?? [];
         }
 
         $this->pdo = null;

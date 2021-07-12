@@ -47,8 +47,13 @@ class ChartView extends BaseView{
             data: data<?= $this->id ?>,
             options: {
                 responsive: true,
-                maintainAspectRatio: true
-            }
+                maintainAspectRatio: true,
+                scale: {
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            },
         };
 
         let chart<?= $this->id ?> = new Chart(

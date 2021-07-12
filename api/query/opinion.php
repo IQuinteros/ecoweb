@@ -50,7 +50,7 @@ class Opinion extends Connection{
     }
     public function select_opinion($object){
         $this->connection_hosting();
-        $sql="SELECT opinion.*, store.public_name,
+        $sql="SELECT opinion.*, store.public_name, store.id as store_id,
         profile.name as profile_name, profile.last_name as profile_last_name
         FROM `opinion` 
         INNER JOIN article ON opinion.article_id = article.id 
@@ -98,7 +98,7 @@ class Opinion extends Connection{
           if(gettype($object->store_id_list) == "array"){
               $sql = $sql.($haveWHERE? " AND " : " WHERE ");
               for($i = 0; $i < count($object->store_id_list); $i++){
-                  $sql = $sql."opinion.store.id=:each_id".$i;
+                  $sql = $sql."store.id=:each_id".$i;
                   if($i < (count($object->store_id_list) - 1)){
                   $sql = $sql." OR ";
                   }
@@ -150,6 +150,7 @@ class Opinion extends Connection{
           $opinion->creation_date=$data[$i]["creation_date"];
           $opinion->article_id=$data[$i]["article_id"];
           $opinion->profile_id=$data[$i]["profile_id"];
+          $opinion->store_id=$data[$i]["store_id"];
           $opinion->profile_name=$data[$i]["profile_name"]." ".$data[$i]["profile_last_name"];
           array_push($lista_opinion, $opinion);
         }

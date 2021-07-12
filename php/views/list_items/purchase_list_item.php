@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.('/../base_view.php');
 require_once __DIR__.('/../../../api/models/article_model.php');
 require_once __DIR__.('/../../utils/article_util.php');
@@ -40,7 +41,7 @@ class PurchaseListItem extends BaseView{
                 <span><b>Dirección: </b><?= ($this->purchase->info_purchase->location ?? 'No determinado').", ".($this->purchase->info_purchase->district ?? '') ?></span>
                 <span><b>Teléfono: </b><?= $this->purchase->info_purchase->contact_number ?? 'No determinado' ?></span>
 
-                <a href="chat.php?purchaseid=<?= $this->purchase->id ?? 0 ?>">Ir al chat</a>
+                <a href="chat.php?purchaseid=<?= $this->purchase->id ?? 0 ?>">Buscar chat</a>
 
                 <p>Total: $<?= $this->purchase->total?></p>
             </div>

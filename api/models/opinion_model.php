@@ -7,6 +7,7 @@ class Opinion_model{
     public string $creation_date;
     public int $article_id;
     public int $profile_id;
+    public int $store_id;
 
     public ?string $profile_name;
 }
