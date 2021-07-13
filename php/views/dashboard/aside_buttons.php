@@ -35,6 +35,9 @@ class AsideButtonsView extends BaseView{
 
         $chatConnection = new Chat();
         $this->storeChats = $chatConnection->select_chat($storeObj);
+        $this->storeChats = array_filter($this->storeChats, function($val){
+            return (count($val->messages) > 0) && !(end($val->messages)->from_store);
+        });
         // TODO: Filter for no seen messages
 
         $articleConnection = new Article();
@@ -70,7 +73,7 @@ class AsideButtonsView extends BaseView{
             <?php if(count($this->storePurchases) > 0){ ?>
                 <?= new AsideSingleButtonView(
                     'Pedidos', 
-                    count($this->storePurchases ?? []).' pedidos hoy',
+                    count($this->storePurchases ?? []).' pedidos totales',
                     'purchases.php',
                     count($this->storePurchases) > 0
                 )?>
@@ -94,7 +97,7 @@ class AsideButtonsView extends BaseView{
             <?php if(count($this->storeOpinions) > 0){ ?>
                 <?= new AsideSingleButtonView(
                     'Valoraciones', 
-                    count($this->storeOpinions ?? []).' opiniones hoy',
+                    count($this->storeOpinions ?? []).' opiniones totales',
                     'rating.php',
                 )?>
             <?php }?>
