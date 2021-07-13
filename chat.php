@@ -10,7 +10,7 @@ require_once __DIR__.('/api/query/chat.php');
 require_once __DIR__.('/api/query/message.php');
 require_once __DIR__.('/api/query/profile.php');
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 $chatConnection = new Chat();
 
 $storeObject = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $store->id)));

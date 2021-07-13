@@ -13,7 +13,7 @@ require_once __DIR__.('/php/utils/upload_util.php');
 require_once __DIR__.('/api/query/article.php');
 require_once __DIR__.('/api/query/photo.php');
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 $articleConnection = new Article();
 $articleFormConnection = new Article_form();
 

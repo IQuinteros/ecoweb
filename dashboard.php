@@ -13,7 +13,7 @@ require_once __DIR__.('/api/query/chat.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/php/utils/date_util.php');
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 $storeObj = json_decode(json_encode(array("store_id" => $store->id)));
 
 $profileConnection = new Profile();

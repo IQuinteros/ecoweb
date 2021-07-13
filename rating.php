@@ -7,7 +7,7 @@ require_once __DIR__.('/api/query/article.php');
 require_once __DIR__.('/php/views/list_items/opinion_list_item.php');
 
 $articleConnection = new Article();
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 
 $storeObject = json_decode(json_encode(array("id_store" => $store->id)));
 $articles = $articleConnection->select_article($storeObject);

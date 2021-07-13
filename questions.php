@@ -9,7 +9,7 @@ require_once __DIR__.('/api/query/answer.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 
 $articleConnection = new Article();
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 $storeObject = json_decode(json_encode(array("id_store" => $store->id)));
 $articles = $articleConnection->select_article($storeObject);
 $questions = array(); 

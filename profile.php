@@ -14,7 +14,7 @@ require_once __DIR__.('/php/utils/upload_util.php');
 require_once __DIR__.('/php/utils/html_util.php');
 require_once __DIR__.('/api/query/store.php');
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 $store = HtmlUtil::convertToHtmlSpecialObject($store);
 
 if(

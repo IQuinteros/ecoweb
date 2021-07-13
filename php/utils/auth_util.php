@@ -34,21 +34,28 @@ class AuthUtil{
         return true;
     }
 
-    public static function getStoreSession() : ?Store_model { 
+    public static function getStoreSession(bool $force = false) : ?Store_model { 
         // Start using sessions
         session_start();
 
-        if(!isset($_SESSION['id'])) return null;
+        if(!isset($_SESSION['id'])) {
+            if($force){
+                header('Location:login.php');
+            }
+            return null;
+        }
 
         $storeConnection = new Store();
         $store = $storeConnection->select_store(json_decode(json_encode(array("id" => $_SESSION['id']))));
 
         // Check result
         $result = ResultUtil::checkResult($store);
-
         if($result){
             return $store[0];
         } else {
+            if($force){
+                header('Location:login.php');
+            }
             return null;
         }
     }

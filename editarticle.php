@@ -18,7 +18,7 @@ if(!isset($_REQUEST['id'])){
     header('Location:inventory.php');
 }
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 
 $articleId = $_REQUEST['id'];
 

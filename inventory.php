@@ -7,7 +7,7 @@ require_once __DIR__.('/php/utils/auth_util.php');
 require_once __DIR__.('/api/query/article.php');
 require_once __DIR__.('/php/views/list_items/article_list_item.php');
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 $articleConnection = new Article();
 
 $storeObject = json_decode(json_encode(array("id_store" => $store->id, "quantity" => 1000)));

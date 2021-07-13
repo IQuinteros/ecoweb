@@ -15,7 +15,7 @@ require_once __DIR__.('/api/query/article_purchase.php');
 require_once __DIR__.('/api/query/favorite.php');
 require_once __DIR__.('/api/query/history.php');
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 $storeObj = json_decode(json_encode(array("store_id" => $store->id)));
 
 $profileConnection = new Profile();

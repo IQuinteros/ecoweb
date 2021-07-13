@@ -7,7 +7,7 @@ require_once __DIR__.('/php/views/list_items/purchase_list_item.php');
 require_once __DIR__.('/api/query/purchase.php');
 require_once __DIR__.('/php/utils/auth_util.php');
 
-$store = AuthUtil::getStoreSession();
+$store = AuthUtil::getStoreSession(true);
 
 $purchaseConnection = new Purchase();
 $purchases = $purchaseConnection->select_purchase(null);
