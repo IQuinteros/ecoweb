@@ -16,6 +16,10 @@ $chatConnection = new Chat();
 $storeObject = json_decode(json_encode(array("id"=>null,"closed"=>null,"store_id" => $store->id)));
 $chats = $chatConnection->select_chat($storeObject);
 
+$newMessageChats = array_filter($chats, function($val){
+    return (count($val->messages) > 0) && !(end($val->messages)->from_store);
+});
+
 $selectedChat = null;
 
 if(isset($_REQUEST['id'])){
@@ -71,7 +75,7 @@ if($selectedChat != null && isset($_POST['sendMsg']) && !empty($_POST['sendMsg']
     <?= new AppBarView(new AppBarSelected(AppBarSelected::CHATS)) ?>
 
     <main class="main">
-        <?= new HeaderView("Chats", null, count($chats)." nuevos mensajes") ?>
+        <?= new HeaderView("Chats", null, count($newMessageChats)." nuevos mensajes") ?>
         
         <div class="main__container chat-main-container">
             <article class="card chat-list">
@@ -82,7 +86,7 @@ if($selectedChat != null && isset($_POST['sendMsg']) && !empty($_POST['sendMsg']
             </article>
             <article class="card chat-messages">
                 <div class="chat-list__item">
-                    <img src="https://source.unsplash.com/random/2" alt="">
+                    <img src="assets/img/circle-logo.png" alt="">
                     <h1><?= $selectedChat->purchase->profile_name ?? 'Seleccione un chat' ?></h1>
                     <p class="chat-messages__purchase-id"><?= $selectedChat != null? 'Pedido #'.$selectedChat->purchase_id ?? '?' : 'No ha seleccionado un chat'?></p>
                 </div>
