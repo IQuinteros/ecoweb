@@ -219,7 +219,7 @@ class Store extends Connection{
 
         $opinionConnection = new Opinion();
         $opinions = $opinionConnection->select_opinion($storeIdObject);
-        
+
         foreach($lista_tiendas as $store){
             $foundOpinions = array_filter($opinions, function($val) use (&$store){
                 return $store->id == $val->store_id;

@@ -286,7 +286,6 @@ class Article extends Connection{
           $idListObj = json_decode(json_encode(array("id_list" => $idList)));
           $storeIdListObj = json_decode(json_encode(array("id_list" => $storeIdList)));
           $formIdListObj = json_decode(json_encode(array("id_list" => $formIdList)));
-          $categoryIdListObj = json_decode(json_encode(array("id_list" => $categoryIdList)));
 
           $storeConnection = new Store();
           $stores = $storeConnection->select_store($storeIdListObj);
@@ -306,10 +305,11 @@ class Article extends Connection{
           $categoryConnection = new Category();
           $categories = $categoryConnection->select_category(null, null, null);
 
+          $favorites = array();
           if(isset($object->profile_id)){
             $favoriteConnection = new Favorite();
-            $favorites = $favoriteConnection->select_favorite(json_decode(json_encode(array("id_list" => $idList, "profile_id" => $object->profile_id))));
-          }  
+            $favorites = $favoriteConnection->select_favorite(json_decode(json_encode(array("profile_id" => $object->profile_id))));
+          } 
           
           foreach($lista_articles as $article){
               $foundQuestions = array_filter($questions, function($val) use (&$article){
@@ -336,11 +336,11 @@ class Article extends Connection{
                   return $article->category_id == $val->id;
               });
 
-              if(isset($object->profile_id) && isset($favorites)){
+              if(isset($object->profile_id)){
                 $foundFavorites = array_filter($favorites, function($val) use (&$article){
                     return $article->id == $val->article_id;
                 });
-                $articles->favorite = count($foundFavorites) > 0;
+                $article->favorite = count($foundFavorites) > 0;
               }
               
               $article->questions = array_values($foundQuestions) ?? [];

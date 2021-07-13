@@ -98,7 +98,7 @@ class Opinion extends Connection{
           if(gettype($object->store_id_list) == "array"){
               $sql = $sql.($haveWHERE? " AND " : " WHERE ");
               for($i = 0; $i < count($object->store_id_list); $i++){
-                  $sql = $sql."store.id=:each_id".$i;
+                  $sql = $sql."store_id=:each_id".$i;
                   if($i < (count($object->store_id_list) - 1)){
                   $sql = $sql." OR ";
                   }
